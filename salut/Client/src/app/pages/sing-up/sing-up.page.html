@@ -1,0 +1,48 @@
+<app-header title="Registrar-se" backButton = "true"></app-header>
+<ion-content>
+    <form #formulariRegistre="ngForm" (ngSubmit)="doSingUp()">
+        <ion-list>
+            <ion-item>
+                <ion-label position="floating">Nom</ion-label>
+                <ion-input type="text" required
+                            name="nom"
+                            [(ngModel)]="registre.nom">
+                </ion-input>
+              </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Cognoms</ion-label>
+                <ion-input type="text" required
+                            name="cognoms"
+                            [(ngModel)]="registre.cognoms"
+                            >
+                </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Correu</ion-label>
+                <ion-input type="email" required
+                            name="correu"
+                            [(ngModel)]="registre.correu"
+                            pattern="^([a-zA-Z0-9._%+-])+@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,5})$">
+                </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Paraula clau</ion-label>
+                <ion-input type="password" required
+                            name="password"
+                            [(ngModel)]="registre.psw">
+                </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Confirma paraula clau</ion-label>
+                <ion-input type="password" required
+                            name="confirmPassword"
+                            [(ngModel)]="registre.confirmPsw">
+                </ion-input>
+              </ion-item>
+        </ion-list>
+        <ion-button expand="full" type="submit" [disabled]="formulariRegistre.invalid">
+            Registrar-se    
+        </ion-button>
+    </form>
+</ion-content>
