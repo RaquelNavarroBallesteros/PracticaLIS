@@ -1,0 +1,29 @@
+<app-header title="Inici de sessió" backButton = "false"></app-header>
+<ion-content>
+<form #formulariLogin="ngForm" (ngSubmit)="doLogin()">
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">Correu</ion-label>
+      <ion-input type="email" required
+                  name="email"
+                  [(ngModel)]="usuari.email"
+                  pattern="^([a-zA-Z0-9._%+-])+@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,5})$">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Paraula clau</ion-label>
+      <ion-input type="password" required
+                  name="password"
+                  [(ngModel)]="usuari.psw">
+      </ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="full" type="submit" [disabled]="formulariLogin.invalid">
+    Entrar
+  </ion-button>
+</form>
+<div>
+  No tens compte?
+  <a routerLink="/sing-up">Registrar-se</a>
+</div>
+</ion-content>

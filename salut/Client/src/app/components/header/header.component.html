@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot = "start">
+      <div *ngIf="backButton=='true'">
+        <div *ngIf="isIos">
+          <ion-back-button defaultHref="/login" text="Enrrere"></ion-back-button>
+        </div>
+        <div *ngIf="!isIos">
+          <ion-back-button defaultHref="/login"></ion-back-button>
+        </div>
+      </div>
+    </ion-buttons>
+    <ion-title text-capitalize>{{title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
