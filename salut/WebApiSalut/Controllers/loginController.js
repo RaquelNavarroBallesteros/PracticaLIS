@@ -2,7 +2,12 @@ var router = require('express').Router()
 
 
 function helloWorld (req, res) {
-    res.send("doing loging")
+    console.log("hello")
+    let respuesta = {
+        correcte: 'true',
+        msg: 'loging'
+    };
+    res.send(respuesta)
 }
 
 function warmUp(req,res){
