@@ -4,9 +4,8 @@ var service = require('../Services/loginService.js');
 function doLogin (req, res) {
     console.log("doing login");
     console.log(service)
-    //console.log(req);
     loginService = new service();
-    loginService.doLogin(req.body).then(function (response){
+    loginService.doLogin(req.body, function (response){
         console.log(response)
         res.status(response.serverStatus).send(response)
     });

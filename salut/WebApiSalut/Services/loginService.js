@@ -16,50 +16,54 @@ class LoginService{
             password : password
         });
     }
-    doLogin(usuari){
+    doLogin(usuari, callback){
+        var self = this
         console.log('login in service')
         console.log(usuari)
         var query = 'SELECT * FROM Usuari WHERE correu = \'' + usuari.correu + '\' and contrassenya = \'' + usuari.contrassenya + '\'';
         console.log(query);
         this.connection.connect(function(err){
+            var response;
             console.log("connected")
             if (!err){
                 console.log("connected no error")
-                this.connection.query(query, function(error, rows, fields){
-                    console.log(fields);
+                self.connection.query(query, function(error, rows, fields){
+                    console.log(rows.length);
                     if (error){
-                        return {
-                            serverStatus: 400,
-                            correcte: 'false',
-                            msg: 'error connection'
-                        };
+                            console.log("error1")
+                            response = {
+                                serverStatus: 400,
+                                correcte: 'false',
+                                msg: 'error connection'
+                            };                        
                     }
-                    if (rows.lenght > 0){
-                        return {    
-                            serverStatus: 200,
-                            correcte: 'true',
-                            msg: ''
-                        };
+                    if (rows.length > 0){
+                        console.log("correcte")
+                            response = { 
+                                serverStatus: 200,
+                                correcte: 'true',
+                                msg: ''
+                            };
                     }else{
-                        return { 
-                            serverStatus: 200,   
-                            correcte: 'false',
-                            msg: 'Invalid user or password'
-                        };
+                        console.log("user invalid")
+                            response = {
+                                serverStatus: 200,   
+                                correcte: 'false',
+                                msg: 'Invalid user or password'
+                            };
                     }
-        
+                    callback(response);
                 })
             }else{
                 console.log("connected error")
-                return {   
-                    serverStatus: 400, 
-                    correcte: 'false',
-                    msg: 'error connection'
+                response = {
+                        serverStatus: 400, 
+                        correcte: 'false',
+                        msg: 'error connection'
                 }; 
+                callback(response);
             }
         });
-
-
     }
 }
 
