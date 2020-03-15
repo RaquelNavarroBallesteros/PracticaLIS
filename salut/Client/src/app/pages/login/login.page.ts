@@ -11,8 +11,8 @@ import { HttpResponse } from '@angular/common/http';
 })
 export class LoginPage implements OnInit {
   public usuari = {
-    email: '',
-    psw: ''
+    correu: '',
+    contrassenya: ''
   }
   constructor(public loginService: LoginService) { }
 
@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
   doLogin(){
     console.log("doing login");
     console.log(this.usuari);
-    this.loginService.doLogin().subscribe((res: HttpResponse<any>)=>{
+    this.loginService.doLogin(this.usuari).subscribe((res: HttpResponse<any>) => {
       console.log('respuesta')
       console.log(res);
     });

@@ -25,10 +25,10 @@ export class LoginService {
     return throwError(errorMessage);
   }
 
-  doLogin(){
+  doLogin(req){
     console.log("Do login service")
     console.log(this._aplicationURL + this._doLoginURL);
-    return this.http.get(this._aplicationURL + this._doLoginURL).pipe(catchError(this.handleError));
+    return this.http.post(this._aplicationURL + this._doLoginURL, req).pipe(catchError(this.handleError));
   }
 
 }
