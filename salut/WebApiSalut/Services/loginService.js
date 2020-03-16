@@ -33,7 +33,7 @@ class LoginService{
                             console.log("error1")
                             response = {
                                 serverStatus: 400,
-                                correcte: 'false',
+                                doLogin: false,
                                 msg: 'error connection'
                             };                        
                     }
@@ -41,14 +41,14 @@ class LoginService{
                         console.log("correcte")
                             response = { 
                                 serverStatus: 200,
-                                correcte: 'true',
+                                doLogin: true,
                                 msg: ''
                             };
                     }else{
                         console.log("user invalid")
                             response = {
                                 serverStatus: 200,   
-                                correcte: 'false',
+                                doLogin: false,
                                 msg: 'Invalid user or password'
                             };
                     }
@@ -58,7 +58,7 @@ class LoginService{
                 console.log("connected error")
                 response = {
                         serverStatus: 400, 
-                        correcte: 'false',
+                        doLogin: false,
                         msg: 'error connection'
                 }; 
                 callback(response);
