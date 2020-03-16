@@ -15,7 +15,8 @@ export class LoginPage implements OnInit {
     contrassenya: ''
   };
   public showMsgInvalidLogin = false;
-  constructor(public loginService: LoginService) { }
+  constructor(public loginService: LoginService) { 
+  }
 
   ngOnInit() {
   }
@@ -34,6 +35,11 @@ export class LoginPage implements OnInit {
     });
   }
   changeInputs(){
+    this.showMsgInvalidLogin = false;
+  }
+  ionViewWillEnter(){
+    this.usuari.correu = "";
+    this.usuari.contrassenya = "";
     this.showMsgInvalidLogin = false;
   }
 }
