@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <form #formulariPerfil="ngForm" (ngSubmit)="enviar(form)" novalidate>
+  <form #formulariPerfil="ngForm" (ngSubmit)="enviar()" novalidate>
     <ion-item>
       <ion-label>Nom</ion-label>
       <ion-input type="text" name="nom" [(ngModel)]="perfil.nom" required></ion-input>
@@ -42,8 +42,14 @@
 
         <ion-select-option value="O+">O+</ion-select-option>
         <ion-select-option value="O-">O-</ion-select-option>
+      </ion-select>
+    </ion-item>
 
-        <ion-select-option value="O-">O-</ion-select-option>
+    <ion-item>
+      <ion-label>Donant de òrgans</ion-label>
+      <ion-select value=1>
+        <ion-select-option value=0>No</ion-select-option>
+        <ion-select-option value=1>Si</ion-select-option>
       </ion-select>
     </ion-item>
 

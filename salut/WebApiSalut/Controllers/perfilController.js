@@ -1,19 +1,23 @@
 var router = require('express').Router()
+var service = require('../Services/perfilService.js')
 
-function hello (req, res) {
-    console.log("PerfilController says hello!")
-    let respuesta = {
-        correcte: 'true',
-        msg: 'Pagina de perfil'
-    };
-    res.send(respuesta)
-}
+perfilService = new service()
 
 function warmUp(req,res){
-    res.send("Profile controller is working")
+    res.send("Perfil api works");
 }
 
-router.get('/hello', hello)
-router.get('/',warmUp)
+function add (req, res) {
+    /*
+    perfilService.update(req.body, function(response){
+        console.log(response);
+        res.status(response.serverStatus).send(response);
+    });
+    */
+   res.send("Perfil add works");
+}
+
+router.get('/', warmUp)
+router.post('/add', add)
 
 module.exports = router

@@ -48,7 +48,7 @@ class PerfilService{
                         var query = 'SELECT * FROM Perfil WHERE Id = \'' + perfil.id + '\';';
 
                         
-                        console.log("correcte")
+                        console.log("Editar registre perfil")
                         response = { 
                             serverStatus: 200,
                             correcte: 'true',
@@ -60,7 +60,7 @@ class PerfilService{
                         var query = 'INSERT INTO Perfil VALUES Id = \'' + perfil.id + '\';';
 
 
-                        console.log("correcte")
+                        console.log("Inserir registre perfil")
                         response = { 
                             serverStatus: 200,
                             correcte: 'true',

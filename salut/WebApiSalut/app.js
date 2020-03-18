@@ -1,8 +1,10 @@
 var cors = require("cors")
 var express = require("express")
+const bodyParser = require('body-parser');
 
 var app = express()
 app.use(cors())
+app.use(bodyParser());
 
 var loginController = require("./Controllers/loginController")
 var perfilController = require("./Controllers/perfilController")
