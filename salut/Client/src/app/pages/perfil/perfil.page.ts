@@ -9,6 +9,7 @@ import { PerfilService } from 'src/app/services/perfil.service';
 })
 export class PerfilPage implements OnInit {
   public perfil = {
+    id: 0,
     nom: '',
     cognoms: '',
     data_n: null,

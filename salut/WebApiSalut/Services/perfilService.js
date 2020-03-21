@@ -18,29 +18,28 @@ class PerfilService{
     }
     update(perfil, user_id, callback){
         var self = this
-        // console.log('login in service')
-        // console.log(usuari)
+        console.log('perfil service: update')
+        console.log(perfil)
 
         // console.log('Edit perfil service')
         // Get perfil from 
         var query = 'SELECT * FROM Perfil WHERE Id = \'' + perfil.id + '\';';
-        // console.log(query);
         this.connection.connect(function(err){
             var response;
-            console.log("connected")
+            console.log("connected to bd")
             if (!err)
             {
-                console.log("connected no error")
+                console.log("connected without any error")
                 self.connection.query(query, function(error, rows, fields){
-                    // console.log(rows.length);
+                    console.log("SQL query done");
                     if (error)
                     {
-                            console.log("error1")
-                            response = {
-                                serverStatus: 400,
-                                correcte: 'false',
-                                msg: 'error connection'
-                            };                        
+                        console.log("SQL query error")
+                        response = {
+                            serverStatus: 400,
+                            correcte: 'false',
+                            msg: 'error connection'
+                        };                        
                     }
                     if (rows.length > 0)
                     {
