@@ -13,11 +13,11 @@ export class PerfilPage implements OnInit {
     nom: '',
     cognoms: '',
     data_n: null,
-    genere: '',
+    genere: 'D',
     alcada: null,
     pes: null,
-    g_sanguini: '',
-    d_organs: null,
+    g_sanguini: null,
+    d_organs: 0,
     alergies: [],
     patologies: []
   }
