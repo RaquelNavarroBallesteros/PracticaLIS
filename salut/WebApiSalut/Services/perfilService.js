@@ -39,7 +39,8 @@ class PerfilService{
                             serverStatus: 400,
                             correcte: 'false',
                             msg: 'error connection'
-                        };                        
+                        };     
+                        callback(response);                   
                     }
                     if (rows.length > 0)
                     {
@@ -53,6 +54,7 @@ class PerfilService{
                             correcte: 'true',
                             msg: ''
                         };
+                        callback(response);
                     }else
                     {
                         // Nou perfil, inserir registre
@@ -65,6 +67,7 @@ class PerfilService{
                             correcte: 'true',
                             msg: ''
                         };
+                        callback(response);
                     }
                 })
             }else
@@ -75,8 +78,8 @@ class PerfilService{
                         correcte: 'false',
                         msg: 'error connection'
                 }; 
+                callback(response);
             }
-            callback(response);
         });
     }
 }
