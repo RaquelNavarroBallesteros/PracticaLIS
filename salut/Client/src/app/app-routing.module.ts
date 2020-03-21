@@ -14,6 +14,10 @@ const routes: Routes = [
   },  {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'emergencies',
+    loadChildren: () => import('./pages/emergencies/emergencies.module').then( m => m.EmergenciesPageModule)
   }
 
 ];
