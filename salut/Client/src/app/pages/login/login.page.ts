@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -15,8 +16,9 @@ export class LoginPage implements OnInit {
     contrassenya: ''
   };
   public showMsgInvalidLogin = false;
-  constructor(public loginService: LoginService) { 
-  }
+  constructor(public loginService: LoginService,
+              private route: Router)
+              { }
 
   ngOnInit() {
   }
@@ -31,6 +33,7 @@ export class LoginPage implements OnInit {
         this.showMsgInvalidLogin = true;
       }else{
         this.showMsgInvalidLogin = false;
+        this.route.navigate(['/perfil']);
       }
     });
   }
