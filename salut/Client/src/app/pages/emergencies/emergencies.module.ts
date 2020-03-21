@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { EmergenciesPageRoutingModule } from './emergencies-routing.module';
 
 import { EmergenciesPage } from './emergencies.page';
-import { ComponentsModule } from "src/app/components/components.module";
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
