@@ -16,4 +16,4 @@ app.use("/perfil",perfilController)
 
 const port = 3000
 
-app.listen(port,'localhost', ()=> console.log('app strat listening on port ' + port))
+app.listen(port,'localhost', ()=> console.log('app start listening on port ' + port))
