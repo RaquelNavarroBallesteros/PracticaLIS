@@ -68,25 +68,30 @@
       <ion-input type="number" name="pes" [(ngModel)]="perfil.pes"></ion-input>
     </ion-item>
 
-  <!--  <ion-content padding>
-      <ion-list lines="none">
-        <form [formGroup]="Al·lèrgies">
-          <ion-item *ngFor="let control of allergies | keyvalue">
-            <ion-input required type="text" [formControlName]="control.key" placeHolder="Al·lèrgia..."></ion-input>
-          </ion-item>
-        </form>
-      </ion-list>
-  
-      <form [formGroup]="allergies">
-        <ion-item *ngFor="let control of allergies | keyvalue">
-          <ion-input required type="text" [formControlName]="control.key" placeHolder="Al·lèrgia..."></ion-input>
-          <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
-        </ion-item>
-      </form>
-  
-      <ion-button expand="full" color="light" (click)="addControl()">Afegir Al·lèrgia</ion-button>
--->
+ 
+
     <button ion-button expand="full" type="submit" block>Guardar perfil</button>
   </form>
 
 </ion-content>
+
+
+  <ion-content padding>
+    <ion-list lines="none">
+      <form [formGroup]="allergies"> 
+        <ion-item *ngFor="let control of allergies | keyvalue">
+          <ion-input required type="text" [formControlName]="control.key" placeHolder="Al·lèrgia..."></ion-input>
+        </ion-item>
+      </form> 
+    </ion-list>
+  </ion-content>
+
+   <form [formGroup]="allergies"> 
+      <ion-item *ngFor="let control of allergies | keyvalue">
+        <ion-input required type="text" [formControlName]="control.key" placeHolder="Al·lèrgia..."></ion-input>
+        <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
+      </ion-item>
+   </form> 
+
+    <ion-button expand="full" color="light" (click)="addControl()">Afegir Al·lèrgia</ion-button>
+
