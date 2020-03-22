@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { PerfilService } from 'src/app/services/perfil.service';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-perfil',
@@ -18,10 +19,29 @@ export class PerfilPage implements OnInit {
     pes: null,
     g_sanguini: null,
     d_organs: 0,
-    alergies: [],
+    allergies: [],
     patologies: []
+    
   }
-  constructor(public perfilService: PerfilService) { }
+  public allergies: FormGroup;
+  private allergiesCount: number = 1;
+
+  constructor(public perfilService: PerfilService, private formBuilder: FormBuilder) { 
+
+    this.allergies = formBuilder.group({
+      allergia1: ['', Validators.required]
+    });
+
+  }
+
+  addControl(){
+    this.allergiesCount++;
+    this.allergies.addControl('player' + this.allergiesCount, new FormControl('', Validators.required));
+  }
+
+  removeControl(control){
+    this.allergies.removeControl(control.key);
+  }
 
   ngOnInit() {
     

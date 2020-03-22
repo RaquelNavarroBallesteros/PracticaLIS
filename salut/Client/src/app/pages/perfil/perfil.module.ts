@@ -9,13 +9,23 @@ import { PerfilPageRoutingModule } from './perfil-routing.module';
 import { PerfilPage } from './perfil.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule, 
     PerfilPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    RouterModule.forChild([
+      {
+        path: '',
+        component: PerfilPage
+      }
+    ])
   ],
   declarations: [PerfilPage]
 })
