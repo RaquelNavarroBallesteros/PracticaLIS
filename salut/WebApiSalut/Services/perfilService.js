@@ -39,7 +39,8 @@ class PerfilService{
                             serverStatus: 400,
                             correcte: 'false',
                             msg: 'error connection'
-                        };                        
+                        };     
+                        callback(response);                   
                     }
                     if (rows.length > 0)
                     {
@@ -53,18 +54,35 @@ class PerfilService{
                             correcte: 'true',
                             msg: ''
                         };
+                        callback(response);
                     }else
                     {
                         // Nou perfil, inserir registre
-                        var query = 'INSERT INTO Perfil VALUES Id = \'' + perfil.id + '\';';
-
-
-                        console.log("Inserir registre perfil")
-                        response = { 
-                            serverStatus: 200,
-                            correcte: 'true',
-                            msg: ''
-                        };
+                        var i_query = `INSERT INTO Perfil (UsuariId, Nom, Cognoms, DataNaixement, Pes, Alcada, Genere)`
+                        i_query += `VALUES (${user_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`
+                        console.log(i_query)
+                        self.connection.query(i_query, function(error, fields){
+                            console.log("SQL query done");
+                            if (error)
+                            {
+                                console.log("SQL query error")
+                                response = {
+                                    serverStatus: 400,
+                                    correcte: 'false',
+                                    msg: 'error connection'
+                                };     
+                                callback(response);                   
+                            }
+                            else{
+                                console.log("Inserir registre perfil")
+                                response = { 
+                                    serverStatus: 200,
+                                    correcte: 'true',
+                                    msg: ''
+                                };
+                                callback(response);
+                            }
+                        })
                     }
                 })
             }else
@@ -75,8 +93,8 @@ class PerfilService{
                         correcte: 'false',
                         msg: 'error connection'
                 }; 
+                callback(response);
             }
-            callback(response);
         });
     }
 }
