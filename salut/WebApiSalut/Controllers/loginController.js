@@ -3,7 +3,6 @@ var service = require('../Services/loginService.js');
 
 function doLogin (req, res) {
     console.log("doing login");
-    console.log(service)
     loginService = new service();
     loginService.doLogin(req.body, function (response){
         console.log(response)
