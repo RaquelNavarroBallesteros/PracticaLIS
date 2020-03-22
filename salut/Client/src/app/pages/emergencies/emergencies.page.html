@@ -14,8 +14,8 @@
         <ion-card-content>
           Necessites atenció d'emergència personal?
           <div>
-            <ion-button color="danger" expand="block">
-              <ion-icon slot="start" name="location-outline" (click)="getMyLocation()"></ion-icon>
+            <ion-button color="danger" expand="block" (click)="getMyLocation()">
+              <ion-icon slot="start" name="location-outline" ></ion-icon>
               Demanar assistencia
             </ion-button>
           </div>
@@ -31,8 +31,8 @@
       <ion-card-content>
         Algú a prop teu necessita assistència?
         <div>
-          <ion-button expand="block">
-            <ion-icon slot="start" name="location-outline" (click)="getMyLocation()"></ion-icon>
+          <ion-button expand="block"  (click)="getMyLocation()">
+            <ion-icon slot="start" name="location-outline"></ion-icon>
             Enviar la meva ubicació
           </ion-button>
         </div>
