@@ -11,6 +11,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 export class PerfilPage implements OnInit {
   public perfil = {
     id: 0,
+    usuari_id: 1,
     nom: '',
     cognoms: '',
     data_n: null,
@@ -44,8 +45,11 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit() {
-    
-
+    console.log("Enviar formulari dades mèdiques.")
+    this.perfilService.obtenir(1).subscribe((res: HttpResponse<any>)=>{
+      console.log("Resp:");
+      console.log(res);
+    });
   }
 
   enviar()

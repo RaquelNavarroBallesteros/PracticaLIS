@@ -16,25 +16,79 @@ class PerfilService{
             password : password
         });
     }
-    update(perfil, user_id, callback){
+
+    get_by_id(id, callback)
+    {
+        console.log(id)
+        console.log(id.id)
         var self = this
-        console.log('perfil service: update')
-        console.log(perfil)
+
+        // Get perfil from 
+        var query = 'SELECT * FROM Perfil WHERE Id = \'' + id.id + '\';';
+        this.connection.connect(function(err){
+            var response;
+            if (!err)
+            {
+                self.connection.query(query, function(error, rows, fields){
+                    console.log(rows)
+                    if (error)
+                    {
+                        response = {
+                            serverStatus: 400,
+                            correcte: 'false',
+                            data: null,
+                            msg: 'error query'
+                        };     
+                        callback(response);                   
+                    }
+                    else if (rows == 0)
+                    {
+                        response = {
+                            serverStatus: 400,
+                            correcte: 'false',
+                            data: null,
+                            msg: 'There is no perfil with id = ' + String(id.id)
+                        };     
+                        callback(response);  
+                    }
+                    else
+                    {
+                        response = {
+                            serverStatus: 200,
+                            correcte: 'true',
+                            data: rows[0],
+                            msg: ''
+                        };     
+                        callback(response);  
+                    }
+                })
+            }
+            else
+            {
+                response = {
+                    serverStatus: 400,
+                    correcte: 'false',
+                    data: null,
+                    msg: 'error connection'
+                };     
+                callback(response);         
+            }
+        })
+    }
+
+    update(perfil, callback){
+        var self = this
 
         // console.log('Edit perfil service')
         // Get perfil from 
         var query = 'SELECT * FROM Perfil WHERE Id = \'' + perfil.id + '\';';
         this.connection.connect(function(err){
             var response;
-            console.log("connected to bd")
             if (!err)
             {
-                console.log("connected without any error")
                 self.connection.query(query, function(error, rows, fields){
-                    console.log("SQL query done");
                     if (error)
                     {
-                        console.log("SQL query error")
                         response = {
                             serverStatus: 400,
                             correcte: 'false',
@@ -48,7 +102,6 @@ class PerfilService{
                         var query = 'SELECT * FROM Perfil WHERE Id = \'' + perfil.id + '\';';
 
                         
-                        console.log("Editar registre perfil")
                         response = { 
                             serverStatus: 200,
                             correcte: 'true',
@@ -59,13 +112,10 @@ class PerfilService{
                     {
                         // Nou perfil, inserir registre
                         var i_query = `INSERT INTO Perfil (UsuariId, Nom, Cognoms, DataNaixement, Pes, Alcada, Genere)`
-                        i_query += `VALUES (${user_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`
-                        console.log(i_query)
+                        i_query += `VALUES (${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`
                         self.connection.query(i_query, function(error, fields){
-                            console.log("SQL query done");
                             if (error)
                             {
-                                console.log("SQL query error")
                                 response = {
                                     serverStatus: 400,
                                     correcte: 'false',
@@ -74,7 +124,6 @@ class PerfilService{
                                 callback(response);                   
                             }
                             else{
-                                console.log("Inserir registre perfil")
                                 response = { 
                                     serverStatus: 200,
                                     correcte: 'true',
@@ -87,7 +136,6 @@ class PerfilService{
                 })
             }else
             {
-                console.log("Connection error")
                 response = {
                         serverStatus: 400, 
                         correcte: 'false',
