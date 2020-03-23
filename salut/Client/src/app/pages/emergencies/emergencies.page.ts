@@ -50,7 +50,7 @@ export class EmergenciesPage implements OnInit {
 
     });
   }
-  sendEmergincia(){
+  sendEmergencia(){
 
   }
 }
