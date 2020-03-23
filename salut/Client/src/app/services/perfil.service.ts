@@ -6,9 +6,9 @@ import { retry, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
-  public _aplicationURL = 'http://localhost:3000/api/Login'
-        _doLoginURL = '/doLogin';
+export class PerfilService {
+  public _aplicationURL = 'http://localhost:3000/perfil'
+        _addURL = '/add';
 
   constructor(private http: HttpClient) { }
 
@@ -24,11 +24,11 @@ export class LoginService {
     window.alert(errorMessage);
     return throwError(errorMessage);
   }
-  sasd
-  doLogin(req){
-    console.log("Do login service")
-    console.log(this._aplicationURL + this._doLoginURL);
-    return this.http.post(this._aplicationURL + this._doLoginURL, req).pipe(catchError(this.handleError));
+
+  enviar(perfil){
+    console.log(perfil)
+    console.log(this._aplicationURL + this._addURL);
+    return this.http.post(this._aplicationURL + this._addURL, perfil).pipe(catchError(this.handleError));
   }
 
 }

@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Dades mèdiques</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #formulariPerfil="ngForm" (ngSubmit)="enviar()" novalidate>
+    <ion-item>
+      <ion-label>Nom</ion-label>
+      <ion-input type="text" name="nom" [(ngModel)]="perfil.nom" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Cognoms</ion-label>
+      <ion-input type="text" name="cognoms" [(ngModel)]="perfil.cognoms" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Data neixement</ion-label>
+      <ion-input type="date" name="data_n" [(ngModel)]="perfil.data_n" required></ion-input>
+    </ion-item>
+    <ion-item>
+
+    <ion-item>
+      <ion-label>Gènere</ion-label>
+      <ion-select value="D">
+        <ion-select-option value="H">Home</ion-select-option>
+        <ion-select-option value="D">Dona</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Grup sanguini</ion-label>
+      <ion-select value="D">
+        <ion-select-option value="A+">A+</ion-select-option>
+        <ion-select-option value="A-">A-</ion-select-option>
+
+        <ion-select-option value="B+">B+</ion-select-option>
+        <ion-select-option value="B-">B-</ion-select-option>
+
+        <ion-select-option value="AB+">AB+</ion-select-option>
+        <ion-select-option value="AB-">AB-</ion-select-option>
+
+        <ion-select-option value="O+">O+</ion-select-option>
+        <ion-select-option value="O-">O-</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Donant de òrgans</ion-label>
+      <ion-select value=1>
+        <ion-select-option value=0>No</ion-select-option>
+        <ion-select-option value=1>Si</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+  </ion-item>
+    <ion-item>
+      <ion-label>Alçada (cms)</ion-label>
+      <ion-input type="number" name="alcada" [(ngModel)]="perfil.alcada"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Pes (kgs)</ion-label>
+      <ion-input type="number" name="pes" [(ngModel)]="perfil.pes"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Grup sanguini</ion-label>
+      <ion-input type="text" name="cognoms" [(ngModel)]="perfil.g_sanguini" required></ion-input>
+    </ion-item>
+    <button ion-button expand="full" type="submit" block>Guardar perfil</button>
+  </form>
+</ion-content>
