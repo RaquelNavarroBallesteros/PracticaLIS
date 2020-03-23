@@ -8,11 +8,12 @@ app.use(bodyParser());
 
 var loginController = require("./Controllers/loginController")
 var perfilController = require("./Controllers/perfilController")
-
+var signupController = require ("./Controllers/signupController")
 
 
 app.use("/api/Login",loginController)
 app.use("/perfil",perfilController)
+app.use("/api/signUp", signupController)
 
 const port = 3000
 

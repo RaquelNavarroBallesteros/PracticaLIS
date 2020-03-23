@@ -7,7 +7,7 @@ import { retry, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class SignUpService {
-  public _aplicationURL = 'http://localhost:3000/SignUp'
+  public _aplicationURL = 'http://localhost:3000/api/signUp'
         _addUserURL = '/addUser';
 
   constructor(private http: HttpClient) { }

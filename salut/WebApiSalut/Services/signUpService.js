@@ -5,7 +5,7 @@ const port = '3306';
 const user = 'sa';
 const password = 'lis7salut';
 
-class LoginService{
+class SignUpService{
 
     constructor(){
         this.connection = mysql.createConnection({
@@ -16,49 +16,41 @@ class LoginService{
             password : password
         });
     }
-    doLogin(usuari, callback){
+    addUser(usuari, callback){
         var self = this
-        console.log('login in service')
+        console.log('signing up service')
         console.log(usuari)
-        var query = 'INSERT INTO Usuari VALUES Correu = \'' + correu + '\' AND Contrassenya = \'' + password + '\' ;';
+        var query = 'INSERT INTO Usuari (Correu, Contrassenya) VALUES (\'' + usuari.correu + '\' , \'' + usuari.psw + '\' );';
         console.log(query);
         this.connection.connect(function(err){
             var response;
             console.log("connected")
             if (!err){
                 console.log("connected no error")
-                self.connection.query(query, function(error, rows, fields){
-                    console.log(rows.length);
+                self.connection.query(query, function(error, fields){
                     if (error){
-                            console.log("error1")
-                            response = {
-                                serverStatus: 400,
-                                doLogin: false,
-                                msg: 'error connection'
+                        console.log("error1")
+                        response = {
+                            serverStatus: 400,
+                            doSignUp: false,
+                            msg: 'error connection'
                             };                        
-                    }
-                    if (rows.length > 0){
-                        console.log("correcte")
-                            response = { 
-                                serverStatus: 200,
-                                doLogin: true,
-                                msg: ''
-                            };
                     }else{
-                        console.log("user invalid")
-                            response = {
-                                serverStatus: 200,   
-                                doLogin: false,
-                                msg: 'Invalid user or password'
-                            };
+                        response = {
+                            serverStatus: 200,
+                            doSignUp: true,
+                            msg: 'correct'
+                            }; 
+
                     }
+                
                     callback(response);
                 })
             }else{
                 console.log("connected error")
                 response = {
                         serverStatus: 400, 
-                        doLogin: false,
+                        doSignUp: false,
                         msg: 'error connection'
                 }; 
                 callback(response);
@@ -67,6 +59,6 @@ class LoginService{
     }
 }
 
-module.exports = LoginService
+module.exports = SignUpService
 
 

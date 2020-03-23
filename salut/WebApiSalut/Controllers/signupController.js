@@ -1,5 +1,5 @@
 var router = require('express').Router()
-var service = require('../Services/singUpService.js')
+var service = require('../Services/signUpService.js')
 
 
 
