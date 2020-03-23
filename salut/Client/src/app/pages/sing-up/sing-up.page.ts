@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { SignUpService } from 'src/app/services/signUp.service';
 
 @Component({
   selector: 'app-sing-up',
@@ -14,7 +16,7 @@ export class SingUpPage implements OnInit {
     confirmPsw:''
   };
 
-  constructor() {
+  constructor( public signUpService: SignUpService) {
   }
 
   ngOnInit() {
@@ -22,7 +24,10 @@ export class SingUpPage implements OnInit {
 
   doSingUp(){
     console.log("donig singUp");
-    console.log(this.registre);
+    this.signUpService.addUser(this.registre).subscribe((res: HttpResponse<any>)=>{
+      console.log("Resp:");
+      console.log(res);
+    });
   }
 
 }

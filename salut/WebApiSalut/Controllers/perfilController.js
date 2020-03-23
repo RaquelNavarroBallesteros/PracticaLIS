@@ -3,10 +3,6 @@ var service = require('../Services/perfilService.js')
 
 perfilService = new service()
 
-function warmUp(req,res){
-    res.send("Perfil api works");
-}
-
 function add (req, res) {
     /*
     perfilService.update(req.body, function(response){
@@ -17,7 +13,11 @@ function add (req, res) {
    res.send("Perfil add works");
 }
 
-router.get('/', warmUp)
+function warmUp(req,res){
+    res.send("Perfil api works");
+}
+
 router.post('/add', add)
+router.get('/', warmUp)
 
 module.exports = router
