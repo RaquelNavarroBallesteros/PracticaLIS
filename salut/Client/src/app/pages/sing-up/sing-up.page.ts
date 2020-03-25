@@ -24,10 +24,20 @@ export class SingUpPage implements OnInit {
 
   doSingUp(){
     console.log("donig singUp");
+    if (this.registre.psw != this.registre.confirmPsw){
+      alert('Las contraseñas son diferentes compruebalo');
+    }
     this.signUpService.addUser(this.registre).subscribe((res: HttpResponse<any>)=>{
       console.log("Resp:");
       console.log(res);
     });
   }
+}
 
+export class SignUpResponse {
+  constructor(
+      public serverStatus: number,
+      public doSingUp: boolean,
+      public msg: string,
+  ) {}
 }

@@ -5,7 +5,7 @@ var service = require('../Services/signUpService.js')
 
 function addUser (req, res) {
     // curl
-    console.log("doing signup desde el controller");
+    console.log("signUpController_addUser -- doing signup desde el controller");
     signUpService = new service();
     signUpService.addUser(req.body, function (response){
         console.log(response)
