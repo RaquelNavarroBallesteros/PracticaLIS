@@ -23,7 +23,7 @@ function add (req, res)
 function get (req, res) 
 {
     perfilService.get_by_id(req.body, function(response){
-        console.log(response);
+        // console.log(response);
         res.status(response.serverStatus).send(response);
     });
     

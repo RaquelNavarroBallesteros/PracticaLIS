@@ -10,7 +10,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 })
 export class PerfilPage implements OnInit {
   public perfil = {
-    id: 0,
+    id: 1,
     usuari_id: 1,
     nom: '',
     cognoms: '',
@@ -22,7 +22,6 @@ export class PerfilPage implements OnInit {
     d_organs: 0,
     allergies: [],
     patologies: []
-    
   }
   public allergies: FormGroup;
   private allergiesCount: number = 1;
@@ -32,7 +31,21 @@ export class PerfilPage implements OnInit {
     this.allergies = formBuilder.group({
       allergia1: ['', Validators.required]
     });
+  }
 
+  ionViewWillEnter(){
+    if (this.perfil.id != 0)
+    {
+      this.perfilService.obtenir(1).subscribe((res: PerfilSetResponse)=>{
+      console.log(res.data)
+      this.perfil.nom = res.data['Nom'];
+      this.perfil.cognoms = res.data['Cognoms'];
+      this.perfil.data_n = res.data['DataNaixement'].substring(0, 10);
+      this.perfil.pes = res.data['Pes'];
+      this.perfil.alcada = res.data['Alcada']
+      this.perfil.genere = res.data['Genere']
+    });
+  }
   }
 
   addControl(){
@@ -45,20 +58,41 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log("Enviar formulari dades mèdiques.")
-    this.perfilService.obtenir(1).subscribe((res: HttpResponse<any>)=>{
-      console.log("Resp:");
-      console.log(res);
-    });
+    //console.log("Enviar formulari dades mèdiques.")
   }
 
   enviar()
   {
     console.log("Enviar formulari dades mèdiques.")
-    this.perfilService.enviar(this.perfil).subscribe((res: HttpResponse<any>)=>{
-      console.log("Resp:");
-      console.log(res);
+    this.perfilService.enviar(this.perfil).subscribe((res: PerfilGetResponse)=>{
+      if (res.correct)
+      {
+        // TODO: Show msg
+        console.log("Data was saved")
+      }
+      else
+      {
+        // TODO: Show msg
+        console.log("Error:" + res.msg)
+      }
     });
   }
 
+}
+
+export class PerfilSetResponse {
+  constructor(
+      public serverStatus: number,
+      public correct: boolean,
+      public data: object,
+      public msg: string,
+  ) {}
+}
+
+export class PerfilGetResponse {
+  constructor(
+      public serverStatus: number,
+      public correct: boolean,
+      public msg: string,
+  ) {}
 }

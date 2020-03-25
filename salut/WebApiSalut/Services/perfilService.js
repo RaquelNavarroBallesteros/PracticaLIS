@@ -19,18 +19,18 @@ class PerfilService{
 
     get_by_id(id, callback)
     {
-        console.log(id)
-        console.log(id.id)
         var self = this
 
         // Get perfil from 
         var query = 'SELECT * FROM Perfil WHERE Id = \'' + id.id + '\';';
         this.connection.connect(function(err){
+            console.log("Get connected")
             var response;
             if (!err)
             {
+                console.log("Get connected no error")
                 self.connection.query(query, function(error, rows, fields){
-                    console.log(rows)
+                    //self.connection.end()
                     if (error)
                     {
                         response = {
@@ -39,6 +39,7 @@ class PerfilService{
                             data: null,
                             msg: 'error query'
                         };     
+                        connection.end()
                         callback(response);                   
                     }
                     else if (rows == 0)
@@ -100,8 +101,6 @@ class PerfilService{
                     {
                         // Perfil existent, editar registre
                         var query = 'SELECT * FROM Perfil WHERE Id = \'' + perfil.id + '\';';
-
-                        
                         response = { 
                             serverStatus: 200,
                             correcte: 'true',
@@ -110,6 +109,14 @@ class PerfilService{
                         callback(response);
                     }else
                     {
+                        if (perfil.usuari_id == 0)
+                        {
+                            response = {
+                                serverStatus: 400,
+                                correcte: 'false',
+                                msg: 'La id del usuari no pot ser 0.'
+                            };
+                        }
                         // Nou perfil, inserir registre
                         var i_query = `INSERT INTO Perfil (UsuariId, Nom, Cognoms, DataNaixement, Pes, Alcada, Genere)`
                         i_query += `VALUES (${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`

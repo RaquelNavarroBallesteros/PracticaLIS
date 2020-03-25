@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {  throwError } from 'rxjs';
+import {  throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class PerfilService {
     return this.http.post(this._aplicationURL + this._addURL, perfil).pipe(catchError(this.handleError));
   }
 
-  obtenir(p_id){
+  obtenir(p_id) : Observable<object>{
     return this.http.post(this._aplicationURL + this._getURL, {id: p_id}).pipe(catchError(this.handleError));
   }
 
