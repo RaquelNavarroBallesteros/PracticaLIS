@@ -36,7 +36,7 @@ export class PerfilPage implements OnInit {
 
   addControl(){
     this.allergiesCount++;
-    this.allergies.addControl('player' + this.allergiesCount, new FormControl('', Validators.required));
+    this.allergies.addControl('al·lergia' + this.allergiesCount, new FormControl('', Validators.required));
   }
 
   removeControl(control){
