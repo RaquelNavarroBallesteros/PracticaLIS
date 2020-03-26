@@ -7,7 +7,8 @@ import {HttpClient} from '@angular/common/http';
 })
 export class EmergenciesService {
   public _aplicationURL = 'http://localhost:3000/api/Emergencies'
-        _sendAvis = '/avis';
+        _sendAvis = '/avis'
+        _sendEmergencia = '/emergencia';
 
   constructor(private http: HttpClient) { }
 
@@ -15,5 +16,8 @@ export class EmergenciesService {
     console.log("send Avis service")
     console.log(this._aplicationURL + this._sendAvis);
     return this.http.post(this._aplicationURL + this._sendAvis, req);
+  }
+  sendEmergencia(req){
+    return this.http.post(this._aplicationURL + this._sendEmergencia, req);
   }
 }
