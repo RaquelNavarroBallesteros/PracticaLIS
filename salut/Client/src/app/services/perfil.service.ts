@@ -7,8 +7,9 @@ import { retry, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PerfilService {
-  public _aplicationURL = 'http://localhost:3000/perfil'
-        _addURL = '/add';
+  public _aplicationURL = 'http://localhost:3000/api/perfil'
+        _addURL = '/add'
+        _getPerfilURL = '/getPerfilById/';
 
   constructor(private http: HttpClient) { }
 
@@ -29,6 +30,10 @@ export class PerfilService {
     console.log(perfil)
     console.log(this._aplicationURL + this._addURL);
     return this.http.post(this._aplicationURL + this._addURL, perfil).pipe(catchError(this.handleError));
+  }
+
+  getPerfilById(idPerfil){
+    return this.http.get(this._aplicationURL + this._getPerfilURL + idPerfil);
   }
 
 }
