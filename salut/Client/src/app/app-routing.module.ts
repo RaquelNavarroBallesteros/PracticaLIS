@@ -25,6 +25,10 @@ const routes: Routes = [
   },  {
     path: 'recepta',
     loadChildren: () => import('./pages/recepta/recepta.module').then( m => m.ReceptaPageModule)
+  },
+  {
+    path: 'recepta',
+    loadChildren: () => import('./pages/recepta/recepta.module').then( m => m.ReceptaPageModule)
   }
 
 

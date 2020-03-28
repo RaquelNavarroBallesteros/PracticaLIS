@@ -12,8 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import {LoginService} from './services/login.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { defineCustomElements } from '@ionic/pwa-elements/loader';
-
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -29,6 +28,7 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
     SplashScreen,
     LoginService,
     Geolocation,
+    Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
