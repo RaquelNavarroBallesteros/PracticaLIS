@@ -9,6 +9,7 @@ import { ReceptaPageRoutingModule } from './recepta-routing.module';
 import { ReceptaPage } from './recepta.page';
 import { ComponentsModule } from '../../components/components.module';
 
+
 @NgModule({
   imports: [
     CommonModule,
