@@ -22,11 +22,7 @@ export class LoginPage implements OnInit {
   }
 
   doLogin(){
-    console.log("doing login");
-    console.log(this.usuari);
     this.loginService.doLogin(this.usuari).subscribe((res: LoginResponse) => {
-      console.log('respuesta')
-      console.log(res);
       if (!res.doLogin){
         this.showMsgInvalidLogin = true;
       }else{
