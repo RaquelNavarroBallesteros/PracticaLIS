@@ -12,7 +12,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import {LoginService} from './services/login.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { File } from '@ionic-native/file/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -29,6 +30,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
     LoginService,
     Geolocation,
     Camera,
+    File,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
