@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import {LoginService} from './services/login.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 @NgModule({
   declarations: [AppComponent],
