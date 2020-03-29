@@ -100,7 +100,11 @@ class PerfilService{
                     if (rows.length > 0)
                     {
                         // Perfil existent, editar registre
-                        var query = 'SELECT * FROM Perfil WHERE Id = \'' + perfil.id + '\';';
+                        var i_query = `UPDATE Perfil
+                        SET Nom = "${perfil.nom}", Cognoms = "${perfil.cognoms}", DataNaixement = "${perfil.data_n}", 
+                        Pes = ${perfil.pes}, Alcada = ${perfil.alcada}, Genere = "${perfil.genere}"
+                        WHERE Id = ${perfil.id};`
+
                         response = { 
                             serverStatus: 200,
                             correct: true,
