@@ -16,7 +16,7 @@ class PerfilService{
             password : password
         });
     }
-
+    
     get_by_id(id, callback)
     {
         var self = this
@@ -92,7 +92,7 @@ class PerfilService{
                     {
                         response = {
                             serverStatus: 400,
-                            correcte: 'false',
+                            correct: false,
                             msg: 'error connection'
                         };     
                         callback(response);                   
@@ -103,7 +103,7 @@ class PerfilService{
                         var query = 'SELECT * FROM Perfil WHERE Id = \'' + perfil.id + '\';';
                         response = { 
                             serverStatus: 200,
-                            correcte: 'true',
+                            correct: true,
                             msg: ''
                         };
                         callback(response);
@@ -113,39 +113,44 @@ class PerfilService{
                         {
                             response = {
                                 serverStatus: 400,
-                                correcte: 'false',
+                                correct: false,
                                 msg: 'La id del usuari no pot ser 0.'
                             };
+
+                            callback(response); 
                         }
-                        // Nou perfil, inserir registre
-                        var i_query = `INSERT INTO Perfil (UsuariId, Nom, Cognoms, DataNaixement, Pes, Alcada, Genere)`
-                        i_query += `VALUES (${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`
-                        self.connection.query(i_query, function(error, fields){
-                            if (error)
-                            {
-                                response = {
-                                    serverStatus: 400,
-                                    correcte: 'false',
-                                    msg: 'error connection'
-                                };     
-                                callback(response);                   
-                            }
-                            else{
-                                response = { 
-                                    serverStatus: 200,
-                                    correcte: 'true',
-                                    msg: ''
-                                };
-                                callback(response);
-                            }
-                        })
+                        else
+                        {
+                            // Nou perfil, inserir registre
+                            var i_query = `INSERT INTO Perfil (UsuariId, Nom, Cognoms, DataNaixement, Pes, Alcada, Genere)`
+                            i_query += `VALUES (${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`
+                            self.connection.query(i_query, function(error, fields){
+                                if (error)
+                                {
+                                    response = {
+                                        serverStatus: 400,
+                                        correct: false,
+                                        msg: 'error connection'
+                                    };     
+                                    callback(response);                   
+                                }
+                                else{
+                                    response = { 
+                                        serverStatus: 200,
+                                        correct: true,
+                                        msg: ''
+                                    };
+                                    callback(response);
+                                }
+                            })
+                        }
                     }
                 })
             }else
             {
                 response = {
                         serverStatus: 400, 
-                        correcte: 'false',
+                        correct: false,
                         msg: 'error connection'
                 }; 
                 callback(response);
@@ -153,5 +158,4 @@ class PerfilService{
         });
     }
 }
-
 module.exports = PerfilService
