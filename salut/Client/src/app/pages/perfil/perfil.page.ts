@@ -29,8 +29,10 @@ export class PerfilPage implements OnInit {
   constructor(public perfilService: PerfilService, private formBuilder: FormBuilder) { 
 
     this.allergies = formBuilder.group({
-      allergia1: ['', Validators.required]
+      allergia1: ['asdsad', Validators.required],
+      allergia2: ['qwe', Validators.required],
     });
+    
   }
 
   ionViewWillEnter(){
@@ -63,10 +65,12 @@ export class PerfilPage implements OnInit {
 
   enviar()
   {
+    console.log(this.allergies.controls.allergia1.value);
     console.log("Enviar formulari dades mèdiques.")
     this.perfilService.enviar(this.perfil).subscribe((res: PerfilGetResponse)=>{
       if (res.correct)
       {
+        this.perfil.allergies[0]
         // TODO: Show msg
         console.log("Data was saved")
       }
