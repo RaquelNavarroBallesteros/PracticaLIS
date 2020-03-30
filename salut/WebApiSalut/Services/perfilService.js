@@ -35,7 +35,7 @@ class PerfilService{
                     {
                         response = {
                             serverStatus: 400,
-                            correcte: 'false',
+                            correcte: false,
                             data: null,
                             msg: 'error query'
                         };     
@@ -46,7 +46,7 @@ class PerfilService{
                     {
                         response = {
                             serverStatus: 400,
-                            correcte: 'false',
+                            correcte: false,
                             data: null,
                             msg: 'There is no perfil with id = ' + String(id.id)
                         };     
@@ -56,7 +56,7 @@ class PerfilService{
                     {
                         response = {
                             serverStatus: 200,
-                            correcte: 'true',
+                            correcte: true,
                             data: rows[0],
                             msg: ''
                         };     
@@ -68,7 +68,7 @@ class PerfilService{
             {
                 response = {
                     serverStatus: 400,
-                    correcte: 'false',
+                    correcte: false,
                     data: null,
                     msg: 'error connection'
                 };     
@@ -155,57 +155,6 @@ class PerfilService{
                 response = {
                         serverStatus: 400, 
                         correct: false,
-                        msg: 'error connection'
-                }; 
-                callback(response);
-            }
-        });
-    }
-
-    getPerfilById(perfilId, callback) {
-        var self = this
-        var query = 'SELECT * FROM Perfil WHERE Id =' + perfilId;
-        this.connection.connect(function(err){
-            var response;
-            console.log("connected")
-            if (!err){
-                console.log("connected no error")
-                self.connection.query(query, function(error, rows, fields){
-                    console.log(rows.length);
-                    if (error){
-                            console.log("error1")
-                            response = {
-                                serverStatus: 400,
-                                getPerfil: false,
-                                infoPerfil: null,
-                                msg: 'error connection'
-                            };                        
-                    }
-                    if (rows.length > 0){
-                        console.log("correcte")
-                            response = { 
-                                serverStatus: 200,
-                                getPerfil: true,
-                                infoPerfil: rows[0],
-                                msg: ''
-                            };
-                    }else{
-                        console.log("id Invalid")
-                            response = {
-                                serverStatus: 200,   
-                                getPerfil: false,
-                                infoPerfil: null,
-                                msg: 'perfil invalid'
-                            };
-                    }
-                    callback(response);
-                })
-            }else{
-                console.log("connected error")
-                response = {
-                        serverStatus: 400, 
-                        getPerfil: false,
-                        infoPerfil: null,
                         msg: 'error connection'
                 }; 
                 callback(response);

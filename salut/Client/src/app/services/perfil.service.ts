@@ -7,7 +7,7 @@ import { retry, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PerfilService {
-  public _aplicationURL = 'http://localhost:3000/perfil'
+  public _aplicationURL = 'http://localhost:3000/api/Perfil'
         _addURL = '/add';
         _getURL = '/get'
 

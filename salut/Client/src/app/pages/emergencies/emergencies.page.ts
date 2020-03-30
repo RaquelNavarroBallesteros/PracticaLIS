@@ -70,11 +70,11 @@ export class EmergenciesPage implements OnInit {
           "longitut": location.coords.longitude
         }
 
-        self.perfilService.getPerfilById(idPerfil).subscribe((res: PerfilInformationResponse) =>{
-          if(res.serverStatus === 200 && res.getPerfil){
+        self.perfilService.obtenir(idPerfil).subscribe((res: PerfilInformationResponse) =>{
+          if(res.serverStatus === 200 && res.correcte){
             request = {
               "coordenades": coordenades,
-              "perfil": res.infoPerfil
+              "perfil": res.data
             }
             console.log("send Emergencia");
             console.log(request);
@@ -126,8 +126,8 @@ export class Perfil{
 export class PerfilInformationResponse{
   constructor(
     public serverStatus: number,
-    public getPerfil: boolean,
+    public correcte: boolean,
     public msg: string,
-    public infoPerfil: Perfil
+    public data: Perfil
   ){}
 }
