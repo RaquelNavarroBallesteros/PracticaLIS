@@ -24,7 +24,8 @@ export class LoginService {
     window.alert(errorMessage);
     return throwError(errorMessage);
   }
-  sasd
+  
+
   doLogin(req){
     console.log("Do login service")
     console.log(this._aplicationURL + this._doLoginURL);

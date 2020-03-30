@@ -1,0 +1,42 @@
+<app-header title="Emergències" backButton="true"></app-header>
+
+<ion-content>
+<div style="width:50%; display:block; margin:50px auto; ">
+  <ion-img src={{urlImg}} ></ion-img>
+</div>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-label>Emergència</ion-label>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Necessites atenció d'emergència personal?
+          <div>
+            <ion-button color="danger" expand="block" (click)="sendEmergencia()">
+              <ion-icon slot="start" name="location-outline" ></ion-icon>
+              Demanar assistencia
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-label>Avisos</ion-label>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Algú a prop teu necessita assistència?
+        <div>
+          <ion-button expand="block"  (click)="sendAvis()">
+            <ion-icon slot="start" name="location-outline"></ion-icon>
+            Enviar la meva ubicació
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+</ion-content>

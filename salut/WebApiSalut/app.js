@@ -8,11 +8,13 @@ app.use(bodyParser());
 
 var loginController = require("./Controllers/loginController")
 var perfilController = require("./Controllers/perfilController")
+var emergenciesController = require("./Controllers/emergenciesController")
 
 
 
 app.use("/api/Login",loginController)
-app.use("/perfil",perfilController)
+app.use("/api/Perfil",perfilController)
+app.use("/api/Emergencies",emergenciesController)
 
 const port = 3000
 
