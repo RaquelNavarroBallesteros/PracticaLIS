@@ -1,8 +1,4 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Dades mèdiques</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Dades mèdiques" backButton="true"></app-header>
 
 <ion-content>
   <form #formulariPerfil="ngForm" (ngSubmit)="enviar()" novalidate>
@@ -69,7 +65,7 @@
     </ion-item>
 
     <!--  <button ion-button expand="full" type="submit" block>Guardar perfil</button> -->
-    <button ion-button expand="full" type="submit" block>Guardar perfil</button>  
+    <ion-button ion-button expand="full" color="primary" type="submit" block>Guardar perfil</ion-button>  
   </form>
 
   

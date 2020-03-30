@@ -35,7 +35,7 @@ class PerfilService{
                     {
                         response = {
                             serverStatus: 400,
-                            correcte: 'false',
+                            correcte: false,
                             data: null,
                             msg: 'error query'
                         };     
@@ -46,7 +46,7 @@ class PerfilService{
                     {
                         response = {
                             serverStatus: 400,
-                            correcte: 'false',
+                            correcte: false,
                             data: null,
                             msg: 'There is no perfil with id = ' + String(id.id)
                         };     
@@ -56,7 +56,7 @@ class PerfilService{
                     {
                         response = {
                             serverStatus: 200,
-                            correcte: 'true',
+                            correcte: true,
                             data: rows[0],
                             msg: ''
                         };     
@@ -68,7 +68,7 @@ class PerfilService{
             {
                 response = {
                     serverStatus: 400,
-                    correcte: 'false',
+                    correcte: false,
                     data: null,
                     msg: 'error connection'
                 };     

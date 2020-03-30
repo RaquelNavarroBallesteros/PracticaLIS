@@ -11,9 +11,8 @@ export class HeaderComponent implements OnInit {
   @Input() backButton: string;
 
   public isIos: boolean;
-
   constructor(private platform: Platform) {
-    this.isIos = this.platform.is("ios");
+    this.isIos = this.platform.is('ios');
    }
 
   ngOnInit() {

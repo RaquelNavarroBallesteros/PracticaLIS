@@ -23,7 +23,6 @@ function get (req, res)
         res.status(response.serverStatus).send(response);
     });
     
-   
    //res.send("Perfil add works");
 }
 

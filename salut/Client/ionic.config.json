@@ -1,5 +1,7 @@
 {
-  "name": "salut",
-  "integrations": {},
+  "name": "SeguiSalut",
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

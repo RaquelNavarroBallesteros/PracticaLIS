@@ -62,6 +62,7 @@
       "version": "1.0.6"
     },
     "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
     "debug": {
       "integrity": "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==",
       "requires": {
@@ -101,6 +102,7 @@
       "version": "1.8.1"
     },
     "express": "^4.17.1",
+    "express-mailer": "^0.3.1",
     "finalhandler": {
       "integrity": "sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA==",
       "requires": {
@@ -199,6 +201,7 @@
       "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.6.2.tgz",
       "version": "0.6.2"
     },
+    "nodemailer": "^6.4.6",
     "on-finished": {
       "integrity": "sha1-IPEzZIGwg811M3mSoWlxqi2QaUc=",
       "requires": {
