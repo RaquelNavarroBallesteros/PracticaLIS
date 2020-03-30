@@ -24,6 +24,7 @@ export class ReceptaPage implements OnInit {
 
   async ferFoto() {
     this.fotoService.ferFoto("recepta");
+    
     this.fotoService.llegirFoto("recepta").then((path)=>{
       this.fotoReceptaPath = path;
       if (this.fotoReceptaPath !== null){

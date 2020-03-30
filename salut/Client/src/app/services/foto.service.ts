@@ -33,6 +33,7 @@ export class FotoService {
       this.file.resolveLocalFilesystemUrl(dataDirectory + "recepta.jpg").then((res)=>{
         if(res.isFile){
           this.file.removeFile(dataDirectory, "recepta.jpg");
+          this.file.removeFile(this.file.cacheDirectory,"recepta.jpg");
         }
         var newFileName = "recepta.jpg"
         this.file.copyFile(tempBaseDirectory, tempFotoFileName, dataDirectory, newFileName);
@@ -63,7 +64,6 @@ export class FotoService {
         resolve(displayImage);
       }
     })
-    
   }
 
 }
