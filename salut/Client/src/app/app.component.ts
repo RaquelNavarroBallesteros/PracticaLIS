@@ -31,6 +31,7 @@ export class AppComponent {
   doLogin(){
     //TODO: Try to conect indexedDb and do autoLogin
     console.log("Navigate To login");
-    this.route.navigate(['/login']);
+    //this.route.navigate(['/event']);
+    //login
   }
 }
