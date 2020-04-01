@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {  throwError } from 'rxjs';
+import {  throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PerfilService {
-  public _aplicationURL = 'http://localhost:3000/perfil'
+  public _aplicationURL = 'http://localhost:3000/api/Perfil'
         _addURL = '/add';
+        _getURL = '/get'
 
   constructor(private http: HttpClient) { }
 
@@ -26,9 +27,13 @@ export class PerfilService {
   }
 
   enviar(perfil){
-    console.log(perfil)
-    console.log(this._aplicationURL + this._addURL);
+    //console.log(perfil)
+    //console.log(this._aplicationURL + this._addURL);
     return this.http.post(this._aplicationURL + this._addURL, perfil).pipe(catchError(this.handleError));
+  }
+
+  obtenir(p_id) : Observable<object>{
+    return this.http.post(this._aplicationURL + this._getURL, {id: p_id}).pipe(catchError(this.handleError));
   }
 
 }

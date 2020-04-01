@@ -1,8 +1,4 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Dades mèdiques</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Dades mèdiques" backButton="true"></app-header>
 
 <ion-content>
   <form #formulariPerfil="ngForm" (ngSubmit)="enviar()" novalidate>
@@ -20,9 +16,10 @@
     </ion-item>
     <ion-item>
 
+  <ion-list>
     <ion-item>
       <ion-label>Gènere</ion-label>
-      <ion-select value="D">
+      <ion-select value="D" name="genere" [(ngModel)]="perfil.genere" required>
         <ion-select-option value="H">Home</ion-select-option>
         <ion-select-option value="D">Dona</ion-select-option>
       </ion-select>
@@ -30,7 +27,7 @@
 
     <ion-item>
       <ion-label>Grup sanguini</ion-label>
-      <ion-select value="D">
+      <ion-select value=null name="g_sanguini" [(ngModel)]="perfil.g_sanguini" required>
         <ion-select-option value="A+">A+</ion-select-option>
         <ion-select-option value="A-">A-</ion-select-option>
 
@@ -42,16 +39,20 @@
 
         <ion-select-option value="O+">O+</ion-select-option>
         <ion-select-option value="O-">O-</ion-select-option>
+
+        <ion-select-option value="null">?</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label>Donant de òrgans</ion-label>
-      <ion-select value=1>
+      <ion-select value=0 name="d_organs" [(ngModel)]="perfil.d_organs" required>
         <ion-select-option value=0>No</ion-select-option>
         <ion-select-option value=1>Si</ion-select-option>
       </ion-select>
     </ion-item>
+  </ion-list>
+  
 
   </ion-item>
     <ion-item>
@@ -62,10 +63,81 @@
       <ion-label>Pes (kgs)</ion-label>
       <ion-input type="number" name="pes" [(ngModel)]="perfil.pes"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label>Grup sanguini</ion-label>
-      <ion-input type="text" name="cognoms" [(ngModel)]="perfil.g_sanguini" required></ion-input>
-    </ion-item>
-    <button ion-button expand="full" type="submit" block>Guardar perfil</button>
+
+    <!--  <button ion-button expand="full" type="submit" block>Guardar perfil</button> -->
+    <ion-button ion-button expand="full" color="primary" type="submit" block>Guardar perfil</ion-button>  
   </form>
+
+  
+ <!-- <ion-item>
+    <ion-label>
+      Afegir Al·lèrgia
+    </ion-label>
+  </ion-item> -->
+  
+  <ion-content padding>
+  
+    <ion-list lines="none">
+      <form [formGroup]="allergies"> 
+        <ion-item *ngFor="let control of allergies.controls | keyvalue">
+          <ion-input required type="text" [formControlName]="control.key" placeHolder="Nom de l'al·lèrgia"></ion-input>
+          <!--<ion-input required type="text" [formControlName]="control.desc" placeHolder="Descripció"></ion-input>-->
+          <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
+        </ion-item>
+      </form> 
+    </ion-list>
+    <ion-button expand="full" color="light" (click)="addControl()">Afegir Al·lèrgia</ion-button>
+  </ion-content>
+
+<!--
+ <ion-item>
+    <ion-label>
+        Afegir M
+    </ion-label>
+  </ion-item>
+  
+  <ion-content padding>
+  
+    <ion-list lines="none">
+      <form [formGroup]="allergies"> 
+        <ion-item *ngFor="let control of allergies.controls | keyvalue">
+          <ion-input required type="text" [formControlName]="control.key" placeHolder="M..."></ion-input>
+          <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
+        </ion-item>
+      </form> 
+    </ion-list>
+    <ion-button expand="full" color="light" (click)="addControl()">Afegir M</ion-button>
+  </ion-content>
+-->
+
 </ion-content>
+
+
+
+<!--
+
+
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>
+      Afegir Al·lèrgia
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list lines="none">
+    <form [formGroup]="allergies"> 
+      <ion-item *ngFor="let control of allergies.controls | keyvalue">
+        <ion-input required type="text" [formControlName]="control.key" placeHolder="Al·lèrgia..."></ion-input>
+        <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
+      </ion-item>
+    </form> 
+  </ion-list>
+  <ion-button expand="full" color="light" (click)="addControl()">Afegir Al·lèrgia</ion-button>
+</ion-content>
+
+-->
+
+  
