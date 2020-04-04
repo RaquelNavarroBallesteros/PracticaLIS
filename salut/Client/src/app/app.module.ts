@@ -15,6 +15,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+//import {IonicStorageModule} from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent],
