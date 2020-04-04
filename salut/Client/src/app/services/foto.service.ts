@@ -12,81 +12,46 @@ export class FotoService {
   
   cameraOptions: CameraOptions = {
     quality: 100,
-    destinationType: this.camera.DestinationType.FILE_URI,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
+    //destinationType: this.camera.DestinationType.FILE_URI,
+    //encodingType: this.camera.EncodingType.JPEG,
+    //mediaType: this.camera.MediaType.PICTURE,
     saveToPhotoAlbum: false,
-    sourceType: this.camera.PictureSourceType.CAMERA
+    sourceType: this.camera.PictureSourceType.CAMERA,
+    correctOrientation: true
   };
   constructor(private camera: Camera,
               private file: File,
               private webView: WebView) { }
 
+
+
+
   async ferFoto(tipus: string) {
 
     return new Promise((resolve, reject)=>{
-      this.camera.getPicture(this.cameraOptions).then((imageData)=>{
-        this.guardarFoto(tipus, imageData).then((res)=>{
-          if(res){
-            resolve(true);
-          }else{
-            resolve(false);
-          }
-        });
+      this.camera.getPicture(this.cameraOptions).then(imagePath =>{
+        var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+        var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+        //let response = {currentName: currentName, correctPath: correctPath};
+        resolve([currentName, correctPath]);
       });
-    })
-
-  }
-
-  guardarFoto(tipus: string, temporalPath: string){
-    var dataDirectory = this.file.dataDirectory;
-    var tempFotoFileName = temporalPath.substr(temporalPath.lastIndexOf('/') + 1);
-    var tempBaseDirectory = temporalPath.substr(0,temporalPath.lastIndexOf('/') + 1);
-
-    return new Promise((resolve, reject)=>{
-      if (tipus === "recepta"){
-        this.file.resolveLocalFilesystemUrl(dataDirectory + "recepta.jpg").then((res)=>{
-          if(res.isFile){
-            let fileToRemove = dataDirectory + "recepta.jpg";
-            let pathToRemove = fileToRemove.substr(0,fileToRemove.lastIndexOf('/')+1);
-            this.file.removeFile(pathToRemove, "recepta.jpg");
-            this.file.removeFile(this.file.cacheDirectory,"recepta.jpg");
-          }
-          var newFileName = "recepta.jpg"
-          this.file.copyFile(tempBaseDirectory, tempFotoFileName, dataDirectory, newFileName);
-          resolve(true)
-        }).catch((err) =>{
-          console.log("files not found");
-          var newFileName = "recepta.jpg"
-          this.file.copyFile(tempBaseDirectory, tempFotoFileName, dataDirectory, newFileName);
-          resolve(true);
-        });
-      }else{
-        resolve(true);
-      }
     });
   }
-  
-  llegirFoto(tipus: string){
-    var dataDirectory = this.file.dataDirectory;
-    var displayImage = null;
-    return new Promise((resolve, reject)=>{
-      if (tipus === "recepta"){
-        this.file.resolveLocalFilesystemUrl(dataDirectory + "recepta.jpg").then((res)=>{
-          if(res.isFile){
-            console.log("files found");
-            this.file.removeFile(this.file.cacheDirectory,"recepta.jpg");
-            displayImage = this.webView.convertFileSrc(dataDirectory + "recepta.jpg");
-            resolve(displayImage);
-          }
-        }).catch((err)=>{
-          console.log("files not found");
-          resolve(displayImage);
-        });
-      }else{
-        resolve(displayImage);
-      }
-    })
+
+  async copyFileToLocalDir(namePath: string, currentName: string, newFileName: string){
+    this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(res =>{
+      return res;
+    }, error =>{
+      return error;
+    });
   }
 
+  pathForImage(imgPath){
+    if (imgPath === null){
+      return '';
+    }else{
+      let converted = this.webView.convertFileSrc(imgPath);
+      return converted;
+    }
+  }
 }
