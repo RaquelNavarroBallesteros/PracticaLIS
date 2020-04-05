@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
-import { takeUntil } from 'rxjs/operators';
-import { HttpResponse } from '@angular/common/http';
 import {Router} from '@angular/router';
+import {Storage} from '@ionic/storage';
 
+
+const STORAGE_KEY = 'login';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginPage implements OnInit {
   };
   public showMsgInvalidLogin = false;
   constructor(public loginService: LoginService,
-              private route: Router)
+              private route: Router, private storage: Storage)
               { }
 
   ngOnInit() {
@@ -29,7 +30,7 @@ export class LoginPage implements OnInit {
         this.showMsgInvalidLogin = true;
       }else{
         this.showMsgInvalidLogin = false;
-        this.route.navigate(['/perfil']);
+        this.updateStoredLogin(res.idUsuari);
       }
     });
   }
@@ -41,12 +42,27 @@ export class LoginPage implements OnInit {
     this.usuari.contrassenya = "";
     this.showMsgInvalidLogin = false;
   }
+  updateStoredLogin(idUsuari: number){
+    this.storage.remove(STORAGE_KEY).then(res => {
+      if (res){
+        let loginStorage = {
+          correu: this.usuari.correu,
+          contrassenya: this.usuari.contrassenya,
+          idUsuari: idUsuari
+        };
+        this.storage.set(STORAGE_KEY, loginStorage);
+      }
+      //TODO: VERIFICAR SI JA TE PERFIL
+      this.route.navigate(['/perfil']);
+    });
+  }
 }
 
 export class LoginResponse {
   constructor(
       public serverStatus: number,
       public doLogin: boolean,
+      public idUsuari: number,
       public msg: string,
   ) {}
 }

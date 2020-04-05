@@ -1,9 +1,13 @@
 var mysql = require('mysql');
-const host = 'seguisalut.cckgyqwr0zch.us-east-2.rds.amazonaws.com';
-const database = 'SeguiSalut';
+//const host = 'seguisalut.cckgyqwr0zch.us-east-2.rds.amazonaws.com';
+const host = '127.0.0.1';
+//const database = 'SeguiSalut';
+const database = 'seguisalut';
 const port = '3306';
-const user = 'sa';
-const password = 'lis7salut';
+//const user = 'sa';
+const user = 'root';
+//const password = 'lis7salut';
+//const password = '';
 
 class LoginService{
 
@@ -13,7 +17,7 @@ class LoginService{
             database : database,
             port     : port,
             user     : user,
-            password : password
+            //password : password
         });
     }
     doLogin(usuari, callback){
@@ -42,6 +46,7 @@ class LoginService{
                             response = { 
                                 serverStatus: 200,
                                 doLogin: true,
+                                idUsuari: rows[0].Id,
                                 msg: ''
                             };
                     }else{
@@ -49,6 +54,7 @@ class LoginService{
                             response = {
                                 serverStatus: 200,   
                                 doLogin: false,
+                                idUsuari: -1,
                                 msg: 'Invalid user or password'
                             };
                     }
@@ -59,6 +65,7 @@ class LoginService{
                 response = {
                         serverStatus: 400, 
                         doLogin: false,
+                        idUsuari: -1,
                         msg: 'error connection'
                 }; 
                 callback(response);
