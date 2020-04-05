@@ -9,6 +9,7 @@ import { IniciPageRoutingModule } from './inici-routing.module';
 import { IniciPage } from './inici.page';
 import { ComponentsModule } from '../../components/components.module';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +17,7 @@ import { ComponentsModule } from '../../components/components.module';
     IonicModule,
     IniciPageRoutingModule,
     ComponentsModule
+
   ],
   declarations: [IniciPage]
 })
