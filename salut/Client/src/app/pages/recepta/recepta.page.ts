@@ -63,9 +63,7 @@ export class ReceptaPage implements OnInit {
   createFileName(){
     var d = new Date(),
         n = d.getTime();
-    
     return n + "recepta"+".jpg";
-
   }
 
   updeteStoredImages(name){
@@ -75,7 +73,7 @@ export class ReceptaPage implements OnInit {
         let newImages = [name];
         this.storage.set(STORAGE_KEY, JSON.stringify(newImages))
       }else{
-        arr.push(name);
+        arr .push(name);
         this.storage.set(STORAGE_KEY, JSON.stringify(arr));
       }
       let filePath = this.file.dataDirectory + name;
@@ -101,6 +99,7 @@ export class ReceptaPage implements OnInit {
         let arr = JSON.parse(images);
         let filtred = arr.filter(name=> name != image.name);
         this.storage.set(STORAGE_KEY, JSON.stringify(filtred));
+
         var correctPath = image.filePath.substr(0, image.filePath.lastIndexOf('/') + 1);
         this.file.removeFile(correctPath, image.name).then(res =>{
           this.presentToast('Recepte modificada');
@@ -108,7 +107,6 @@ export class ReceptaPage implements OnInit {
         })
       })
     });
-
   }
 
   async presentToast(text: string){
