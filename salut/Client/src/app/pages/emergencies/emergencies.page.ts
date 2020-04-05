@@ -59,6 +59,7 @@ export class EmergenciesPage implements OnInit {
     var perfilInfo = null;
     var self = this;
 
+    //TODO: GET ID PERFIL LOCAL STORAGE
     idPerfil = 1;
 
     this.geolocation.getCurrentPosition({

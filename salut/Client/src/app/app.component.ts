@@ -46,6 +46,9 @@ export class AppComponent {
         this.loginService.doLogin(usuari).subscribe((res: LoginResponse) => {
           if (res.doLogin){
             this.route.navigate(['/inici']);
+          }else{
+            console.log("Navigate To login");
+            this.route.navigate(['/login']);
           }
         });
       }else{
