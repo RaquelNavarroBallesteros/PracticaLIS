@@ -65,7 +65,15 @@
         </ion-card-content>
       </ion-card>
     </ion-col>
-    <ion-col></ion-col>
+    <ion-col><ion-card padding text-center color="primary" (click)="logOut()">
+      <ion-card-header>
+        <ion-icon size="large" name="exit-outline"></ion-icon>
+        
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>LogOut</ion-label>
+      </ion-card-content>
+    </ion-card></ion-col>
   </ion-row>
 </ion-grid>
 </ion-content>
