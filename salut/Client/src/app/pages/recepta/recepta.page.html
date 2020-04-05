@@ -1,8 +1,9 @@
 <app-header title="Recepta electrònica" backButton="true"></app-header>
 
 <ion-content>
-  <div *ngIf="fotoRecepta">
-    <ion-img [src]="fotoReceptaPath"></ion-img>
+  <h3 *ngIf="images.length === 0" text-center>Fes la primera foto a la teva recepta</h3>
+  <div *ngFor="let img of images; inedex as pos">
+    <ion-img [src]="img.path"></ion-img>
   </div>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button size="large" color="primary" (click)="ferFoto()">
