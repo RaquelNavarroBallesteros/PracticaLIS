@@ -37,11 +37,10 @@ export class AppComponent {
   }
   doLogin(){
     this.storage.get(STORAGE_KEY).then(information => {
-      let login = JSON.parse(information);
-      if(login){
+      if(information){
         let usuari = {
-          correu: login.correu,
-          contrassenya: login.contrassenya
+          correu: information.correu,
+          contrassenya: information.contrassenya
         };
         this.loginService.doLogin(usuari).subscribe((res: LoginResponse) => {
           if (res.doLogin){

@@ -7,7 +7,7 @@ const port = '3306';
 //const user = 'sa';
 const user = 'root';
 //const password = 'lis7salut';
-//const password = '';
+const password = '1234';
 
 class LoginService{
 
@@ -17,7 +17,7 @@ class LoginService{
             database : database,
             port     : port,
             user     : user,
-            //password : password
+            password : password
         });
     }
     doLogin(usuari, callback){

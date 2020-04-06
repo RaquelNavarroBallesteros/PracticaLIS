@@ -15,11 +15,6 @@ export class IniciPage implements OnInit {
   }
   logOut() {
     this.storage.remove(STORAGE_KEY).then(res=>{
-      if(res) {
-        console.log('Registre trobat');
-      }else { 
-        console.log('Registre no trobat');
-      }
       this.route.navigate(['/login']);
     });
   }

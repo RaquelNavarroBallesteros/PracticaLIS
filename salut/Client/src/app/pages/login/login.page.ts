@@ -42,17 +42,15 @@ export class LoginPage implements OnInit {
     this.usuari.contrassenya = "";
     this.showMsgInvalidLogin = false;
   }
+
   updateStoredLogin(idUsuari: number){
     this.storage.remove(STORAGE_KEY).then(res => {
-      if (res){
-        let loginStorage = {
-          correu: this.usuari.correu,
-          contrassenya: this.usuari.contrassenya,
-          idUsuari: idUsuari
-        };
-        this.storage.set(STORAGE_KEY, loginStorage);
-      }
-      //TODO: VERIFICAR SI JA TE PERFIL
+      let loginStorage = {
+        correu: this.usuari.correu,
+        contrassenya: this.usuari.contrassenya,
+        idUsuari: idUsuari
+      };
+      this.storage.set(STORAGE_KEY, loginStorage);
       this.route.navigate(['/perfil']);
     });
   }
