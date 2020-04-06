@@ -17,6 +17,7 @@ function add (req, res) {
 
 function get (req, res) 
 {
+    console.log("get call");
     perfilService = new service()
     perfilService.get_by_id(req.body, function(response){
         // console.log(response);

@@ -37,9 +37,8 @@ class PerfilService{
                             serverStatus: 400,
                             correcte: false,
                             data: null,
-                            msg: 'error query'
+                            msg: 'Perfil query error'
                         };     
-                        connection.end()
                         callback(response);                   
                     }
                     else if (rows == 0)
@@ -54,13 +53,32 @@ class PerfilService{
                     }
                     else
                     {
-                        response = {
-                            serverStatus: 200,
-                            correcte: true,
-                            data: rows[0],
-                            msg: ''
-                        };     
-                        callback(response);  
+                        var i_query = `SELECT * FROM Alergia WHERE PerfilId = ${id.id};`;
+                        self.connection.query(i_query, function(i_error, i_rows, i_fields){
+                            if (i_error)
+                            {
+                                response = {
+                                    serverStatus: 400,
+                                    correcte: false,
+                                    data: null,
+                                    msg: 'Allergies query error'
+                                };     
+
+                                callback(response); 
+                            }
+                            else
+                            {
+                                response = {
+                                    serverStatus: 200,
+                                    correcte: true,
+                                    data: rows[0],
+                                    msg: ''
+                                };    
+                                
+                                response.data['Allergies'] = i_rows;                            
+                                callback(response); 
+                            }
+                        }); 
                     }
                 })
             }
@@ -105,6 +123,23 @@ class PerfilService{
                         Pes = ${perfil.pes}, Alcada = ${perfil.alcada}, Genere = "${perfil.genere}"
                         WHERE Id = ${perfil.id};`
 
+                        var ad_query = `DELETE FROM Perfil WHERE Id = ${perfil.id};`
+                        var ai_query = `INSERT INTO Alergia (
+                            Id,
+                            Nom,
+                            Descripcio,
+                            PerfilId
+                            )
+                            VALUES`;
+
+                            var i;
+                            for (i = 0; i < cars.length; i++) {
+                                ai_query += `(0, ${perfil.allergies[i].nom}, ${perfil.allergies[i].desc},
+                                ${perfil.usuari_id}),`;
+                            }
+                        
+                        // EDITAR REGISTRE I ELIMINAR I INSERIR ALERGIES
+
                         response = { 
                             serverStatus: 200,
                             correct: true,
@@ -139,6 +174,22 @@ class PerfilService{
                                     callback(response);                   
                                 }
                                 else{
+                                    // TODO: Testeig insert alergies
+                                    var a_query
+                                    `INSERT INTO Alergia (
+                                    Id,
+                                    Nom,
+                                    Descripcio,
+                                    PerfilId
+                                    )
+                                    VALUES`;
+
+                                    var i;
+                                    for (i = 0; i < cars.length; i++) {
+                                        a_query += `(0, ${perfil.allergies[i].nom}, ${perfil.allergies[i].desc},
+                                        ${perfil.usuari_id}),`;
+                                    }
+
                                     response = { 
                                         serverStatus: 200,
                                         correct: true,
