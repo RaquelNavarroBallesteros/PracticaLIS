@@ -3,6 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { PerfilService } from 'src/app/services/perfil.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
@@ -23,15 +24,24 @@ export class PerfilPage implements OnInit {
     allergies: [],
     patologies: []
   }
-  public allergies: FormGroup;
-  private allergiesCount: number = 1;
+  public nomAllergia = '';
+  allergies = [];
+
+  addAllergia() 
+  {
+    if (this.nomAllergia.length > 0) 
+    {
+        let allergia = this.nomAllergia;
+        this.allergies.push(allergia);
+        this.nomAllergia = "";
+    }
+}
+
+
 
   constructor(public perfilService: PerfilService, private formBuilder: FormBuilder) { 
 
-    this.allergies = formBuilder.group({
-      allergia1: ['asdsad', Validators.required],
-      allergia2: ['qwe', Validators.required],
-    });
+    
     
   }
 
@@ -51,12 +61,12 @@ export class PerfilPage implements OnInit {
   }
 
   addControl(){
-    this.allergiesCount++;
-    this.allergies.addControl('al·lergia' + this.allergiesCount, new FormControl('', Validators.required));
+    //this.allergiesCount++;
+    //this.allergies.addControl('al·lergia' + this.allergiesCount, new FormControl('', Validators.required));
   }
 
   removeControl(control){
-    this.allergies.removeControl(control.key);
+    //this.allergies.removeControl(control.key);
   }
 
   ngOnInit() {
@@ -65,7 +75,7 @@ export class PerfilPage implements OnInit {
 
   enviar()
   {
-    console.log(this.allergies.controls.allergia1.value);
+    //console.log(this.allergies.controls.allergia1.value);
     console.log("Enviar formulari dades mèdiques.")
     this.perfilService.enviar(this.perfil).subscribe((res: PerfilGetResponse)=>{
       if (res.correct)
@@ -100,3 +110,7 @@ export class PerfilGetResponse {
       public msg: string,
   ) {}
 }
+
+
+
+
