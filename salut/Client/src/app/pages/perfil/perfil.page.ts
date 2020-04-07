@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { PerfilService } from 'src/app/services/perfil.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-
+//import { NavController } from 'ionic-angular';
 
 @Component({
   selector: 'app-perfil',
@@ -37,13 +37,9 @@ export class PerfilPage implements OnInit {
     }
 }
 
+  constructor(public perfilService: PerfilService) 
+  { }
 
-
-  constructor(public perfilService: PerfilService, private formBuilder: FormBuilder) { 
-
-    
-    
-  }
 
   ionViewWillEnter(){
     if (this.perfil.id != 0)

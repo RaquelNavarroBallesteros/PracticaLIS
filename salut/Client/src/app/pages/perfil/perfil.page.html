@@ -65,7 +65,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-input type="text" placeholder="Al·lèrgia..." [(ngModel)]="nomAllergia"/> </ion-input>   
+      <ion-input type="text" [(ngModel)]="nomAllergia" [ngModelOptions]="{standalone: true}" placeholder="Al·lèrgia..."> </ion-input>   
       <div class="item-note"  item-end>
         <ion-button ion-button (click) = "afegirAllergia()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
       </div>
