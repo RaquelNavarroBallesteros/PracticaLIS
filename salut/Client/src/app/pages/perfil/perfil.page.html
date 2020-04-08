@@ -64,30 +64,58 @@
       <ion-input type="number" name="pes" [(ngModel)]="perfil.pes"></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="nomAllergia" [ngModelOptions]="{standalone: true}" placeholder="Al·lèrgia..."> </ion-input>   
+      <div class="item-note"  item-end>
+        <ion-button ion-button (click) = "afegirAllergia()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
+      </div>
+    </ion-item>
+   <!--
+    <ion-item *ngFor="let todo of allergies; let i = index">
+      {{todo}}
+      <div class="item-note" item-end>
+        <button ion-button clear (click)="updateTask(i)">
+          <ion-icon name="create"></ion-icon>
+        </button>
+        <button ion-button clear (click)="deleteTask(i)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </div>
+    </ion-item>
+  -->
+
+
     <!--  <button ion-button expand="full" type="submit" block>Guardar perfil</button> -->
     <ion-button ion-button expand="full" color="primary" type="submit" block>Guardar perfil</ion-button>  
   </form>
 
-  
+</ion-content>
+ 
+ 
+ 
  <!-- <ion-item>
     <ion-label>
       Afegir Al·lèrgia
     </ion-label>
   </ion-item> -->
   
+  
+
+ <!--
   <ion-content padding>
   
     <ion-list lines="none">
       <form [formGroup]="allergies"> 
         <ion-item *ngFor="let control of allergies.controls | keyvalue">
-          <ion-input required type="text" [formControlName]="control.key" placeHolder="Nom de l'al·lèrgia"></ion-input>
+          <ion-input required type="text" [formControlName]="control.key" placeHolder="Nom de l'al·lèrgia"></ion-input>-->
           <!--<ion-input required type="text" [formControlName]="control.desc" placeHolder="Descripció"></ion-input>-->
-          <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
+       <!--   <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
         </ion-item>
       </form> 
     </ion-list>
     <ion-button expand="full" color="light" (click)="addControl()">Afegir Al·lèrgia</ion-button>
   </ion-content>
+-->
 
 <!--
  <ion-item>
@@ -110,7 +138,7 @@
   </ion-content>
 -->
 
-</ion-content>
+
 
 
 
