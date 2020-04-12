@@ -6,7 +6,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
   providedIn: 'root'
 })
 export class FileService {
-  public _aplicationURL = 'http://localhost:3000/api/Emergencies'
+  public _aplicationURL = 'http://localhost:3000/api/Files'
     _recomenacionsFiles = '/recomenacionsPDF'
     _getNameFiles = '/getNameFiles'
   constructor(private http: HttpClient) { }

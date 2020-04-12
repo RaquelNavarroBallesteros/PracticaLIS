@@ -1,21 +1,12 @@
 <app-header title="Informació" backButton="true"></app-header>
 
 <ion-content>
-<ion-grid *ngFor="let file of files; let i=index">
-  
-  <ion-row>
-    <ion-col>
-      <ion-card padding text-center color="primary" (click)="download(i)")>
-        <ion-card-header>
-          <ion-icon size="large" name="document-outline"></ion-icon>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-label>{{file.name}}</ion-label>
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-
-
-  </ion-row>
-</ion-grid>
+<ion-list>
+<ion-item *ngFor="let file of files; let i = index;">
+<ion-label>
+  {{file}}
+</ion-label>
+<ion-icon name="arrow-down-circle-outline"></ion-icon>
+</ion-item>
+</ion-list>
 </ion-content>

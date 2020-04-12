@@ -26,7 +26,7 @@ export class AppComponent {
     private loginService: LoginService
   ) {
     this.initializeApp();
-    this.doLogin();
+    //this.doLogin();
   }
 
   initializeApp() {
