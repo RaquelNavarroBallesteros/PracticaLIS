@@ -1,9 +1,11 @@
 var fs = require('fs')
 class FileService{
     recomenacionsFilePDF(name, callback){
-        var file = './Recursos/Recomanacions/'+name+'.pdf'
+        console.log('recomanacions:',name);
+        var file = './Recursos/Recomanacions/'+name
         try {
             if (fs.existsSync(file)) {
+                console.log('if: ',name);
                 var response = {
                     serverStatus: 200,
                     fileEnviat: true,
@@ -12,6 +14,7 @@ class FileService{
                 callback (response, file);
             }
         } catch(err) {
+            console.log('error: ',name);
             var response = {
                 serverStatus: 400,
                 fileEnviat: false,
@@ -31,8 +34,8 @@ class FileService{
                 files.forEach(file => {
                     var stat = fs.statSync(folder + file)
                     var filePDF = {
-                        name = file,
-                        size = stat.size
+                        name : file,
+                        size : stat.size
                     }
                     filesName.push(filePDF)
                 });

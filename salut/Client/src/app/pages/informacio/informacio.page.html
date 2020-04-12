@@ -1,12 +1,13 @@
 <app-header title="Informació" backButton="true"></app-header>
-
 <ion-content>
-<ion-list>
-<ion-item *ngFor="let file of files; let i = index;">
-<ion-label>
-  {{file}}
-</ion-label>
-<ion-icon name="arrow-down-circle-outline"></ion-icon>
-</ion-item>
-</ion-list>
+  <ion-list>
+    <ion-item *ngFor="let file of files; let i = index;">
+      <ion-icon name="document-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>{{file.name}}</h2>
+        <p>{{file.size/(1024*1024) | number:'1.2-2'}} MB</p>
+      </ion-label>
+      <ion-icon name="arrow-down-circle-outline" (click)="downloadFile(file.name);"></ion-icon>
+    </ion-item>
+  </ion-list>
 </ion-content>

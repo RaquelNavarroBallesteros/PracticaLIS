@@ -25,6 +25,19 @@ export class InformacioPage implements OnInit {
       }      
     });
   }
+  downloadFile(filename){
+    var self=this;
+    this.fileservice.getRecomenacionsPDFFile(filename).subscribe((res:fitxerResponse)=>{
+      if(res.fileEnviat){
+        console.log("en teoria hauria de descarregar");
+      } else {
+        self.presentToast("Quelcom no ha sorgit com s'esperava.");
+      } 
+    });
+
+    console.log(filename);
+    alert(filename);
+  }
 
   async presentToast(text: string) {
     const toast = await this.toastController.create({
@@ -35,7 +48,13 @@ export class InformacioPage implements OnInit {
     toast.present();
   }
 }
-
+export class fitxerResponse {
+  constructor(
+    public serverStatus: number,
+    public fileEnviat: boolean,
+    public msg: string,
+  ) { }
+}
 
 export class nameFilesResponse {
   constructor(
