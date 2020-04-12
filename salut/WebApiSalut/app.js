@@ -10,13 +10,15 @@ var loginController = require("./Controllers/loginController")
 var perfilController = require("./Controllers/perfilController")
 var emergenciesController = require("./Controllers/emergenciesController")
 var singUpController = require("./Controllers/signupController")
+var filesController = require("./Controllers/filesController")
 
 
 app.use("/api/Login",loginController)
 app.use("/api/Perfil",perfilController)
 app.use("/api/Emergencies",emergenciesController)
 app.use("/api/SingUp", singUpController)
+app.use("/api/Files", filesController)
 
 const port = 3000
 
-app.listen(port,'localhost', ()=> console.log('app start listening on port ' + port))
+app.listen(port,'0.0.0.0', ()=> console.log('app start listening on port ' + port))

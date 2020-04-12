@@ -11,6 +11,7 @@ function doLogin (req, res) {
 }
 
 function warmUp(req,res){
+    console.log("login");
     res.send("Login api works")
 }
 
