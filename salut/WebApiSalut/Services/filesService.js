@@ -29,7 +29,12 @@ class FileService{
             fs.readdir(folder, (err, files) => {
                 var filesName = []
                 files.forEach(file => {
-                    filesName.push(file)
+                    var stat = fs.statSync(folder + file)
+                    var filePDF = {
+                        name = file,
+                        size = stat.size
+                    }
+                    filesName.push(filePDF)
                 });
                 var response = {
                     serverStatus: 200,
