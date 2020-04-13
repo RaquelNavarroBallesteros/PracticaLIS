@@ -137,15 +137,29 @@ class PerfilService{
                                 ai_query += `(0, ${perfil.allergies[i].nom}, ${perfil.allergies[i].desc},
                                 ${perfil.usuari_id}),`;
                             }
-                        
-                        // EDITAR REGISTRE I ELIMINAR I INSERIR ALERGIES
 
-                        response = { 
-                            serverStatus: 200,
-                            correct: true,
-                            msg: ''
-                        };
-                        callback(response);
+                        self.connection.query(ad_query, function(err, rows){
+                            var response;
+                            if (err)
+                            {
+                                throw "Query errors"
+                            }
+
+                            self.connection.query(id_query, function(err, rows){
+                                if (err)
+                                {
+                                    throw "Query errors"
+                                }
+
+                                response = { 
+                                    serverStatus: 200,
+                                    correct: true,
+                                    msg: ''
+                                };
+                                callback(response);
+                            });
+
+                        });
                     }else
                     {
                         if (perfil.usuari_id == 0)
