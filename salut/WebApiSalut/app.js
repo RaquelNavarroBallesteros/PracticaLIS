@@ -19,4 +19,4 @@ app.use("/api/SingUp", singUpController)
 
 const port = 3000
 
-app.listen(port,'localhost', ()=> console.log('app start listening on port ' + port))
+app.listen(port,'0.0.0.0', ()=> console.log('app start listening on port ' + port))

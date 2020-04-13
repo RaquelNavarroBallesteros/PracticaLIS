@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { PerfilService } from 'src/app/services/perfil.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-//import { NavController } from 'ionic-angular';
+import { NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-perfil',
@@ -27,7 +29,7 @@ export class PerfilPage implements OnInit {
   public nomAllergia = '';
   allergies = [];
 
-  addAllergia() 
+  afegirAllergia()
   {
     if (this.nomAllergia.length > 0) 
     {
@@ -35,9 +37,27 @@ export class PerfilPage implements OnInit {
         this.allergies.push(allergia);
         this.nomAllergia = "";
     }
+  }
+
+  deleteTask(index)
+  {
+    this.allergies.splice(index, 1);
+  }
+
+  async updateTask(index) {
+    const alert = await this.alertCtrl.create({
+        message: 'Corregir/Editar Al·lergia',
+        inputs: [{ name: 'editTask', placeholder: 'Al·lergia' }],
+        buttons: [{ text: 'Cancel', role: 'cancel' },
+                  { text: 'Update', handler: data => {
+                      this.allergies[index] = data.editTask; }
+                  }
+                 ]
+    });
+  await alert.present();
 }
 
-  constructor(public perfilService: PerfilService) 
+  constructor(public perfilService: PerfilService, public alertCtrl: AlertController) 
   { }
 
 
