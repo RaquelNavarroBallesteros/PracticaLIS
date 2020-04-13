@@ -26,17 +26,15 @@ export class PerfilPage implements OnInit {
     allergies: [],
     patologies: []
   }
-  public nomAllergia = '';
+  public nomAllergia = {nom:'', descripcio: ''};
   allergies = [];
 
   afegirAllergia()
   {
-    if (this.nomAllergia.length > 0) 
-    {
-        let allergia = this.nomAllergia;
-        this.allergies.push(allergia);
-        this.nomAllergia = "";
-    }
+      let allergia = this.nomAllergia;
+      this.allergies.push(allergia);
+      this.nomAllergia = {nom:'', descripcio: ''};
+   
   }
 
   deleteTask(index)
@@ -47,10 +45,11 @@ export class PerfilPage implements OnInit {
   async updateTask(index) {
     const alert = await this.alertCtrl.create({
         message: 'Editar Al·lergia',
-        inputs: [{ name: 'editTask', placeholder: 'Al·lergia' }],
+        inputs: [{ name: 'editNom', value: this.allergies[index]["nom"], placeholder: 'Al·lergia' }, { name: 'editDescripcio', value: this.allergies[index]["descripcio"], placeholder: 'Descripció' }],
         buttons: [{ text: 'Cancel', role: 'cancel' },
                   { text: 'Update', handler: data => {
-                      this.allergies[index] = data.editTask; }
+                      this.allergies[index]["nom"] = data.editNom; 
+                      this.allergies[index]["descripcio"] = data.editDescripcio; }
                   }
                  ]
     });
