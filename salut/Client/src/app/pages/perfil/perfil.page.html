@@ -65,25 +65,26 @@
     </ion-item>
 
     <ion-item>
-      <ion-input type="text" [(ngModel)]="nomAllergia" [ngModelOptions]="{standalone: true}" placeholder="Al·lèrgia..."> </ion-input>   
+      <ion-input type="text" [(ngModel)]="nomAllergia.nom" [ngModelOptions]="{standalone: true}" placeholder="Al·lèrgia..."> </ion-input>
+      <ion-input type="text" [(ngModel)]="nomAllergia.descripcio" [ngModelOptions]="{standalone: true}" placeholder="Descripció..."> </ion-input>   
       <div class="item-note"  item-end>
         <ion-button ion-button (click) = "afegirAllergia()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
       </div>
     </ion-item>
-   <!--
-    <ion-item *ngFor="let todo of allergies; let i = index">
-      {{todo}}
-      <div class="item-note" item-end>
-        <button ion-button clear (click)="updateTask(i)">
-          <ion-icon name="create"></ion-icon>
-        </button>
-        <button ion-button clear (click)="deleteTask(i)">
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </div>
-    </ion-item>
-  -->
-
+   
+    <ion-list>
+      <ion-item *ngFor="let todo of allergies; let i = index">
+        {{todo.nom}} - {{todo.descripcio}}
+        <div class="item-note" item-end>
+          <ion-button ion-button clear (click)="updateTask(i)"> <ion-icon name="pencil-outline"></ion-icon> </ion-button>
+          <ion-button ion-button clear (click)="deleteTask(i)"> <ion-icon name="trash"></ion-icon> </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+ 
+<!--slot="end"-->
+ 
+ 
 
     <!--  <button ion-button expand="full" type="submit" block>Guardar perfil</button> -->
     <ion-button ion-button expand="full" color="primary" type="submit" block>Guardar perfil</ion-button>  
