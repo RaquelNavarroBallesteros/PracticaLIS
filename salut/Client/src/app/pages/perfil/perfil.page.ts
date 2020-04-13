@@ -44,8 +44,8 @@ export class PerfilPage implements OnInit {
 
   async updateTask(index) {
     const alert = await this.alertCtrl.create({
-        message: 'Editar Al·lergia',
-        inputs: [{ name: 'editNom', value: this.allergies[index]["nom"], placeholder: 'Al·lergia' }, { name: 'editDescripcio', value: this.allergies[index]["descripcio"], placeholder: 'Descripció' }],
+        message: 'Editar Al·lèrgia',
+        inputs: [{ name: 'editNom', value: this.allergies[index]["nom"], placeholder: 'Al·lèrgia' }, { name: 'editDescripcio', value: this.allergies[index]["descripcio"], placeholder: 'Descripció' }],
         buttons: [{ text: 'Cancel', role: 'cancel' },
                   { text: 'Update', handler: data => {
                       this.allergies[index]["nom"] = data.editNom; 
