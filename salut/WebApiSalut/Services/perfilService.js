@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-const host = 'seguisalut.cckgyqwr0zch.us-east-2.rds.amazonaws.com';
+const host = 'seguisalut.czcghz2fiq3g.us-east-1.rds.amazonaws.com';
 const database = 'SeguiSalut';
 const port = '3306';
 const user = 'sa';
@@ -174,7 +174,6 @@ class PerfilService{
                         }
                         else
                         {
-                            // Nou perfil, inserir registre
                             var i_query = `INSERT INTO Perfil (UsuariId, Nom, Cognoms, DataNaixement, Pes, Alcada, Genere)`
                             i_query += `VALUES (${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`
                             self.connection.query(i_query, function(error, fields){
@@ -188,7 +187,6 @@ class PerfilService{
                                     callback(response);                   
                                 }
                                 else{
-                                    // TODO: Testeig insert alergies
                                     var a_query
                                     `INSERT INTO Alergia (
                                     Id,
