@@ -46,7 +46,7 @@ export class PerfilPage implements OnInit {
 
   async updateTask(index) {
     const alert = await this.alertCtrl.create({
-        message: 'Corregir/Editar Al·lergia',
+        message: 'Editar Al·lergia',
         inputs: [{ name: 'editTask', placeholder: 'Al·lergia' }],
         buttons: [{ text: 'Cancel', role: 'cancel' },
                   { text: 'Update', handler: data => {
