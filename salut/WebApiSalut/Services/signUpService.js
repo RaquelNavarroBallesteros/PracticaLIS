@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-const host = 'seguisalut.cckgyqwr0zch.us-east-2.rds.amazonaws.com';
+const host = 'seguisalut.czcghz2fiq3g.us-east-1.rds.amazonaws.com';
 const database = 'SeguiSalut';
 const port = '3306';
 const user = 'sa';
@@ -39,7 +39,7 @@ class SignUpService{
                     }else{
                         if (rows.length <= 0){
                             console.log('signUpService_addUser -- adding user that does not exist');
-                            var query1 = 'INSERT INTO Usuari (Correu, Contrassenya) VALUES (\'' + usuari.correu + '\' , MD5(\'' + usuari.psw + '\') );';
+                            var query1 = 'INSERT INTO Usuari (Correu, Contrasenya) VALUES (\'' + usuari.correu + '\' , MD5(\'' + usuari.psw + '\') );';
                             console.log(query1);
                             self.connection.query(query1, function(error, fields){
                                 if (error){

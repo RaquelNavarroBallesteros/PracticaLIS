@@ -6,10 +6,9 @@ import { retry, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class EventService {
+export class AddEventService {
   public _aplicationURL = 'http://localhost:3000/api/Event'
-       // _addEventURL = '/addNewEvent';
-        _listEventsURL = '/listEvents';
+        _addEventURL = '/addNewEvent';
   constructor(private http: HttpClient) { }
 
   handleError(error: HttpErrorResponse){
@@ -25,11 +24,12 @@ export class EventService {
     return throwError(errorMessage);
   }
 
-
-  listEvents(req){
+  addEvent(req){
     console.log(req)
-    console.log("list events")
-    console.log(this._aplicationURL + this._listEventsURL);
-    return this.http.post(this._aplicationURL + this._listEventsURL, req).pipe(catchError(this.handleError));
+    console.log("nou event")
+    console.log(this._aplicationURL + this._addEventURL);
+    return this.http.post(this._aplicationURL + this._addEventURL, req).pipe(catchError(this.handleError));
   }
+  
+  
 }

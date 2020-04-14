@@ -22,9 +22,11 @@ export class EventPage implements OnInit {
   ngOnInit() {
   }
 
-  createNewEvent(){
-    console.log("doing nou event");
-    this.eventService.addEvent(this.event).subscribe((res: HttpResponse<any>)=>{
+  
+
+  listEvents(){
+    console.log("doing list events");
+    this.eventService.listEvents(this.event).subscribe((res: HttpResponse<any>)=>{
       console.log("Resp:");
       console.log(res);
     });

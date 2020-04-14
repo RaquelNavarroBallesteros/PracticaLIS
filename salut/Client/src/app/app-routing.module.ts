@@ -35,7 +35,13 @@ const routes: Routes = [
   {
     path: 'recepta',
     loadChildren: () => import('./pages/recepta/recepta.module').then( m => m.ReceptaPageModule)
+  },
+      
+  {
+    path: 'add-event',
+    loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
   }
+
   
   
 

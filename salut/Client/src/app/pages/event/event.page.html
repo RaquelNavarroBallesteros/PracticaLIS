@@ -1,48 +1,18 @@
-<app-header title="Crear un nou event" backButton = "true"></app-header>
+<app-header title="Mostrar events" backButton = "true"></app-header>
 <ion-content>
-    <form #formulariEvent="ngForm" (ngSubmit)="createNewEvent()">
-        <ion-list>
-            <ion-item>
-                <ion-label position="floating">Nom</ion-label>
-                <ion-input type="text" required
-                            name="nom"
-                            [(ngModel)]="event.nom">
-                </ion-input>
-              </ion-item>
+  
+  <ion-card padding text-center color="primary" routerLink="/add-event">
+    <ion-card-header>
+      <ion-icon size="large" name="today-outline"></ion-icon>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label>Crear Event</ion-label>
+    </ion-card-content>
+  </ion-card>
 
-            <ion-item>
-                <ion-label position="floating">Data</ion-label>
-                <ion-input type="date" required
-                            name="data"
-                            [(ngModel)]="event.data"
-                            >
-                </ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Ubicació</ion-label>
-                <ion-input type="text" required
-                            name="ubicacio"
-                            [(ngModel)]="event.ubicacio"
-                            >
-                </ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Tipus d'event</ion-label>
-                <ion-input type="text" required
-                            name="tipus"
-                            [(ngModel)]="event.tipus">
-                </ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Tractament</ion-label>
-                <ion-input type="text" required
-                            name="tractament"
-                            [(ngModel)]="event.tractament">
-                </ion-input>
-              </ion-item>
-        </ion-list>
-        <ion-button expand="full" type="submit" [disabled]="formulariEvent.invalid">
-            Crear nou event    
-        </ion-button>
-    </form>
+  <form #formulariShowEvent="ngForm" (ngSubmit)="listEvents()">
+    <ion-button expand="full" type="submit" [disabled]="formulariShowEvent.invalid">
+    Mostrar events    
+    </ion-button>
+  </form> 
 </ion-content>
