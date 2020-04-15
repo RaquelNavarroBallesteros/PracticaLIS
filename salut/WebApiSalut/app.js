@@ -11,13 +11,14 @@ var perfilController = require("./Controllers/perfilController")
 var emergenciesController = require("./Controllers/emergenciesController")
 var singUpController = require("./Controllers/signupController")
 var tractamentController = require("./Controllers/tractamentController")
-
+var medicamentController = require("./Controllers/medicamentController")
 
 app.use("/api/Login",loginController)
 app.use("/api/Perfil",perfilController)
 app.use("/api/Emergencies",emergenciesController)
 app.use("/api/SingUp", singUpController)
 app.use("/api/Tractament", tractamentController)
+app.use("/api/Medicament", medicamentController)
 
 const port = 3000
 

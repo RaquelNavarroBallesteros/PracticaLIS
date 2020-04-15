@@ -9,7 +9,7 @@ import { TractamentService } from 'src/app/services/tractament.service';
 export class TractamentPage implements OnInit {
 
   public tractament = {
-    id: 0,
+    id: 12,
     perfil_id: 1,
     nom: 'T2',
     data_i: '2019-12-09',
@@ -27,8 +27,8 @@ export class TractamentPage implements OnInit {
   ionViewWillEnter()
   {
     console.log("ION WILL ENTER");
-    //this.get();
-    this.add();
+    this.get();
+    //this.add();
   }
 
   get()
