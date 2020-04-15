@@ -1,9 +1,27 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>tractament</ion-title>
+    <ion-title>Tractament</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-TRACTAMENT
+
+  
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="nomMedicament.nom" [ngModelOptions]="{standalone: true}" placeholder="Medicament..."> </ion-input>
+    <ion-input type="text" [(ngModel)]="nomMedicament.descripcio" [ngModelOptions]="{standalone: true}" placeholder="Descripció..."> </ion-input>   
+    <div class="item-note"  item-end>
+      <ion-button ion-button (click) = "afegirMedicament()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
+    </div>
+  </ion-item>
+ 
+  <ion-list>
+    <ion-item *ngFor="let todo of medicaments; let i = index">
+      {{todo.nom}} - {{todo.descripcio}}
+      <div class="item-note" slot="end">
+        <ion-button ion-button clear (click)="updateTask(i)"> <ion-icon name="pencil-outline"></ion-icon> </ion-button>
+        <ion-button ion-button clear (click)="deleteTask(i)"> <ion-icon name="trash"></ion-icon> </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
 </ion-content>

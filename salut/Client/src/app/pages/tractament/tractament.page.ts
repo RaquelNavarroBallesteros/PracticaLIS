@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TractamentService } from 'src/app/services/tractament.service';
+import { AlertController } from '@ionic/angular';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-tractament',
@@ -20,7 +22,38 @@ export class TractamentPage implements OnInit {
     ],
   }
 
-  constructor(public tractamentService: TractamentService) {}
+  constructor(public tractamentService: TractamentService, public alertCtrl: AlertController) {}
+
+  public nomMedicament = {nom:'', descripcio: ''};
+  medicaments = [];
+
+  afegirMedicament()
+  {
+      let medicament = this.nomMedicament;
+      this.medicaments.push(medicament);
+      this.nomMedicament = {nom:'', descripcio: ''};
+   
+  }
+
+  deleteTask(index)
+  {
+    this.medicaments.splice(index, 1);
+  }
+
+  async updateTask(index) {
+    const alert = await this.alertCtrl.create({
+        message: 'Editar Medicament',
+        inputs: [{ name: 'editNom', value: this.medicaments[index]["nom"], placeholder: 'Medicament' }, { name: 'editDescripcio', value: this.medicaments[index]["descripcio"], placeholder: 'Descripció' }],
+        buttons: [{ text: 'Cancel', role: 'cancel' },
+                  { text: 'Update', handler: data => {
+                      this.medicaments[index]["nom"] = data.editNom; 
+                      this.medicaments[index]["descripcio"] = data.editDescripcio; }
+                  }
+                 ]
+    });
+  await alert.present();
+}
+
 
   ngOnInit() {}
 
