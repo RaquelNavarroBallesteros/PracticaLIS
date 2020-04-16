@@ -5,7 +5,7 @@ const port = '3306';
 const user = 'sa';
 const password = 'lis7salut';
 
-class TractamentService
+class MedicamentService
 {
     constructor(){
         this.connection = mysql.createConnection({
@@ -54,4 +54,4 @@ class TractamentService
     }    
 }
 
-module.exports = TractamentService
+module.exports = MedicamentService

@@ -9,6 +9,8 @@ import { retry, catchError } from 'rxjs/operators';
 export class TractamentService {
 
   public _aplicationURL = 'http://localhost:3000/api/Tractament';
+  public _m_aplicationURL = 'http://localhost:3000/api/Medicament';
+  _m_getallURL = '/getall';
   _addURL = '/add';
   _getURL = '/get';
   _updateURL = '/update';
@@ -17,24 +19,26 @@ export class TractamentService {
   constructor(private http: HttpClient) { }
 
   handleError(error: HttpErrorResponse){
+    console.log(error);
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
       // Client-side errors
       errorMessage = `Error: ${error.error.message}`;
     } else {
       // Server-side errors
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      //errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Error Code: ${error.error.serverStatus}\nMessage: ${error.error.msg}`;
     }
     window.alert(errorMessage);
     return throwError(errorMessage);
   }
 
-  add_request(tractament)
+  add_request(tractament) : Observable<object>
   {
     return this.http.post(this._aplicationURL + this._addURL, tractament).pipe(catchError(this.handleError));
   }
 
-  update_request(tractament)
+  update_request(tractament) : Observable<object>
   {
     return this.http.post(this._aplicationURL + this._updateURL, tractament).pipe(catchError(this.handleError));
   }
@@ -46,5 +50,9 @@ export class TractamentService {
 
   getall_request(p_id) : Observable<object>{
     return this.http.post(this._aplicationURL + this._getallURL, {id: p_id}).pipe(catchError(this.handleError));
+  }
+
+  m_getall_request() : Observable<object>{
+    return this.http.post(this._m_aplicationURL + this._m_getallURL, {}).pipe(catchError(this.handleError));
   }
 }

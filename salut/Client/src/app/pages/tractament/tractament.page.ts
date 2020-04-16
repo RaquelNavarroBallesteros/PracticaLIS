@@ -11,35 +11,41 @@ import { async } from '@angular/core/testing';
 export class TractamentPage implements OnInit {
 
   public tractament = {
-    id: 12,
+    id: 1,
     perfil_id: 1,
-    nom: 'T2',
-    data_i: '2019-12-09',
-    data_f: '2021-12-09',
-    medicaments: [
-      {medicament_id: 1, periode:3},
-      {medicament_id: 2, periode:4},
-    ],
+    nom: '',
+    data_i: '',
+    data_f: '',
+    medicaments: []
   }
 
   constructor(public tractamentService: TractamentService, public alertCtrl: AlertController) {}
 
-  public nomMedicament = {nom:'', descripcio: ''};
-  medicaments = [];
+  public auxMedicament = {id: 0, idM: null, periode:null};
+  public medicaments_query = {};
+  public medicaments_keys = [];
 
   afegirMedicament()
   {
-      let medicament = this.nomMedicament;
-      this.medicaments.push(medicament);
-      this.nomMedicament = {nom:'', descripcio: ''};
-   
+    let medicament = this.auxMedicament;
+    if (medicament.idM == null || medicament.periode == null)
+    {
+      alert("Indica el medicament i la periodicitat.");
+    }
+    else
+    {
+      console.log(medicament);
+      this.tractament.medicaments.push(medicament);
+      this.auxMedicament = {id: 0, idM: null, periode:null};
+    }
   }
 
-  deleteTask(index)
+  deleteM(index)
   {
-    this.medicaments.splice(index, 1);
+    this.tractament.medicaments.splice(index, 1);
   }
 
+  /*
   async updateTask(index) {
     const alert = await this.alertCtrl.create({
         message: 'Editar Medicament',
@@ -52,8 +58,9 @@ export class TractamentPage implements OnInit {
                  ]
     });
   await alert.present();
-}
-
+  
+  }
+*/
 
   ngOnInit() {}
 
@@ -61,7 +68,7 @@ export class TractamentPage implements OnInit {
   {
     console.log("ION WILL ENTER");
     this.get();
-    //this.add();
+    this.get_medicaments();
   }
 
   get()
@@ -70,33 +77,83 @@ export class TractamentPage implements OnInit {
     if (this.tractament.id != 0)
     {
       this.tractamentService.get_request(this.tractament.id).subscribe((res: TractamentGetResponse)=>{
-      console.log(res.data)
-      this.tractament.id = res.data['Id'];
-      this.tractament.perfil_id = res.data['PerfilId'];
-      this.tractament.data_i = res.data['DataInici'].substring(0, 10);
-      this.tractament.data_f = res.data['DataFi'].substring(0, 10);
-      //this.tractament.medicaments
+        //console.log(res.data)
+        this.tractament.id = res.data['Id'];
+        this.tractament.nom = res.data['Nom'];
+        this.tractament.perfil_id = res.data['PerfilId'];
+        this.tractament.data_i = res.data['DataInici'].substring(0, 10);
+        this.tractament.data_f = res.data['DataFinal'].substring(0, 10);
+
+        for(var i=0; i<res.data['Medicaments'].length; i++)
+        {
+          this.tractament.medicaments.push({
+            id: res.data['Medicaments'][i].Id,
+            idM: res.data['Medicaments'][i].MedicamentId,
+            periode: res.data['Medicaments'][i].Periode});
+        }
+
+        //console.log(this.tractament);
       });
     }
+  }
+
+  get_medicaments()
+  {
+    console.log("GET MEDICAMENTS")
+    this.tractamentService.m_getall_request().subscribe((res: any)=>{
+      console.log(res.data);
+
+      for(var i=0; i<res.data.length; i++)
+      {
+        this.medicaments_query[res.data[i].Id] = res.data[i].Nom;
+      }
+
+      this.medicaments_keys = Object.keys(this.medicaments_query);
+
+      console.log(this.medicaments_query);
+      console.log(this.medicaments_keys);
+    });
   }
 
   add()
   {
     console.log("Tractament add");
     this.tractamentService.add_request(this.tractament).subscribe((res: TractamentSetResponse)=>{
-      console.log(res.correct)
-    })
+      if (res.correcte)
+      alert("Les dades s'han guardar correctament.");
+    else
+      alert("Error: " + res.msg);
+    });
   }
 
   update()
   {
+    console.log("Tractament update");
+    this.tractamentService.update_request(this.tractament).subscribe((res: TractamentSetResponse)=>{
+      if (res.correcte)
+        alert("Les dades s'han guardar correctament.");
+      else
+        alert("Error: " + res.msg);
+    });
+  }
+
+  enviar()
+  {
+    if(this.tractament.id == 0)
+    {
+      this.add();
+    }
+    else
+    {
+      this.update();
+    }
   }
 }
 
 export class TractamentGetResponse {
   constructor(
       public serverStatus: number,
-      public correct: boolean,
+      public correcte: boolean,
       public data: object,
       public msg: string,
   ) {}
@@ -105,7 +162,7 @@ export class TractamentGetResponse {
 export class TractamentSetResponse {
   constructor(
       public serverStatus: number,
-      public correct: boolean,
+      public correcte: boolean,
       public msg: string,
   ) {}
 }
