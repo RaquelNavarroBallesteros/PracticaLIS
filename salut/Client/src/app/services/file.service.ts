@@ -4,13 +4,14 @@ import {FileTransfer, FileTransferObject} from '@ionic-native/file-transfer';
 import {File} from '@ionic-native/file/ngx';
 import {Platform} from '@ionic/angular';
 import {AndroidPermissions} from '@ionic-native/android-permissions';
+import {APIUrl} from '../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileService {
-  public _aplicationURL = 'http://192.168.1.198:3000/api/Files'
+  public _aplicationURL = APIUrl + '/Files'
     _recomenacionsFiles = '/recomenacionsPDF'
     _getNameFiles = '/getNameFiles'
 
