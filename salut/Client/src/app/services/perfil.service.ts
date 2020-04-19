@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {  throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import {APIUrl} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PerfilService {
-  public _aplicationURL = 'http://192.168.1.198:3000/api/Perfil'
+  public _aplicationURL = APIUrl + '/Perfil'
         _addURL = '/add';
         _getURL = '/get'
 

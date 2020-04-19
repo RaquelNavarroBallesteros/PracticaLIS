@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {  throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import {APIUrl} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  public _aplicationURL = 'http://192.168.1.198:3000/api/Login'
+  public _aplicationURL = APIUrl + '/Login'
         _doLoginURL = '/doLogin';
 
   constructor(private http: HttpClient) { }
