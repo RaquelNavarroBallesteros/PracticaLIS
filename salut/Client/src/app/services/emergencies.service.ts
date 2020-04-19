@@ -6,7 +6,7 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class EmergenciesService {
-  public _aplicationURL = 'http://localhost:3000/api/Emergencies'
+  public _aplicationURL = 'http://192.168.1.198/api/Emergencies'
         _sendAvis = '/avis'
         _sendEmergencia = '/emergencia';
 

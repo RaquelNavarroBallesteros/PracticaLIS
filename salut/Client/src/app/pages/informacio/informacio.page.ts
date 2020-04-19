@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FileService } from '../../services/file.service';
 import { ToastController } from '@ionic/angular';
+import {FileOpener} from '@ionic-native/file-opener/ngx';
+import {File} from '@ionic-native/file/ngx';
+import {Platform} from '@ionic/angular';
+
 
 @Component({
   selector: 'app-informacio',
@@ -10,7 +14,10 @@ import { ToastController } from '@ionic/angular';
 
 export class InformacioPage implements OnInit {
   public files=[];
-  constructor(private fileservice: FileService, private toastController: ToastController) { }
+  constructor(private fileservice: FileService, private toastController: ToastController,
+              private file: File, private platform: Platform,
+              private fileOpener: FileOpener) { }
+
   ngOnInit() {
     this.getLlistaFitxers('Recomanacions');
   }
@@ -27,16 +34,21 @@ export class InformacioPage implements OnInit {
   }
   downloadFile(filename){
     var self=this;
-    this.fileservice.getRecomenacionsPDFFile(filename).subscribe((res:fitxerResponse)=>{
+    self.presentToast("Descarregant fitxer");
+    this.fileservice.getRecomenacionsPDFFile(filename).then((res:fitxerResponse)=>{
       if(res.fileEnviat){
-        console.log("en teoria hauria de descarregar");
+        self.presentToast("Fitxer desat");
+        let pathFile = ''
+        if (this.platform.is('ios')){
+          pathFile = this.file.documentsDirectory;
+        }else{
+          pathFile = this.file.externalRootDirectory + "/Download/"
+        }
+        this.fileOpener.open(pathFile+'/'+filename, 'application/pdf')
       } else {
         self.presentToast("Quelcom no ha sorgit com s'esperava.");
       } 
     });
-
-    console.log(filename);
-    alert(filename);
   }
 
   async presentToast(text: string) {

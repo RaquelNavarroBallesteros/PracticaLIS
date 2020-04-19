@@ -16,6 +16,8 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import {IonicStorageModule} from '@ionic/storage';
+//import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
+import {FileOpener} from '@ionic-native/file-opener/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,7 +28,7 @@ import {IonicStorageModule} from '@ionic/storage';
     AppRoutingModule,
     ComponentsModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
   ],
   providers: [
     StatusBar,
@@ -36,6 +38,8 @@ import {IonicStorageModule} from '@ionic/storage';
     Camera,
     File,
     WebView,
+    //DocumentViewer,
+    FileOpener,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

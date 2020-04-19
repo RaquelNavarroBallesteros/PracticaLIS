@@ -9,7 +9,7 @@ class FileService{
                 var response = {
                     serverStatus: 200,
                     fileEnviat: true,
-                    msg: 'file senda'
+                    msg: 'file send'
                 }
                 callback (response, file);
             }
