@@ -1,20 +1,18 @@
 var mysql = require('mysql');
 var emailService = require('../Services/emailService.js');
+var configuration = require('../Configuration.js');
 
-const host = 'seguisalut.cckgyqwr0zch.us-east-2.rds.amazonaws.com';
-const database = 'SeguiSalut';
-const port = '3306';
-const user = 'sa';
-const password = 'lis7salut';
 
 class EmergenciesService{
     constructor(){
+        this.config = new configuration();
+        var configBD =this.config.getDBConnection();
         this.connection = mysql.createConnection({
-            host     : host,
-            database : database,
-            port     : port,
-            user     : user,
-            password : password
+            host     : configBD.host,
+            database : configBD.database,
+            port     : configBD.port,
+            user     : configBD.user,
+            password : configBD.password
         });
         this.emailService = new emailService();
     }
