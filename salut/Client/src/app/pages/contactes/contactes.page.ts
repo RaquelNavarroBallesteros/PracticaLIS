@@ -29,6 +29,11 @@ export class ContactesPage implements OnInit {
    
   }
 
+  enviar()
+  {
+
+  }
+  
   deleteContacte(index)
   {
     this.contactes.splice(index, 1);
