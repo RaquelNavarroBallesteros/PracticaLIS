@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-const host = 'seguisalut.czcghz2fiq3g.us-east-1.rds.amazonaws.com';
+const host = 'seguisalut.cckgyqwr0zch.us-east-2.rds.amazonaws.com';
 const database = 'SeguiSalut';
 const port = '3306';
 const user = 'sa';
@@ -16,6 +16,15 @@ class PerfilService{
             password : password
         });
     }
+
+    error(msg)
+    {
+        return {
+            serverStatus: 400,
+            correcte: false,
+            msg: msg
+        };     
+    }
     
     get_by_id(id, callback)
     {
@@ -24,75 +33,123 @@ class PerfilService{
         // Get perfil from 
         var query = 'SELECT * FROM Perfil WHERE Id = \'' + id.id + '\';';
         this.connection.connect(function(err){
-            console.log("Get connected")
             var response;
-            if (!err)
+            if (err)
             {
-                console.log("Get connected no error")
-                self.connection.query(query, function(error, rows, fields){
-                    //self.connection.end()
-                    if (error)
-                    {
-                        response = {
-                            serverStatus: 400,
-                            correcte: false,
-                            data: null,
-                            msg: 'Perfil query error'
-                        };     
-                        callback(response);                   
-                    }
-                    else if (rows == 0)
-                    {
-                        response = {
-                            serverStatus: 400,
-                            correcte: false,
-                            data: null,
-                            msg: 'There is no perfil with id = ' + String(id.id)
-                        };     
-                        callback(response);  
-                    }
-                    else
-                    {
-                        var i_query = `SELECT * FROM Alergia WHERE PerfilId = ${id.id};`;
-                        self.connection.query(i_query, function(i_error, i_rows, i_fields){
-                            if (i_error)
-                            {
-                                response = {
-                                    serverStatus: 400,
-                                    correcte: false,
-                                    data: null,
-                                    msg: 'Allergies query error'
-                                };     
+                callback(self.error("Connection error."));
+                return;
+            }
 
-                                callback(response); 
-                            }
-                            else
-                            {
-                                response = {
-                                    serverStatus: 200,
-                                    correcte: true,
-                                    data: rows[0],
-                                    msg: ''
-                                };    
-                                
-                                response.data['Allergies'] = i_rows;                            
-                                callback(response); 
-                            }
-                        }); 
+            self.connection.query(query, function(error, rows, fields){
+                //self.connection.end()
+                if (error)
+                {
+                    callback(self.error("Query error."));
+                    return;
+                }
+                if (rows == 0)
+                {
+                    callback(self.error("No register found."));
+                    return;
+                }
+               
+                var i_query = `SELECT * FROM Alergia WHERE PerfilId = ${id.id};`;
+                self.connection.query(i_query, function(i_error, i_rows, i_fields){
+                    if (i_error)
+                    {
+                        callback(self.error("Query error."));
+                        return;
                     }
-                })
-            }
-            else
+                    
+                    response = {
+                        serverStatus: 200,
+                        correcte: true,
+                        data: rows[0],
+                        msg: ''
+                    };    
+                    
+                    response.data['Allergies'] = i_rows;                            
+                    callback(response); 
+                }); 
+            });
+        });
+    }
+
+    add(perfil, callback)
+    {
+        var self = this;
+
+        // console.log('Edit perfil service')
+        // Get perfil from 
+        var query = 'SELECT * FROM Perfil WHERE Id = \'' + perfil.id + '\';';
+        this.connection.connect(function(err)
+        {
+            if (err)
             {
-                response = {
-                    serverStatus: 400,
-                    correcte: false,
-                    data: null,
-                    msg: 'error connection'
-                };     
-                callback(response);         
+                callback(self.error("Connection error."));
+                return;
             }
-        })
+            if (perfil.usuari_id == 0)
+            {
+                callback(self.error("L'Id de l'usuari no pot ser 0."));
+                return;
+            }
+            
+            var i_query = `INSERT INTO Perfil (UsuariId, Nom, Cognoms, DataNaixement, Pes, Alcada, Genere)`
+            i_query += `VALUES (${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`
+            console.log(i_query);
+            self.connection.query(i_query, function(error, fields)
+            {
+                if (error)
+                {
+                    callback(self.error("Query error."));
+                    return;
+                }
+                
+                if (perfil.allergies.length > 0)
+                {
+                    var a_query =
+                    `INSERT INTO Alergia (
+                    Id,
+                    Nom,
+                    Descripcio,
+                    PerfilId
+                    )
+                    VALUES`;
+
+                    var i;
+                    for (i = 0; i < perfil.allergies.length; i++) {
+                        a_query += `(0, "${perfil.allergies[i].nom}", "${perfil.allergies[i].descripcio}",
+                        ${perfil.usuari_id}),`;
+                    }
+                    a_query = a_query.substring(0, a_query.length-1) + ';'
+                    console.log(a_query);
+                    self.connection.query(a_query, function(error, fields)
+                    {
+                        console.log("here");
+                        if (error)
+                        {
+                            callback(self.error("Query error."));
+                            return;
+                        }
+
+                        var response = { 
+                            serverStatus: 200,
+                            correct: true,
+                        };
+                        callback(response);
+                    });
+                }
+                else
+                {
+                    var response = { 
+                        serverStatus: 200,
+                        correct: true,
+                    };
+                    callback(response);
+                }
+            });
+        });
     }
 
     update(perfil, callback){
@@ -105,7 +162,8 @@ class PerfilService{
             var response;
             if (!err)
             {
-                self.connection.query(query, function(error, rows, fields){
+                self.connection.query(query, function(error, rows, fields)
+                {
                     if (error)
                     {
                         response = {

@@ -24,7 +24,6 @@ export class PerfilPage implements OnInit {
     g_sanguini: null,
     d_organs: 0,
     allergies: [],
-    patologies: []
   }
   public nomAllergia = {nom:'', descripcio: ''};
   allergies = [];
@@ -71,7 +70,15 @@ export class PerfilPage implements OnInit {
       this.perfil.pes = res.data['Pes'];
       this.perfil.alcada = res.data['Alcada']
       this.perfil.genere = res.data['Genere']
-    });
+
+        for(var i=0; i<res.data['Allergies'].length; i++)
+        {
+          this.allergies.push({nom: res.data['Allergies'][i]["Nom"], 
+          descripcio:res.data['Allergies'][i]["Descripcio"]});
+        }
+
+        console.log(this.allergies);
+      });
   }
   }
 
@@ -90,21 +97,42 @@ export class PerfilPage implements OnInit {
 
   enviar()
   {
-    //console.log(this.allergies.controls.allergia1.value);
-    console.log("Enviar formulari dades mèdiques.")
-    this.perfilService.enviar(this.perfil).subscribe((res: PerfilGetResponse)=>{
-      if (res.correct)
-      {
-        this.perfil.allergies[0]
-        // TODO: Show msg
-        console.log("Data was saved")
-      }
-      else
-      {
-        // TODO: Show msg
-        console.log("Error:" + res.msg)
-      }
-    });
+    this.perfil.allergies = this.allergies;
+    if (this.perfil.id == 0)
+    {
+      console.log("Perfil add")
+      this.perfilService.add(this.perfil).subscribe((res: PerfilGetResponse)=>{
+        if (res.correct)
+        {
+          alert("Les dades s'han guardat correctament.")
+          // TODO: Show msg
+          console.log("Data was saved")
+        }
+        else
+        {
+          // TODO: Show msg
+          alert("Error:" + res.msg)
+        }
+      });
+    }
+    else
+    {
+      console.log("Perfil update")
+      this.perfilService.update(this.perfil).subscribe((res: PerfilGetResponse)=>{
+        if (res.correct)
+        {
+          this.perfil.allergies[0]
+          // TODO: Show msg
+          console.log("Data was saved")
+        }
+        else
+        {
+          // TODO: Show msg
+          console.log("Error:" + res.msg)
+        }
+      });
+    }
+    
   }
 
 }
