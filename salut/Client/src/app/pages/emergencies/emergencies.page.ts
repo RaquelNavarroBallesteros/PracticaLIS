@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { EmergenciesService } from 'src/app/services/emergencies.service';
 import {PerfilService} from 'src/app/services/perfil.service';
+import {Storage} from '@ionic/storage';
+
+
+const STORAGE_KEY = 'login';
 
 @Component({
   selector: 'app-emergencies',
@@ -12,7 +16,8 @@ export class EmergenciesPage implements OnInit {
   urlImg = 'assets/img/112.png';
   constructor(private geolocation: Geolocation,
               private emergenciesService: EmergenciesService,
-              private perfilService: PerfilService) {}
+              private perfilService: PerfilService,
+              private storage: Storage) {}
 
   ngOnInit() {}
 
@@ -59,12 +64,10 @@ export class EmergenciesPage implements OnInit {
     var perfilInfo = null;
     var self = this;
 
-    idPerfil = 1;
+    this.storage.get(STORAGE_KEY).then(information => {
+      idPerfil = information.idUsuari;
 
-    this.geolocation.getCurrentPosition({
-        enableHighAccuracy: true
-      }).then(location => {
-
+      this.geolocation.getCurrentPosition({enableHighAccuracy: true}).then(location => {
         coordenades = {
           "latitud": location.coords.latitude,
           "longitut": location.coords.longitude
@@ -95,9 +98,7 @@ export class EmergenciesPage implements OnInit {
             console.log("EROOR obtenció perfil")
           }
         });
-
-
-
+      });
     });
   }
 }

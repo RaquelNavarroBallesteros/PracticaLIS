@@ -5,6 +5,11 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Router} from '@angular/router';
 import { CompileShallowModuleMetadata } from '@angular/compiler';
+import {Storage} from '@ionic/storage';
+import { LoginService } from 'src/app/services/login.service';
+
+
+const STORAGE_KEY = 'login';
 
 @Component({
   selector: 'app-root',
@@ -16,10 +21,12 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private route: Router
+    private route: Router,
+    private storage: Storage,
+    private loginService: LoginService
   ) {
     this.initializeApp();
-    this.doLogin();
+    //this.doLogin();
   }
 
   initializeApp() {
@@ -29,8 +36,33 @@ export class AppComponent {
     });
   }
   doLogin(){
-    //TODO: Try to conect indexedDb and do autoLogin
-    console.log("Navigate To login");
-    //this.route.navigate(['/login']);
+    this.storage.get(STORAGE_KEY).then(information => {
+      if(information){
+        let usuari = {
+          correu: information.correu,
+          contrassenya: information.contrassenya
+        };
+        this.loginService.doLogin(usuari).subscribe((res: LoginResponse) => {
+          if (res.doLogin){
+            this.route.navigate(['/inici']);
+          }else{
+            console.log("Navigate To login");
+            this.route.navigate(['/login']);
+          }
+        });
+      }else{
+        console.log("Navigate To login");
+        this.route.navigate(['/login']);
+      }
+    });
   }
+}
+
+export class LoginResponse {
+  constructor(
+      public serverStatus: number,
+      public doLogin: boolean,
+      public idUsuari: number,
+      public msg: string,
+  ) {}
 }

@@ -29,6 +29,10 @@ const routes: Routes = [
   {
     path: 'recepta',
     loadChildren: () => import('./pages/recepta/recepta.module').then( m => m.ReceptaPageModule)
+  },
+  {
+    path: 'informacio',
+    loadChildren: () => import('./pages/informacio/informacio.module').then( m => m.InformacioPageModule)
   }
 
 

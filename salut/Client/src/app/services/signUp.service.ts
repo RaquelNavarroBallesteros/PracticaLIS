@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {  throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import {APIUrl} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignUpService {
-  public _aplicationURL = 'http://localhost:3000/api/SingUp'
+  public _aplicationURL = APIUrl + '/SingUp'
         _addUserURL = '/addUser';
 
   constructor(private http: HttpClient) { }
@@ -26,9 +27,6 @@ export class SignUpService {
   }
 
   addUser(req){
-    console.log(req)
-    console.log("hola")
-    console.log(this._aplicationURL + this._addUserURL);
     return this.http.post(this._aplicationURL + this._addUserURL, req).pipe(catchError(this.handleError));
   }
 

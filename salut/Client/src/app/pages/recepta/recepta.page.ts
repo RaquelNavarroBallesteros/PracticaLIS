@@ -25,7 +25,7 @@ export class ReceptaPage implements OnInit {
       this.loadStoredImages();
     });
   }
-
+  
   loadStoredImages(){
     this.storage.get(STORAGE_KEY).then(images => {
       if(images){

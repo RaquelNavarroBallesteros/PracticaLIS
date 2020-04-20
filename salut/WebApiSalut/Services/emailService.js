@@ -1,20 +1,24 @@
 var mailer = require('nodemailer');
 
+var configuration = require('../Configuration.js');
+
 
 class EmailService{
     constructor(){
+        this.config = new configuration();
+        var configMail =this.config.getGmail(); 
         this.transporter = mailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'seguisalut@gmail.com',
-                pass: 'lis7salut'
+                user: configMail.user,
+                pass: configMail.user.pass
             }
         });
     }
     sendEmail(To, Subject,Text,callback)
     {
         var mailOptions={
-            from: 'seguisalut@gmail.com',
+            from: configMail.user,
             to: To,
             subject: Subject,
             text: Text

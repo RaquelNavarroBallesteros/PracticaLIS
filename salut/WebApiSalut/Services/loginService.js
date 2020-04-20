@@ -1,19 +1,18 @@
 var mysql = require('mysql');
-const host = 'seguisalut.cckgyqwr0zch.us-east-2.rds.amazonaws.com';
-const database = 'SeguiSalut';
-const port = '3306';
-const user = 'sa';
-const password = 'lis7salut';
+var configuration = require('../Configuration.js');
+
 
 class LoginService{
 
     constructor(){
+        this.config = new configuration();
+        var configBD =this.config.getDBConnection();
         this.connection = mysql.createConnection({
-            host     : host,
-            database : database,
-            port     : port,
-            user     : user,
-            password : password
+            host     : configBD.host,
+            database : configBD.database,
+            port     : configBD.port,
+            user     : configBD.user,
+            password : configBD.password
         });
     }
     doLogin(usuari, callback){
@@ -42,6 +41,7 @@ class LoginService{
                             response = { 
                                 serverStatus: 200,
                                 doLogin: true,
+                                idUsuari: rows[0].Id,
                                 msg: ''
                             };
                     }else{
@@ -49,6 +49,7 @@ class LoginService{
                             response = {
                                 serverStatus: 200,   
                                 doLogin: false,
+                                idUsuari: -1,
                                 msg: 'Invalid user or password'
                             };
                     }
@@ -59,6 +60,7 @@ class LoginService{
                 response = {
                         serverStatus: 400, 
                         doLogin: false,
+                        idUsuari: -1,
                         msg: 'error connection'
                 }; 
                 callback(response);
