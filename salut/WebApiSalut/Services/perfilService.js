@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-const host = 'seguisalut.cckgyqwr0zch.us-east-2.rds.amazonaws.com';
+const host = 'seguisalut.czcghz2fiq3g.us-east-1.rds.amazonaws.com';
 const database = 'SeguiSalut';
 const port = '3306';
 const user = 'sa';
@@ -79,9 +79,6 @@ class PerfilService{
     {
         var self = this;
 
-        // console.log('Edit perfil service')
-        // Get perfil from 
-        var query = 'SELECT * FROM Perfil WHERE Id = \'' + perfil.id + '\';';
         this.connection.connect(function(err)
         {
             if (err)
@@ -98,7 +95,7 @@ class PerfilService{
             var i_query = `INSERT INTO Perfil (UsuariId, Nom, Cognoms, DataNaixement, Pes, Alcada, Genere)`
             i_query += `VALUES (${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`
             console.log(i_query);
-            self.connection.query(i_query, function(error, fields)
+            self.connection.query(i_query, function(error, r)
             {
                 if (error)
                 {
@@ -120,7 +117,7 @@ class PerfilService{
                     var i;
                     for (i = 0; i < perfil.allergies.length; i++) {
                         a_query += `(0, "${perfil.allergies[i].nom}", "${perfil.allergies[i].descripcio}",
-                        ${perfil.usuari_id}),`;
+                        ${r.insertId}),`;
                     }
                     a_query = a_query.substring(0, a_query.length-1) + ';'
                     console.log(a_query);
@@ -152,37 +149,64 @@ class PerfilService{
         });
     }
 
-    update(perfil, callback){
-        var self = this
+    update(perfil, callback)
+    {
+        var self = this;
 
         // console.log('Edit perfil service')
         // Get perfil from 
         var query = 'SELECT * FROM Perfil WHERE Id = \'' + perfil.id + '\';';
-        this.connection.connect(function(err){
-            var response;
-            if (!err)
+        this.connection.connect(function(err)
+        {
+            if (err)
             {
-                self.connection.query(query, function(error, rows, fields)
+                callback(self.error("Connection error."));
+                return;
+            }
+            if (perfil.usuari_id == 0)
+            {
+                callback(self.error("L'Id de l'usuari no pot ser 0."));
+                return;
+            }
+
+            self.connection.query(query, function(error, rows, fields)
+            {
+                if (error)
+                {
+                    callback(self.error("Query error."));
+                    return;
+                }
+                if (rows.length != 1)
+                {
+                    callback(self.error("El perfil modificat no existeix."));
+                    return;
+                }
+            
+                var i_query = `UPDATE Perfil SET Nom="${perfil.nom}", Cognoms="${perfil.cognoms}", 
+                DataNaixement="${perfil.data_n}", Pes=${perfil.pes}, Alcada=${perfil.alcada}, Genere="${perfil.genere}"
+                WHERE Id=${perfil.id}`
+                
+                self.connection.query(i_query, function(error, r)
                 {
                     if (error)
                     {
-                        response = {
-                            serverStatus: 400,
-                            correct: false,
-                            msg: 'error connection'
-                        };     
-                        callback(response);                   
+                        callback(self.error("Query error."));
+                        return;
                     }
-                    if (rows.length > 0)
+                    
+                    var ad_query = `DELETE FROM Alergia WHERE PerfilId = ${perfil.id};`
+                    self.connection.query(ad_query, function(error, dr)
                     {
-                        // Perfil existent, editar registre
-                        var i_query = `UPDATE Perfil
-                        SET Nom = "${perfil.nom}", Cognoms = "${perfil.cognoms}", DataNaixement = "${perfil.data_n}", 
-                        Pes = ${perfil.pes}, Alcada = ${perfil.alcada}, Genere = "${perfil.genere}"
-                        WHERE Id = ${perfil.id};`
+                        if (error)
+                        {
+                            callback(self.error("Query error."));
+                            return;
+                        }
 
-                        var ad_query = `DELETE FROM Perfil WHERE Id = ${perfil.id};`
-                        var ai_query = `INSERT INTO Alergia (
+                        if (perfil.allergies.length > 0)
+                        {
+                            var a_query =
+                            `INSERT INTO Alergia (
                             Id,
                             Nom,
                             Descripcio,
@@ -191,95 +215,39 @@ class PerfilService{
                             VALUES`;
 
                             var i;
-                            for (i = 0; i < cars.length; i++) {
-                                ai_query += `(0, ${perfil.allergies[i].nom}, ${perfil.allergies[i].desc},
-                                ${perfil.usuari_id}),`;
+                            for (i = 0; i < perfil.allergies.length; i++) {
+                                a_query += `(0, "${perfil.allergies[i].nom}", "${perfil.allergies[i].descripcio}",
+                                ${perfil.id}),`;
                             }
-
-                        self.connection.query(ad_query, function(err, rows){
-                            var response;
-                            if (err)
+                            a_query = a_query.substring(0, a_query.length-1) + ';'
+                            console.log(a_query);
+                            self.connection.query(a_query, function(error, fields)
                             {
-                                throw "Query errors"
-                            }
-
-                            self.connection.query(id_query, function(err, rows){
-                                if (err)
+                                console.log("here");
+                                if (error)
                                 {
-                                    throw "Query errors"
+                                    callback(self.error("Query error."));
+                                    return;
                                 }
 
-                                response = { 
+                                var response = { 
                                     serverStatus: 200,
                                     correct: true,
-                                    msg: ''
                                 };
                                 callback(response);
                             });
-
-                        });
-                    }else
-                    {
-                        if (perfil.usuari_id == 0)
-                        {
-                            response = {
-                                serverStatus: 400,
-                                correct: false,
-                                msg: 'La id del usuari no pot ser 0.'
-                            };
-
-                            callback(response); 
                         }
                         else
                         {
-                            var i_query = `INSERT INTO Perfil (UsuariId, Nom, Cognoms, DataNaixement, Pes, Alcada, Genere)`
-                            i_query += `VALUES (${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`
-                            self.connection.query(i_query, function(error, fields){
-                                if (error)
-                                {
-                                    response = {
-                                        serverStatus: 400,
-                                        correct: false,
-                                        msg: 'error connection'
-                                    };     
-                                    callback(response);                   
-                                }
-                                else{
-                                    var a_query
-                                    `INSERT INTO Alergia (
-                                    Id,
-                                    Nom,
-                                    Descripcio,
-                                    PerfilId
-                                    )
-                                    VALUES`;
-
-                                    var i;
-                                    for (i = 0; i < cars.length; i++) {
-                                        a_query += `(0, ${perfil.allergies[i].nom}, ${perfil.allergies[i].desc},
-                                        ${perfil.usuari_id}),`;
-                                    }
-
-                                    response = { 
-                                        serverStatus: 200,
-                                        correct: true,
-                                        msg: ''
-                                    };
-                                    callback(response);
-                                }
-                            })
+                            var response = { 
+                                serverStatus: 200,
+                                correct: true,
+                            };
+                            callback(response);
                         }
-                    }
-                })
-            }else
-            {
-                response = {
-                        serverStatus: 400, 
-                        correct: false,
-                        msg: 'error connection'
-                }; 
-                callback(response);
-            }
+                    });
+                });
+            });
         });
     }
 }

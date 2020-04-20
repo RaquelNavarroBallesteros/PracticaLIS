@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-const host = 'seguisalut.cckgyqwr0zch.us-east-2.rds.amazonaws.com';
+const host = 'seguisalut.czcghz2fiq3g.us-east-1.rds.amazonaws.com';
 const database = 'SeguiSalut';
 const port = '3306';
 const user = 'sa';

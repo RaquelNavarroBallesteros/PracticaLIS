@@ -13,7 +13,7 @@ import { async } from '@angular/core/testing';
 })
 export class PerfilPage implements OnInit {
   public perfil = {
-    id: 1,
+    id: 0,
     usuari_id: 1,
     nom: '',
     cognoms: '',
@@ -70,6 +70,8 @@ export class PerfilPage implements OnInit {
       this.perfil.pes = res.data['Pes'];
       this.perfil.alcada = res.data['Alcada']
       this.perfil.genere = res.data['Genere']
+      this.perfil.d_organs = res.data['Donant']
+      this.perfil.g_sanguini = res.data['GrupS']
 
         for(var i=0; i<res.data['Allergies'].length; i++)
         {
@@ -121,14 +123,13 @@ export class PerfilPage implements OnInit {
       this.perfilService.update(this.perfil).subscribe((res: PerfilGetResponse)=>{
         if (res.correct)
         {
-          this.perfil.allergies[0]
+          alert("Les dades s'han guardat correctament.")
           // TODO: Show msg
-          console.log("Data was saved")
         }
         else
         {
           // TODO: Show msg
-          console.log("Error:" + res.msg)
+          alert("Error:" + res.msg)
         }
       });
     }
