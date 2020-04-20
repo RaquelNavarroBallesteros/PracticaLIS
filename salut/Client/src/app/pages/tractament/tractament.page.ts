@@ -11,7 +11,7 @@ import { async } from '@angular/core/testing';
 export class TractamentPage implements OnInit {
 
   public tractament = {
-    id: 1,
+    id: 0,
     perfil_id: 1,
     nom: '',
     data_i: '',
