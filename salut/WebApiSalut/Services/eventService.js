@@ -64,7 +64,7 @@ class EventService{
 
         
         var query = 'SELECT * FROM Visita WHERE PerfilId = \'' + 2 + '\';';
-        console.log(query);
+        console.log("query: ", query);
         this.connection.connect(function(err){
             console.log("Get connected")
             var response;
@@ -73,6 +73,7 @@ class EventService{
                 console.log("Get connected no error")
                 self.connection.query(query, function(error, rows, fields){
                     //self.connection.end()
+                    console.log("ESTOS SON TODOS LSO RESULTADOS CON PERFIL ID =",String(id));
                     console.log(rows);
                     if (error)
                     {
@@ -100,7 +101,7 @@ class EventService{
                         response = {
                             serverStatus: 200,
                             correcte: true,
-                            data: rows[0],
+                            data: rows,
                             msg: ''
                         };     
                         callback(response);  

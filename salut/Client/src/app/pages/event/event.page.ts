@@ -9,26 +9,52 @@ import { EventService } from 'src/app/services/event.service';
 })
 export class EventPage implements OnInit {
   public event = {
-    nom: '',
     data: '',
     ubicacio: '',
     tipus: '',
     tractament:''
   };
+  
+  public array = [];
 
-  constructor( public eventService: EventService) {
-  }
+  constructor( public eventService: EventService) {}
 
   ngOnInit() {
   }
 
-  
-
   listEvents(){
-    console.log("doing list events");
-    this.eventService.listEvents(this.event).subscribe((res: HttpResponse<any>)=>{
-      console.log("Resp:");
-      console.log(res);
+    this.eventService.listEvents(2).subscribe((res: ListEventResponse)=>{
+      console.log("event.page.ts -- listEvents start")
+      console.log(res.data)
+      console.log("show events", this.event);
+      console.log(res.data)
+      this.array = new Array<EventItems>();
+      
+      for(var i in res.data){
+        var eventItems = new EventItems();
+        eventItems.data = res.data[i]['DataVisita'];
+        eventItems.ubicacio = res.data[i]['Ubicacio'];
+        eventItems.descripcio = res.data[i]['Descripcio'];
+        eventItems.tractament = res.data[i]['Tractament'];
+        this.array[i] = eventItems;
+      }
+      console.log(this.array);
     });
   }
+}
+
+export class EventItems {
+    data: string;
+    ubicacio: string;
+    descripcio: string;
+    tractament: number;
+}
+
+export class ListEventResponse {
+  constructor(
+      public serverStatus: number,
+      public correct: boolean,
+      public data: object,
+      public msg: string,
+  ) {}
 }

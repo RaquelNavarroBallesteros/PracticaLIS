@@ -15,4 +15,14 @@
     Mostrar events    
     </ion-button>
   </form> 
+
+  <ion-list>
+    <button ion-item *ngFor = "let event of array">
+     Data: {{ event.data }}
+     Ubicacio: {{ event.ubicacio }}
+     Descripcio: {{ event.descripcio }}
+     Tractament: {{ event.tractament }}
+    </button>
+  </ion-list>
+
 </ion-content>
