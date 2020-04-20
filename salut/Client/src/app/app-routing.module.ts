@@ -24,14 +24,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/inici/inici.module').then( m => m.IniciPageModule)
   },
   {
-    path: 'recepta',
-    loadChildren: () => import('./pages/recepta/recepta.module').then( m => m.ReceptaPageModule)
-  },
-  {
-    path: 'recepta',
-    loadChildren: () => import('./pages/recepta/recepta.module').then( m => m.ReceptaPageModule)
-  },
-  {
     path: 'tractament',
     loadChildren: () => import('./pages/tractament/tractament.module').then( m => m.TractamentPageModule)
   },
