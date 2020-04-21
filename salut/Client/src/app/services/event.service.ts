@@ -8,7 +8,7 @@ import { retry, catchError } from 'rxjs/operators';
 })
 export class EventService {
   public _aplicationURL = 'http://localhost:3000/api/Event'
-       // _addEventURL = '/addNewEvent';
+        _deleteEventURL = '/deleteEvent';
         _listEventsURL = '/listEvents';
   constructor(private http: HttpClient) { }
 
@@ -25,15 +25,12 @@ export class EventService {
     return throwError(errorMessage);
   }
 
-/*
-  listEvents(req){
-    console.log(req)
-    console.log("list events")
-    console.log(this._aplicationURL + this._listEventsURL);
-    return this.http.post(this._aplicationURL + this._listEventsURL, req).pipe(catchError(this.handleError));
-  }
-  */
   listEvents(perfilId): Observable<object>{
     return this.http.post(this._aplicationURL + this._listEventsURL, {id: perfilId}).pipe(catchError(this.handleError));
+  }
+
+  eliminarEvent(eventId){
+    console.log("eliminar event --- event.service.ts");
+    return this.http.post(this._aplicationURL + this._deleteEventURL, {id: eventId}).pipe(catchError(this.handleError));
   }
 }

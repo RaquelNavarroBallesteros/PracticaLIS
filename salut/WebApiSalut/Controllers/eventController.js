@@ -9,10 +9,17 @@ var service = require('../Services/eventService.js');
         res.status(response.serverStatus).send(response)
     });
 }*/
-
+function deleteEvent(req, res){
+    console.log("deleteEVENT EN CONTROLLER");
+    console.log(req.body);
+    eventService = new service();
+    eventService.deleteEvent(req.body, function (response){
+        console.log(response)
+        res.status(response.serverStatus).send(response)
+    });
+}
 
 function listEvents (req, res) {
-    console.log("listEvent");
     eventService = new service();
     eventService.listEvent(2, function (response){
         //req.body en vez de 2
@@ -27,6 +34,7 @@ function warmUp(req,res){
 
 //router.post('/addEvent', addEvent)
 router.post('/listEvents', listEvents)
+router.post('/deleteEvent', deleteEvent)
 router.get('/',warmUp)
 
 module.exports = router

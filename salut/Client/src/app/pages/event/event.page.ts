@@ -36,11 +36,23 @@ export class EventPage implements OnInit {
         eventItems.ubicacio = res.data[i]['Ubicacio'];
         eventItems.descripcio = res.data[i]['Descripcio'];
         eventItems.tractament = res.data[i]['Tractament'];
+        eventItems.eventId = res.data[i]['Id'];
         this.array[i] = eventItems;
       }
       console.log(this.array);
     });
   }
+
+
+  eliminarEvent(eventId){
+    console.log("eliminar event -- event page ts");
+    console.log(eventId);
+    this.eventService.eliminarEvent(eventId).subscribe((res: HttpResponse<any>)=>{
+      console.log("Response of elimiar event --- event page .ts:");
+      console.log(res);
+    });
+  }
+
 }
 
 export class EventItems {
@@ -48,6 +60,7 @@ export class EventItems {
     ubicacio: string;
     descripcio: string;
     tractament: number;
+    eventId: number;
 }
 
 export class ListEventResponse {
