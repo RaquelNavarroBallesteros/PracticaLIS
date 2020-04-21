@@ -14,6 +14,7 @@ export class ContactesPage implements OnInit {
   public contacte = {
     id: 1,
     nom: '',
+    numero: '',
   }
 
   constructor(public alertCtrl: AlertController) { }
