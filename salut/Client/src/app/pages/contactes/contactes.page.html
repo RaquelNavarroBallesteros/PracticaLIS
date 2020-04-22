@@ -12,7 +12,7 @@
       <ion-item *ngFor="let todo of contactes; let i = index">
         {{todo.nom}} - {{todo.numero}}
         <div class="item-note" slot="end">
-          <ion-button ion-button clear (click)="updateContacte(i)"> <ion-icon name="call-outline"></ion-icon> </ion-button>
+          <ion-button ion-button clear (click)="trucada(i)"> <ion-icon name="call-outline"></ion-icon> </ion-button>
           <ion-button ion-button clear (click)="deleteContacte(i)"> <ion-icon name="trash"></ion-icon> </ion-button>
         </div>
       </ion-item>

@@ -46,7 +46,11 @@ const routes: Routes = [
   {
     path: 'contactes',
     loadChildren: () => import('./pages/contactes/contactes.module').then( m => m.ContactesPageModule)
+  },  {
+    path: 'llista-tractaments',
+    loadChildren: () => import('./pages/llista-tractaments/llista-tractaments.module').then( m => m.LlistaTractamentsPageModule)
   }
+
 ];
 
 @NgModule({
