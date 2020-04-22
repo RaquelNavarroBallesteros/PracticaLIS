@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-llista-tractaments',
@@ -7,9 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LlistaTractamentsPage implements OnInit {
 
-  constructor() { }
+  
+
+  constructor(public alertCtrl: AlertController) { }
 
   ngOnInit() {
   }
+
+  //public nomTractament = {nom:'', data: ''};
+  //llistaTractaments = [];
+  llistaTractaments = [{id:0, nom:"exemple1", data_i:"1/1/1", data_f:"2/2/2"}]; // No borrar
+
+
+  deleteTractament(index)
+  {
+    this.llistaTractaments.splice(index, 1);
+  }
+
+   updateTractament(index) {}
 
 }
