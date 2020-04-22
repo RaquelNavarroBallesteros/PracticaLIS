@@ -28,5 +28,9 @@ export class LlistaTractamentsPage implements OnInit {
   }
 
    updateTractament(index) {}
-
+   
+   enviar()
+   {
+ 
+   }
 }

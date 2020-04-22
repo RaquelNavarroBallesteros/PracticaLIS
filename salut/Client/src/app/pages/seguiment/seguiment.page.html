@@ -1,9 +1,55 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>seguiment</ion-title>
+    <ion-title>Seguiment</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <form #formulariContactes="ngForm" (ngSubmit)="enviar()" novalidate>
+  
+    <ion-text>
+      <h6>Insereix el teu pes aquí:</h6>
+    </ion-text>
+     <ion-item>
+       <ion-input type="number" [(ngModel)]="nouPes.valor" [ngModelOptions]="{standalone: true}" placeholder="Pes"> </ion-input>
+       <div class="item-note"  item-end>
+         <ion-button ion-button (click) = "afegirPes()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
+       </div> 
+     </ion-item> 
+    
+     <ion-list>
+       <ion-item *ngFor="let todo of pess; let i = index">
+         {{todo.valor}}
+         <div class="item-note" slot="end">
+           <ion-button ion-button clear (click)="updatePes(i)"> <ion-icon name="pencil-outline"></ion-icon> </ion-button>
+           <ion-button ion-button clear (click)="deletePes(i)"> <ion-icon name="trash"></ion-icon> </ion-button>
+         </div>
+       </ion-item>
+     </ion-list>
+
+     <ion-text>
+      <h6>Insereix la teva alçada aquí:</h6>
+    </ion-text>
+     <ion-item>
+      <ion-input type="number" [(ngModel)]="novaAlcada.valor" [ngModelOptions]="{standalone: true}" placeholder="Alçada"> </ion-input>  
+      <div class="item-note"  item-end>
+        <ion-button ion-button (click) = "afegirAlcada()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
+      </div> 
+    </ion-item> 
+   
+    <ion-list>
+      <ion-item *ngFor="let todo of alcadaa; let i = index">
+        {{todo.valor}}
+        <div class="item-note" slot="end">
+          <ion-button ion-button clear (click)="updateAlcada(i)"> <ion-icon name="pencil-outline"></ion-icon> </ion-button>
+          <ion-button ion-button clear (click)="deleteAlcada(i)"> <ion-icon name="trash"></ion-icon> </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+
+   <ion-button ion-button expand="full" color="primary" type="submit" block>Seguiment<ion-icon name="search-outline"></ion-icon></ion-button> 
+    
+  </form>
 
 </ion-content>
