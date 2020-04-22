@@ -11,8 +11,8 @@ import { async } from '@angular/core/testing';
 export class TractamentPage implements OnInit {
 
   public tractament = {
-    id: 1,
-    perfil_id: 1,
+    id: 2,
+    perfil_id: 16,
     nom: '',
     data_i: '',
     data_f: '',
@@ -120,7 +120,11 @@ export class TractamentPage implements OnInit {
     console.log("Tractament add");
     this.tractamentService.add_request(this.tractament).subscribe((res: TractamentSetResponse)=>{
       if (res.correcte)
-      alert("Les dades s'han guardar correctament.");
+      {
+        alert("Les dades s'han guardar correctament.");
+        this.tractament.id = res.id;
+      }
+      
     else
       alert("Error: " + res.msg);
     });
@@ -164,5 +168,6 @@ export class TractamentSetResponse {
       public serverStatus: number,
       public correcte: boolean,
       public msg: string,
+      public id: number
   ) {}
 }

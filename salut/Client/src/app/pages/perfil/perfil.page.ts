@@ -13,7 +13,7 @@ import { async } from '@angular/core/testing';
 })
 export class PerfilPage implements OnInit {
   public perfil = {
-    id: 0,
+    id: 16,
     usuari_id: 1,
     nom: '',
     cognoms: '',
@@ -22,7 +22,7 @@ export class PerfilPage implements OnInit {
     alcada: null,
     pes: null,
     g_sanguini: null,
-    d_organs: 0,
+    d_organs: '',
     allergies: [],
   }
   public nomAllergia = {nom:'', descripcio: ''};
@@ -62,7 +62,7 @@ export class PerfilPage implements OnInit {
   ionViewWillEnter(){
     if (this.perfil.id != 0)
     {
-      this.perfilService.obtenir(1).subscribe((res: PerfilSetResponse)=>{
+      this.perfilService.obtenir(this.perfil.id).subscribe((res: PerfilSetResponse)=>{
       console.log(res.data)
       this.perfil.nom = res.data['Nom'];
       this.perfil.cognoms = res.data['Cognoms'];
@@ -70,7 +70,7 @@ export class PerfilPage implements OnInit {
       this.perfil.pes = res.data['Pes'];
       this.perfil.alcada = res.data['Alcada']
       this.perfil.genere = res.data['Genere']
-      this.perfil.d_organs = res.data['Donant']
+      this.perfil.d_organs = String(res.data['Donant'])
       this.perfil.g_sanguini = res.data['GrupS']
 
         for(var i=0; i<res.data['Allergies'].length; i++)
@@ -80,6 +80,7 @@ export class PerfilPage implements OnInit {
         }
 
         console.log(this.allergies);
+        console.log(this.perfil);
       });
   }
   }
@@ -106,6 +107,7 @@ export class PerfilPage implements OnInit {
       this.perfilService.add(this.perfil).subscribe((res: PerfilGetResponse)=>{
         if (res.correct)
         {
+          this.perfil.id = res.id;
           alert("Les dades s'han guardat correctament.")
           // TODO: Show msg
           console.log("Data was saved")
@@ -152,6 +154,7 @@ export class PerfilGetResponse {
       public serverStatus: number,
       public correct: boolean,
       public msg: string,
+      public id: number
   ) {}
 }
 
