@@ -5,6 +5,7 @@ import {Storage} from '@ionic/storage';
 
 
 const STORAGE_KEY = 'login';
+const STORAGE_KEY_P = 'perfil';
 
 @Component({
   selector: 'app-login',

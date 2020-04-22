@@ -46,8 +46,8 @@ export class ContactesPage implements OnInit {
           this.nouContacte = {id: 0, nom:'', numero:''};
           alert("El nou contacte s'ha guardat correctament.");
         }
-      else
-        alert("Error: " + res.msg);
+        else
+          alert("Error: " + res.msg);
       });  
     } 
   }

@@ -7,16 +7,18 @@ import {APIUrl} from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ContactesService {
+export class SeguimentService {
 
-  public _aplicationURL = APIUrl + '/Contacte';
-  _getallURL = '/getall';
-  _addURL = '/add';
-  _delURL = '/del';
+  public _aplicationURL = APIUrl + '/Seguiment';
+  _pes_getallURL = '/getallpes';
+  _pes_addURL = '/addpes';  
+  _alcada_getallURL = '/getallalcada';
+  _alcada_addURL = '/addalcada';
 
   constructor(private http: HttpClient) { }
 
-  handleError(error: HttpErrorResponse){
+  handleError(error: HttpErrorResponse)
+  {
     console.log(error);
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
@@ -30,18 +32,20 @@ export class ContactesService {
     window.alert(errorMessage);
     return throwError(errorMessage);
   }
-  add_request(c) : Observable<object>
+  addpes_request(p)
   {
-    return this.http.post(this._aplicationURL + this._addURL, c).pipe(catchError(this.handleError));
+    return this.http.post(this._aplicationURL + this._pes_addURL, p).pipe(catchError(this.handleError));
   }
-
-  del_request(c_id) : Observable<object>
+  getallpes_request(p_id)
   {
-    return this.http.post(this._aplicationURL + this._delURL, {id: c_id}).pipe(catchError(this.handleError));
+    return this.http.post(this._aplicationURL + this._pes_getallURL, {id: p_id}).pipe(catchError(this.handleError));
   }
-
-  getall_request(p_id) : Observable<object>
+  addalcada_request(a)
   {
-    return this.http.post(this._aplicationURL + this._getallURL, {id: p_id}).pipe(catchError(this.handleError));
+    return this.http.post(this._aplicationURL + this._alcada_addURL, a).pipe(catchError(this.handleError));
+  }
+  getallalcada_request(p_id)
+  {
+    return this.http.post(this._aplicationURL + this._alcada_getallURL, {id: p_id}).pipe(catchError(this.handleError));
   }
 }
