@@ -61,12 +61,15 @@ class ContacteService
                 return;
             }
                 
-            query = `INSERT INTO Contacte VALUES
-            (${0},${c.nom},"${c.numero}","${c.perfil_id}");`
+            var query = `INSERT INTO Contacte VALUES
+            ("${c.nom}","${c.numero}",${c.perfil_id}, ${0});`
+
+            console.log(query);
 
             self.connection.query(query, function(qerr, r){
                 if (qerr) 
                 {
+                    console.log(qerr);
                     callback(self.error("Query error."));
                     return;
                 }

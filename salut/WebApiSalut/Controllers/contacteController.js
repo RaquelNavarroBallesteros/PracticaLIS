@@ -8,7 +8,7 @@ function warmUp(req,res){
 function add (req, res) {
     contacteService = new service()
     console.log("Contacte add call")
-    tractamentService.add(req.body, function(response){
+    contacteService.add(req.body, function(response){
         console.log("Contacte add resp")
         console.log(response);
         res.status(response.serverStatus).send(response);
@@ -18,7 +18,7 @@ function add (req, res) {
 function del (req, res) {
     contacteService = new service()
     console.log("Contacte delete call")
-    tractamentService.del(req.body, function(response){
+    contacteService.del(req.body, function(response){
         console.log("Contacte update resp")
         console.log(response);
         res.status(response.serverStatus).send(response);
@@ -29,7 +29,7 @@ function getall (req, res)
 {
     contacteService = new service()
     console.log("Contacte getall call")
-    tractamentService.get_all(req.body, function(response){
+    contacteService.get_all(req.body, function(response){
         console.log("Contacte get all resp");
         console.log(response);
         res.status(response.serverStatus).send(response);
