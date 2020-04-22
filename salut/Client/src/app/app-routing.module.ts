@@ -49,6 +49,10 @@ const routes: Routes = [
   },  {
     path: 'llista-tractaments',
     loadChildren: () => import('./pages/llista-tractaments/llista-tractaments.module').then( m => m.LlistaTractamentsPageModule)
+  },
+  {
+    path: 'seguiment',
+    loadChildren: () => import('./pages/seguiment/seguiment.module').then( m => m.SeguimentPageModule)
   }
 
 ];
