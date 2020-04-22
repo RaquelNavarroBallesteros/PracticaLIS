@@ -40,7 +40,7 @@ function getall (req, res)
 {
     tractamentService = new service()
     console.log("Tractament get all call")
-    tractamentService.get(req.body, function(response){
+    tractamentService.get_all(req.body, function(response){
         console.log("Tractament get all resp");
         console.log(response);
         res.status(response.serverStatus).send(response);

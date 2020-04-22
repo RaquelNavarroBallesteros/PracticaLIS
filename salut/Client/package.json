@@ -94,7 +94,8 @@
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-document-viewer": {},
       "cordova-plugin-file-opener2": {},
-      "cordova-sqlite-storage": {}
+      "cordova-sqlite-storage": {},
+      "mx.ferreyra.callnumber": {}
     },
     "platforms": [
       "android"

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, NumericValueAccessor } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { ContactesService } from 'src/app/services/contactes.service';
 import { FormsModule } from '@angular/forms';
+import { TractamentGetResponse } from '../tractament/tractament.page';
 // import { HttpModule } from '@angular/http';
 
 @Component({
@@ -14,28 +16,40 @@ import { FormsModule } from '@angular/forms';
 
 export class ContactesPage implements OnInit {
 
-  public contacte = {
-    id: 1,
-    nom: '',
-    numero: '',
-  }
+  public perfilId = 16
 
-  constructor(public alertCtrl: AlertController, private callNumber: CallNumber) { }
+  constructor(public contactesService: ContactesService, public alertCtrl: AlertController, private callNumber: CallNumber) { }
 
-  public nomContacte = {nom:'', numero:''};
+  public nouContacte = {id: 0, nom:'', numero:''};
   contactes = [];
 
   afegirContacte()
   {
-      let contacte = this.nomContacte;
-      this.contactes.push(contacte);
-      this.nomContacte = {nom:'', numero:''};
-   
-  }
+    let contacte = this.nouContacte;
+    if (contacte.nom == "" || contacte.numero == "")
+    {
+      alert("Indica el nom i el número.");
+    }
+    else
+    {
+      var contacte_db = {id: this.nouContacte.id, 
+        nom: this.nouContacte.nom,
+        numero: this.nouContacte.numero,
+        perfil_id: this.perfilId
+      };
 
-  enviar()
-  {
-
+      this.contactesService.add_request(contacte_db).subscribe((res: ContactesSetResponse)=>{
+        if (res.correcte)
+        {
+          contacte.id = res.id;
+          this.contactes.push(contacte);
+          this.nouContacte = {id: 0, nom:'', numero:''};
+          alert("El nou contacte s'ha guardat correctament.");
+        }
+      else
+        alert("Error: " + res.msg);
+      });  
+    } 
   }
 
   trucada(index)
@@ -48,29 +62,60 @@ export class ContactesPage implements OnInit {
   
   deleteContacte(index)
   {
-    this.contactes.splice(index, 1);
+    this.contactesService.del_request(this.contactes[index].id).subscribe((res: ContactesDelResponse)=>{
+      if (res.correcte)
+      {
+        this.contactes.splice(index, 1);
+        alert("El contacte s'ha eliminat correctament.");
+      }
+    else
+      alert("Error: " + res.msg);
+    });   
   }
 
-  async updateContacte(index) {
-    const alert = await this.alertCtrl.create({
-        message: 'Editar Contacte',
-        inputs: [{ name: 'editNom', value: this.contactes[index]["nom"], placeholder: 'Nom' }, { name: 'editNumero', value: this.contactes[index]["numero"], placeholder: 'Número de Telèfon' }],
-        buttons: [{ text: 'Cancel', role: 'cancel' },
-                  { text: 'Update', handler: data => {
-                      this.contactes[index]["nom"] = data.editNom; 
-                      this.contactes[index]["descripcio"] = data.editDescripcio; }
-                  }
-                 ]
+  ionViewWillEnter()
+  {
+    this.contactesService.getall_request(this.perfilId).subscribe((res: ContactesGetResponse)=>{
+
+      for(var i=0; i<res.data.length; i++)
+      {
+        this.contactes.push({
+          id: res.data[i]['Id'],
+          nom: res.data[i]['Nom'],
+          numero: res.data[i]['Numero']});
+      }
+
+      console.log(this.contactes);
     });
-  await alert.present();
-}
-
-
-
+  }
 
   ngOnInit() {
   }
 
 }
 
+export class ContactesGetResponse {
+  constructor(
+      public serverStatus: number,
+      public correcte: boolean,
+      public data: Array<object>,
+      public msg: string,
+  ) {}
+}
 
+export class ContactesSetResponse {
+  constructor(
+      public serverStatus: number,
+      public correcte: boolean,
+      public msg: string,
+      public id: number
+  ) {}
+}
+
+export class ContactesDelResponse {
+  constructor(
+      public serverStatus: number,
+      public correcte: boolean,
+      public msg: string,
+  ) {}
+}

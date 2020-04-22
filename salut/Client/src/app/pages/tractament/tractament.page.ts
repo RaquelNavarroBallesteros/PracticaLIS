@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TractamentService } from 'src/app/services/tractament.service';
 import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tractament',
@@ -11,7 +12,7 @@ import { async } from '@angular/core/testing';
 export class TractamentPage implements OnInit {
 
   public tractament = {
-    id: 2,
+    id: null,
     perfil_id: 16,
     nom: '',
     data_i: '',
@@ -19,7 +20,13 @@ export class TractamentPage implements OnInit {
     medicaments: []
   }
 
-  constructor(public tractamentService: TractamentService, public alertCtrl: AlertController) {}
+  constructor(private route: ActivatedRoute, public tractamentService: TractamentService, public alertCtrl: AlertController) 
+  {
+    this.route.params.subscribe(params => {
+      console.log(params);
+      this.tractament.id = params['id']; 
+    });
+  }
 
   public auxMedicament = {id: 0, idM: null, periode:null};
   public medicaments_query = {};
