@@ -44,12 +44,12 @@ export class SeguimentPage implements OnInit {
       this.nouPes = {id: 0, data: null, valor: null};
   }
   
-  deletePes(index)
+  /*deletePes(index)
   {
     this.pess.splice(index, 1);
-  }
+  }*/
 
-  async updatePes(index) {
+  /*async updatePes(index) {
     const alert = await this.alertCtrl.create({
         message: 'Editar Contacte',
         inputs: [{ name: 'editAlcada', value: this.pess[index]["pes"], placeholder: 'Pes' }], 
@@ -62,7 +62,7 @@ export class SeguimentPage implements OnInit {
     });
   await alert.present();
 }
-
+*/
 afegirAlcada()
 {
     let novaAlcada = this.novaAlcada;
@@ -70,12 +70,12 @@ afegirAlcada()
     this.novaAlcada = {id: 0, data: null, valor: null};
 }
 
-deleteAlcada(index)
+/*deleteAlcada(index)
 {
   this.pess.splice(index, 1);
-}
+}*/
 
-async updateAlcada(index) {
+/*async updateAlcada(index) {
   const alert = await this.alertCtrl.create({
       message: 'Editar Contacte',
       inputs: [{ name: 'editAlcada', value: this.alcadaa[index]["Alcada"], placeholder: 'Alçada' }], 
@@ -87,6 +87,6 @@ async updateAlcada(index) {
                ]
   });
 await alert.present();
-}
+}*/
 
 }
