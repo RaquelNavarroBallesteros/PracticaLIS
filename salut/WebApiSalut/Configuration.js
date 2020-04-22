@@ -2,7 +2,7 @@ class Configuration{
     constructor(){}
     getDBConnection(){
         return{
-            host : 'seguisalut.cckgyqwr0zch.us-east-2.rds.amazonaws.com',
+            host : 'seguisalut.czcghz2fiq3g.us-east-1.rds.amazonaws.com',
             database : 'SeguiSalut',
             port : '3306',
             user : 'sa',
