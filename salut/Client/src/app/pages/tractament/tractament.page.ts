@@ -3,6 +3,9 @@ import { TractamentService } from 'src/app/services/tractament.service';
 import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import {Storage} from '@ionic/storage';
+
+const STORAGE_KEY = 'login';
 
 @Component({
   selector: 'app-tractament',
@@ -20,12 +23,18 @@ export class TractamentPage implements OnInit {
     medicaments: []
   }
 
-  constructor(private route: ActivatedRoute, public tractamentService: TractamentService, public alertCtrl: AlertController) 
+  constructor(private storage: Storage, private route: ActivatedRoute, public tractamentService: TractamentService, public alertCtrl: AlertController) 
   {
     this.route.params.subscribe(params => {
       console.log(params);
       this.tractament.id = params['id']; 
     });
+
+    /*
+    this.storage.get(STORAGE_KEY).then(information => {
+      this.tractament.perfil_id = information.idPerfil;
+    });
+    */
   }
 
   public auxMedicament = {id: 0, idM: null, periode:null};

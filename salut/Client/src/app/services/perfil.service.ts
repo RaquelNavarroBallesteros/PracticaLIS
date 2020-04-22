@@ -46,4 +46,9 @@ export class PerfilService {
     return this.http.post(this._aplicationURL + this._getURL, {id: p_id}).pipe(catchError(this.handleError));
   }
 
+  getall(u_id)
+  {
+    return this.http.post(this._aplicationURL + this._getURL, {id: u_id}).pipe(catchError(this.handleError));
+  }
+
 }

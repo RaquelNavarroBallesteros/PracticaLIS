@@ -5,6 +5,16 @@ function warmUp(req,res){
     res.send("Perfil api works");
 }
 
+function getall(req, res)
+{
+    console.log("getall call");
+    perfilService = new service()
+    perfilService.get_all(req.body, function(response){
+        // console.log(response);
+        res.status(response.serverStatus).send(response);
+    });
+}
+
 function add (req, res) {
     perfilService = new service()
     console.log("Perfil add call")

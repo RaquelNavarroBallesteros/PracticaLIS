@@ -1,7 +1,6 @@
 var mysql = require('mysql');
 var configuration = require('../Configuration.js');
 
-
 class PerfilService{
 
     constructor(){
@@ -23,6 +22,37 @@ class PerfilService{
             correcte: false,
             msg: msg
         };     
+    }
+
+    get_all(u_id, callback)
+    {
+        var self = this
+
+        var query = 'SELECT * FROM Perfil WHERE UsuariId = \'' + u_id.id + '\';';
+        this.connection.connect(function(err){
+            if (err)
+            {
+                callback(self.error("Connection error."));
+                return;
+            }
+
+            self.connection.query(query, function(error, rows, fields){
+                //self.connection.end()
+                if (error)
+                {
+                    callback(self.error("Query error."));
+                    return;
+                }
+
+                var response = {
+                    serverStatus: 200,
+                    correcte: true,
+                    data: rows,
+                };    
+
+                callback(response);
+            });
+        });
     }
     
     get_by_id(id, callback)

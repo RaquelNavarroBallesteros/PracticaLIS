@@ -4,6 +4,9 @@ import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import { TractamentService } from 'src/app/services/tractament.service';
 import {Router} from '@angular/router';
+import {Storage} from '@ionic/storage';
+
+const STORAGE_KEY = 'login';
 
 @Component({
   selector: 'app-llista-tractaments',
@@ -12,13 +15,20 @@ import {Router} from '@angular/router';
 })
 export class LlistaTractamentsPage implements OnInit {
 
-  constructor(private router: Router, public tractamentService: TractamentService, public alertCtrl: AlertController) { }
+  perfil_id = 16;
+  llistaTractaments = [];
+
+  constructor(private storage: Storage, private router: Router, public tractamentService: TractamentService, public alertCtrl: AlertController) 
+  { 
+    /*
+    this.storage.get(STORAGE_KEY).then(information => {
+      this.perfil_id = information.idPerfil;
+    });
+    */
+  }
 
   ngOnInit() {
   }
-
-  perfil_id = 16;
-  llistaTractaments = [];
 
   ionViewWillEnter()
   {
