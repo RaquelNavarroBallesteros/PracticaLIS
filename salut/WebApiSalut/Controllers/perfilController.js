@@ -48,5 +48,6 @@ router.get('/', warmUp)
 router.post('/add', add)
 router.post('/update', update)
 router.post('/get', get)
+router.post('/get', getall)
 
 module.exports = router

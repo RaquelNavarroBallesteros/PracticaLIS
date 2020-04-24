@@ -12,6 +12,7 @@ export class PerfilService {
         _addURL = '/add';
         _updateURL = '/update';
         _getURL = '/get';
+        _getallURL = '/getall';
 
   constructor(private http: HttpClient) { }
 
