@@ -12,6 +12,7 @@ export class PerfilService {
         _addURL = '/add';
         _updateURL = '/update';
         _getURL = '/get';
+        _getallURL = '/getall';
 
   constructor(private http: HttpClient) { }
 
@@ -44,6 +45,11 @@ export class PerfilService {
 
   obtenir(p_id) : Observable<object>{
     return this.http.post(this._aplicationURL + this._getURL, {id: p_id}).pipe(catchError(this.handleError));
+  }
+
+  getall(u_id)
+  {
+    return this.http.post(this._aplicationURL + this._getURL, {id: u_id}).pipe(catchError(this.handleError));
   }
 
 }

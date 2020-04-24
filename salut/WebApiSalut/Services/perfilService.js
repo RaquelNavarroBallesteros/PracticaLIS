@@ -1,7 +1,6 @@
 var mysql = require('mysql');
 var configuration = require('../Configuration.js');
 
-
 class PerfilService{
 
     constructor(){
@@ -23,6 +22,37 @@ class PerfilService{
             correcte: false,
             msg: msg
         };     
+    }
+
+    get_all(u_id, callback)
+    {
+        var self = this
+
+        var query = 'SELECT * FROM Perfil WHERE UsuariId = \'' + u_id.id + '\';';
+        this.connection.connect(function(err){
+            if (err)
+            {
+                callback(self.error("Connection error."));
+                return;
+            }
+
+            self.connection.query(query, function(error, rows, fields){
+                //self.connection.end()
+                if (error)
+                {
+                    callback(self.error("Query error."));
+                    return;
+                }
+
+                var response = {
+                    serverStatus: 200,
+                    correcte: true,
+                    data: rows,
+                };    
+
+                callback(response);
+            });
+        });
     }
     
     get_by_id(id, callback)
@@ -91,16 +121,19 @@ class PerfilService{
                 return;
             }
             
-            var i_query = `INSERT INTO Perfil (UsuariId, Nom, Cognoms, DataNaixement, Pes, Alcada, Genere)`
-            i_query += `VALUES (${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}");`
+            var i_query = `INSERT INTO Perfil `
+            i_query += `VALUES (0, ${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}", "${perfil.g_sanguini}", ${perfil.d_organs});`
             console.log(i_query);
             self.connection.query(i_query, function(error, r)
             {
                 if (error)
                 {
+                    console.log(error);
                     callback(self.error("Query error."));
                     return;
                 }
+
+                var n_id = r.insertId;
                 
                 if (perfil.allergies.length > 0)
                 {
@@ -122,7 +155,6 @@ class PerfilService{
                     console.log(a_query);
                     self.connection.query(a_query, function(error, fields)
                     {
-                        console.log("here");
                         if (error)
                         {
                             callback(self.error("Query error."));
@@ -132,6 +164,7 @@ class PerfilService{
                         var response = { 
                             serverStatus: 200,
                             correct: true,
+                            id: n_id
                         };
                         callback(response);
                     });
@@ -141,6 +174,7 @@ class PerfilService{
                     var response = { 
                         serverStatus: 200,
                         correct: true,
+                        id: n_id
                     };
                     callback(response);
                 }
@@ -182,7 +216,8 @@ class PerfilService{
                 }
             
                 var i_query = `UPDATE Perfil SET Nom="${perfil.nom}", Cognoms="${perfil.cognoms}", 
-                DataNaixement="${perfil.data_n}", Pes=${perfil.pes}, Alcada=${perfil.alcada}, Genere="${perfil.genere}"
+                DataNaixement="${perfil.data_n}", Pes=${perfil.pes}, Alcada=${perfil.alcada}, Genere="${perfil.genere}", 
+                GrupS="${perfil.g_sanguini}", Donant=${perfil.d_organs} 
                 WHERE Id=${perfil.id}`
                 
                 self.connection.query(i_query, function(error, r)

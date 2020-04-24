@@ -7,15 +7,12 @@ import {APIUrl} from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class TractamentService {
+export class ContactesService {
 
-  public _aplicationURL = APIUrl + '/Tractament';
-  public _m_aplicationURL = APIUrl + '/Medicament';
-  _m_getallURL = '/getall';
-  _addURL = '/add';
-  _getURL = '/get';
-  _updateURL = '/update';
+  public _aplicationURL = APIUrl + '/Contacte';
   _getallURL = '/getall';
+  _addURL = '/add';
+  _delURL = '/del';
 
   constructor(private http: HttpClient) { }
 
@@ -33,27 +30,18 @@ export class TractamentService {
     window.alert(errorMessage);
     return throwError(errorMessage);
   }
-
-  add_request(tractament) : Observable<object>
+  add_request(c) : Observable<object>
   {
-    return this.http.post(this._aplicationURL + this._addURL, tractament).pipe(catchError(this.handleError));
+    return this.http.post(this._aplicationURL + this._addURL, c).pipe(catchError(this.handleError));
   }
 
-  update_request(tractament) : Observable<object>
+  del_request(c_id) : Observable<object>
   {
-    return this.http.post(this._aplicationURL + this._updateURL, tractament).pipe(catchError(this.handleError));
+    return this.http.post(this._aplicationURL + this._delURL, {id: c_id}).pipe(catchError(this.handleError));
   }
 
-  get_request(t_id) : Observable<object>
+  getall_request(p_id) : Observable<object>
   {
-    return this.http.post(this._aplicationURL + this._getURL, {id: t_id}).pipe(catchError(this.handleError));
-  }
-
-  getall_request(p_id) : Observable<object>{
     return this.http.post(this._aplicationURL + this._getallURL, {id: p_id}).pipe(catchError(this.handleError));
-  }
-
-  m_getall_request() : Observable<object>{
-    return this.http.post(this._m_aplicationURL + this._m_getallURL, {}).pipe(catchError(this.handleError));
   }
 }

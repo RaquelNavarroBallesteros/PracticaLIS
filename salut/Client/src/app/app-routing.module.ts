@@ -24,12 +24,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/inici/inici.module').then( m => m.IniciPageModule)
   },
   {
-    path: 'tractament',
-    loadChildren: () => import('./pages/tractament/tractament.module').then( m => m.TractamentPageModule)
-  },
-  {
     path: 'recepta',
     loadChildren: () => import('./pages/recepta/recepta.module').then( m => m.ReceptaPageModule)
+  },
+  {
+    path: 'tractament/:id',
+    loadChildren: () => import('./pages/tractament/tractament.module').then( m => m.TractamentPageModule)
   },
   {
     path: 'informacio',
@@ -38,7 +38,16 @@ const routes: Routes = [
   {
     path: 'contactes',
     loadChildren: () => import('./pages/contactes/contactes.module').then( m => m.ContactesPageModule)
+  },
+  {
+    path: 'llista-tractaments',
+    loadChildren: () => import('./pages/llista-tractaments/llista-tractaments.module').then( m => m.LlistaTractamentsPageModule)
+  },
+  {
+    path: 'seguiment',
+    loadChildren: () => import('./pages/seguiment/seguiment.module').then( m => m.SeguimentPageModule)
   }
+
 ];
 
 @NgModule({

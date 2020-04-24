@@ -13,6 +13,8 @@ var singUpController = require("./Controllers/signupController")
 var filesController = require("./Controllers/filesController")
 var tractamentController = require("./Controllers/tractamentController")
 var medicamentController = require("./Controllers/medicamentController")
+var contacteController = require("./Controllers/contacteController")
+var seguimentController = require("./Controllers/seguimentController")
 
 app.use("/api/Login",loginController)
 app.use("/api/Perfil",perfilController)
@@ -21,6 +23,8 @@ app.use("/api/SingUp", singUpController)
 app.use("/api/Files", filesController)
 app.use("/api/Tractament", tractamentController)
 app.use("/api/Medicament", medicamentController)
+app.use("/api/Contacte", contacteController)
+app.use("/api/Seguiment", seguimentController)
 
 const port = 3000
 

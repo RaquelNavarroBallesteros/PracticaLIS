@@ -1,21 +1,17 @@
 var mysql = require('mysql');
-const host = 'seguisalut.czcghz2fiq3g.us-east-1.rds.amazonaws.com';
-const database = 'SeguiSalut';
-const port = '3306';
-const user = 'sa';
-const password = 'lis7salut';
-
-// TODO: return a tot arreu
+var configuration = require('../Configuration.js');
 
 class TractamentService
 {
     constructor(){
+        this.config = new configuration();
+        var configBD =this.config.getDBConnection();
         this.connection = mysql.createConnection({
-            host     : host,
-            database : database,
-            port     : port,
-            user     : user,
-            password : password,
+            host     : configBD.host,
+            database : configBD.database,
+            port     : configBD.port,
+            user     : configBD.user,
+            password : configBD.password,
             multipleStatements: true
         });
     }
@@ -127,28 +123,43 @@ class TractamentService
                         callback(self.error("Query error."));
                         return;
                     };
-                    query = `INSERT INTO Periodicitat VALUES`
-                    var i;
-                    for (i = 0; i < t.medicaments.length; i++) 
-                    {
-                        query += `(0, ${r.insertId}, ${t.medicaments[i].idM},
-                        ${t.medicaments[i].periode}),`;
-                    }
-                    query = query.substring(0, query.length-1) + ';'
+                    var n_id = r.insertId;
 
-                    self.connection.query(query, function(qerr, r){
-                        if (qerr) 
+                    if (t.medicaments.length > 0)
+                    {
+                        query = `INSERT INTO Periodicitat VALUES`
+                        var i;
+                        for (i = 0; i < t.medicaments.length; i++) 
                         {
-                            callback(self.error("Query error."));
-                            return;
+                            query += `(0, ${r.insertId}, ${t.medicaments[i].idM},
+                            ${t.medicaments[i].periode}),`;
                         }
-                            
+                        query = query.substring(0, query.length-1) + ';'
+    
+                        self.connection.query(query, function(qerr, r){
+                            if (qerr) 
+                            {
+                                callback(self.error("Query error."));
+                                return;
+                            }
+                                
+                            var response =  {
+                                serverStatus: 200,
+                                correcte: true,
+                                id: n_id
+                            };     
+                            callback(response);
+                        });
+                    }
+                    else
+                    {
                         var response =  {
                             serverStatus: 200,
                             correcte: true,
+                            id: n_id
                         };     
                         callback(response);
-                    });
+                    }
                 });
             });
         });
