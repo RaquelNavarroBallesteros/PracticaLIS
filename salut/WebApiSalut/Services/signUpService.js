@@ -38,7 +38,7 @@ class SignUpService{
                     }else{
                         if (rows.length <= 0){
                             console.log('signUpService_addUser -- adding user that does not exist');
-                            var query1 = 'INSERT INTO Usuari (Correu, Contrassenya) VALUES (\'' + usuari.correu + '\' , MD5(\'' + usuari.psw + '\') );';
+                            var query1 = 'INSERT INTO Usuari (Correu, Contrasenya) VALUES (\'' + usuari.correu + '\' , MD5(\'' + usuari.psw + '\') );';
                             console.log(query1);
                             self.connection.query(query1, function(error, fields){
                                 if (error){
