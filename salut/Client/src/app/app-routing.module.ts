@@ -22,19 +22,31 @@ const routes: Routes = [
   {
     path: 'inici',
     loadChildren: () => import('./pages/inici/inici.module').then( m => m.IniciPageModule)
-  },  {
-    path: 'recepta',
-    loadChildren: () => import('./pages/recepta/recepta.module').then( m => m.ReceptaPageModule)
   },
   {
     path: 'recepta',
     loadChildren: () => import('./pages/recepta/recepta.module').then( m => m.ReceptaPageModule)
+  },
+  {
+    path: 'tractament/:id',
+    loadChildren: () => import('./pages/tractament/tractament.module').then( m => m.TractamentPageModule)
   },
   {
     path: 'informacio',
     loadChildren: () => import('./pages/informacio/informacio.module').then( m => m.InformacioPageModule)
+  },
+  {
+    path: 'contactes',
+    loadChildren: () => import('./pages/contactes/contactes.module').then( m => m.ContactesPageModule)
+  },
+  {
+    path: 'llista-tractaments',
+    loadChildren: () => import('./pages/llista-tractaments/llista-tractaments.module').then( m => m.LlistaTractamentsPageModule)
+  },
+  {
+    path: 'seguiment',
+    loadChildren: () => import('./pages/seguiment/seguiment.module').then( m => m.SeguimentPageModule)
   }
-
 
 ];
 

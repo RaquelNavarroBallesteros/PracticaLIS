@@ -6,6 +6,7 @@ import {Storage} from '@ionic/storage';
 
 
 const STORAGE_KEY = 'login';
+const STORAGE_KEY_P = 'perfil';
 
 @Component({
   selector: 'app-emergencies',
@@ -60,12 +61,12 @@ export class EmergenciesPage implements OnInit {
   sendEmergencia(){
     var request = null;
     var coordenades = null;
-    var idPerfil = null;
+    var idUsuari = null;
     var perfilInfo = null;
     var self = this;
 
     this.storage.get(STORAGE_KEY).then(information => {
-      idPerfil = information.idUsuari;
+      idUsuari = information.idUsuari;
 
       this.geolocation.getCurrentPosition({enableHighAccuracy: true}).then(location => {
         coordenades = {
@@ -73,7 +74,7 @@ export class EmergenciesPage implements OnInit {
           "longitut": location.coords.longitude
         }
 
-        self.perfilService.obtenir(idPerfil).subscribe((res: PerfilInformationResponse) =>{
+        self.perfilService.obtenir(idUsuari).subscribe((res: PerfilInformationResponse) =>{
           if(res.serverStatus === 200 && res.correcte){
             request = {
               "coordenades": coordenades,

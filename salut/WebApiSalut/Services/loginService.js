@@ -19,7 +19,7 @@ class LoginService{
         var self = this
         console.log('login in service')
         console.log(usuari)
-        var query = 'SELECT * FROM Usuari WHERE correu = \'' + usuari.correu + '\' and contrassenya = \'' + usuari.contrassenya + '\'';
+        var query = 'SELECT * FROM Usuari WHERE correu = \'' + usuari.correu + '\' and contrasenya =  MD5(\''+usuari.contrassenya+'\') ';
         console.log(query);
         this.connection.connect(function(err){
             var response;
@@ -27,7 +27,6 @@ class LoginService{
             if (!err){
                 console.log("connected no error")
                 self.connection.query(query, function(error, rows, fields){
-                    console.log(rows.length);
                     if (error){
                             console.log("error1")
                             response = {
@@ -35,8 +34,7 @@ class LoginService{
                                 doLogin: false,
                                 msg: 'error connection'
                             };                        
-                    }
-                    if (rows.length > 0){
+                    }else if(rows.length > 0){
                         console.log("correcte")
                             response = { 
                                 serverStatus: 200,
