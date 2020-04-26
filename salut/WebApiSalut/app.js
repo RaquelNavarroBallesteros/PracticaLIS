@@ -1,6 +1,7 @@
 var cors = require("cors")
 var express = require("express")
 const bodyParser = require('body-parser');
+var contextDB = require('../WebApiSalut/dbContext.js');
 
 var app = express()
 app.use(cors())
@@ -28,4 +29,7 @@ app.use("/api/Seguiment", seguimentController)
 
 const port = 3000
 
-app.listen(port,'0.0.0.0', ()=> console.log('app start listening on port ' + port))
+app.listen(port,'0.0.0.0', ()=>{ 
+    console.log('app start listening on port ' + port)
+    contextDB.doConnect();
+});

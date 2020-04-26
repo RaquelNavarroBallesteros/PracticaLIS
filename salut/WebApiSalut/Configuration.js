@@ -1,5 +1,7 @@
 class Configuration{
-    constructor(){}
+    constructor(){
+        console.log("creating instance configuration " + Date.now().toString())
+    }
     getDBConnection(){
         return{
             host : 'seguisalut.czcghz2fiq3g.us-east-1.rds.amazonaws.com',

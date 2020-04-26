@@ -10,7 +10,6 @@ function getall(req, res)
     console.log("getall call");
     perfilService = new service()
     perfilService.get_all(req.body, function(response){
-        // console.log(response);
         res.status(response.serverStatus).send(response);
     });
 }
@@ -38,7 +37,6 @@ function get (req, res)
     console.log("get call");
     perfilService = new service()
     perfilService.get_by_id(req.body, function(response){
-        // console.log(response);
         res.status(response.serverStatus).send(response);
     });
 }

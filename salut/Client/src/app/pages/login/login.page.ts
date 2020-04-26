@@ -51,7 +51,8 @@ export class LoginPage implements OnInit {
       let loginStorage = {
         correu: this.usuari.correu,
         contrassenya: this.usuari.contrassenya,
-        idUsuari: idUsuari
+        idUsuari: idUsuari,
+        logged: true
       };
       this.storage.set(STORAGE_KEY, loginStorage);
       this.route.navigate(['/perfil']);
