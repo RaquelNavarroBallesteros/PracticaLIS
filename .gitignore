@@ -32,3 +32,8 @@ npm-debug.log*
 /src/environments
 
 /Resources/*.png
+salut/Client/config.xml
+salut/Client/package.json
+salut/Client/resources/android/xml/network_security_config.xml
+salut/Client/src/environments/environment.prod.ts
+salut/Client/src/environments/environment.ts
