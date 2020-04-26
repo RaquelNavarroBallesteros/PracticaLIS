@@ -12,6 +12,7 @@ export class IniciPage implements OnInit {
   constructor(private storage: Storage, private route: Router) { }
 
   ngOnInit() {
+
   }
   logOut() {
     this.storage.remove(STORAGE_KEY).then(res=>{
