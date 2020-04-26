@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {Platform} from '@ionic/angular';
 import {Router} from '@angular/router';
+import {Storage} from '@ionic/storage';
 
+
+const STORAGE_KEY = 'login';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -12,13 +15,19 @@ export class HeaderComponent implements OnInit {
   @Input() backButton: string;
 
   public isIos: boolean;
-  constructor(private platform: Platform, private router: Router) {
+  constructor(private platform: Platform, private router: Router, private storage: Storage) {
     this.isIos = this.platform.is('ios');
    }
 
   ngOnInit() {
     var namePage = (this.router.url).replace('/','');
-    console.log(namePage);
+    if (namePage != "login"){
+      this.storage.get(STORAGE_KEY).then(information => {
+        if (!information.logged){
+          this.router.navigate['/login'];
+        }
+      });
+    }
   }
 
 }

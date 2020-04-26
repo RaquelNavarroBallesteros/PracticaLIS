@@ -5,7 +5,10 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
+import {Storage} from '@ionic/storage';
 
+
+const STORAGE_KEY_P = 'perfil';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
@@ -13,12 +16,12 @@ import { async } from '@angular/core/testing';
 })
 export class PerfilPage implements OnInit {
   public perfil = {
-    id: 16,
-    usuari_id: 1,
+    id: null,
+    usuari_id: null,
     nom: '',
     cognoms: '',
     data_n: null,
-    genere: 'D',
+    genere: '',
     alcada: null,
     pes: null,
     g_sanguini: null,
@@ -27,13 +30,13 @@ export class PerfilPage implements OnInit {
   }
   public nomAllergia = {nom:'', descripcio: ''};
   allergies = [];
+  public backButton = "true";
 
   afegirAllergia()
   {
       let allergia = this.nomAllergia;
       this.allergies.push(allergia);
       this.nomAllergia = {nom:'', descripcio: ''};
-   
   }
 
   deleteTask(index)
@@ -53,36 +56,14 @@ export class PerfilPage implements OnInit {
                  ]
     });
   await alert.present();
-}
+  }
 
-  constructor(public perfilService: PerfilService, public alertCtrl: AlertController) 
+  constructor(public perfilService: PerfilService, public alertCtrl: AlertController, private storage: Storage) 
   { }
 
 
   ionViewWillEnter(){
-    if (this.perfil.id != 0)
-    {
-      this.perfilService.obtenir(this.perfil.id).subscribe((res: PerfilSetResponse)=>{
-      console.log(res.data)
-      this.perfil.nom = res.data['Nom'];
-      this.perfil.cognoms = res.data['Cognoms'];
-      this.perfil.data_n = res.data['DataNaixement'].substring(0, 10);
-      this.perfil.pes = res.data['Pes'];
-      this.perfil.alcada = res.data['Alcada']
-      this.perfil.genere = res.data['Genere']
-      this.perfil.d_organs = String(res.data['Donant'])
-      this.perfil.g_sanguini = res.data['GrupS']
 
-        for(var i=0; i<res.data['Allergies'].length; i++)
-        {
-          this.allergies.push({nom: res.data['Allergies'][i]["Nom"], 
-          descripcio:res.data['Allergies'][i]["Descripcio"]});
-        }
-
-        console.log(this.allergies);
-        console.log(this.perfil);
-      });
-  }
   }
 
   addControl(){
@@ -96,6 +77,33 @@ export class PerfilPage implements OnInit {
 
   ngOnInit() {
     //console.log("Enviar formulari dades mèdiques.")
+    this.storage.get(STORAGE_KEY_P).then(information => {
+      if (information.id){
+        this.perfil.id=information.id
+        this.perfilService.obtenir(this.perfil.id).subscribe((res: PerfilSetResponse)=>{
+          console.log(res.data)
+          this.perfil.nom = res.data['Nom'];
+          this.perfil.cognoms = res.data['Cognoms'];
+          this.perfil.data_n = res.data['DataNaixement'].substring(0, 10);
+          this.perfil.pes = res.data['Pes'];
+          this.perfil.alcada = res.data['Alcada']
+          this.perfil.genere = res.data['Genere']
+          this.perfil.d_organs = String(res.data['Donant'])
+          this.perfil.g_sanguini = res.data['GrupS']
+    
+            for(var i=0; i<res.data['Allergies'].length; i++)
+            {
+              this.allergies.push({nom: res.data['Allergies'][i]["Nom"], 
+              descripcio:res.data['Allergies'][i]["Descripcio"]});
+            }
+    
+            console.log(this.allergies);
+            console.log(this.perfil);
+          });
+      }else{
+        this.backButton = "false";
+      }
+    });
   }
 
   enviar()

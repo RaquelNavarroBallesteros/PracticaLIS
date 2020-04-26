@@ -55,7 +55,6 @@ export class LoginPage implements OnInit {
         logged: true
       };
       this.storage.set(STORAGE_KEY, loginStorage);
-      this.route.navigate(['/perfil']);
     });
   }
 
@@ -86,6 +85,7 @@ export class LoginResponse {
       public serverStatus: number,
       public doLogin: boolean,
       public idUsuari: number,
+      public perfil: boolean,
       public msg: string,
   ) {}
 }
