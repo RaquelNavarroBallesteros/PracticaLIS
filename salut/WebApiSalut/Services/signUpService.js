@@ -54,7 +54,7 @@ class SignUpService{
                 }else{
                     console.log('signUpService_addUser -- the selected user exists');
                     response = {
-                        serverStatus: 300,
+                        serverStatus: 200,
                         doSignUp: false,
                         userId: -1,
                         msg: 'user exists'
