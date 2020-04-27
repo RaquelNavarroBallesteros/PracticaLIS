@@ -4,25 +4,47 @@ import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { ContactesService } from 'src/app/services/contactes.service';
+import {Storage} from '@ionic/storage';
 import { FormsModule } from '@angular/forms';
 import { TractamentGetResponse } from '../tractament/tractament.page';
 // import { HttpModule } from '@angular/http';
 
+
+const STORAGE_KEY_P = 'perfil';
 @Component({
   selector: 'app-contactes',
   templateUrl: './contactes.page.html',
   styleUrls: ['./contactes.page.scss'],
 })
-
 export class ContactesPage implements OnInit {
 
-  public perfilId = 16
+  public perfilId = 0;
 
-  constructor(public contactesService: ContactesService, public alertCtrl: AlertController, private callNumber: CallNumber) { }
+  constructor(public contactesService: ContactesService, public alertCtrl: AlertController, private callNumber: CallNumber,
+              private storage: Storage) { }
 
   public nouContacte = {id: 0, nom:'', numero:''};
   contactes = [];
 
+  ngOnInit() {
+    this.storage.get(STORAGE_KEY_P).then(information => {
+      if (information != null){
+        this.perfilId = information.id;
+        this.contactesService.getall_request(this.perfilId).subscribe((res: ContactesGetResponse)=>{
+
+          for(var i=0; i<res.data.length; i++)
+          {
+            this.contactes.push({
+              id: res.data[i]['Id'],
+              nom: res.data[i]['Nom'],
+              numero: res.data[i]['Numero']});
+          }
+    
+          console.log(this.contactes);
+        });
+      }
+    });
+  }
   afegirContacte()
   {
     let contacte = this.nouContacte;
@@ -75,21 +97,6 @@ export class ContactesPage implements OnInit {
 
   ionViewWillEnter()
   {
-    this.contactesService.getall_request(this.perfilId).subscribe((res: ContactesGetResponse)=>{
-
-      for(var i=0; i<res.data.length; i++)
-      {
-        this.contactes.push({
-          id: res.data[i]['Id'],
-          nom: res.data[i]['Nom'],
-          numero: res.data[i]['Numero']});
-      }
-
-      console.log(this.contactes);
-    });
-  }
-
-  ngOnInit() {
   }
 
 }

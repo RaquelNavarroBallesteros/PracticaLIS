@@ -4,7 +4,9 @@ import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { SeguimentService } from 'src/app/services/seguiment.service';
+import {Storage} from '@ionic/storage';
 
+const STORAGE_KEY_P = 'perfil';
 @Component({
   selector: 'app-seguiment',
   templateUrl: './seguiment.page.html',
@@ -24,11 +26,35 @@ export class SeguimentPage implements OnInit {
     valor: null,
   }
   
-  perfil_id = 16;
+  perfil_id = 0;
   
-  constructor(public seguimentService: SeguimentService, public alertCtrl: AlertController) { }
+  constructor(public seguimentService: SeguimentService, public alertCtrl: AlertController,
+              private storage: Storage) { }
 
   ngOnInit() {
+    this.storage.get(STORAGE_KEY_P).then(information => {
+      if (information != null){
+        this.perfil_id = information.id;
+        this.seguimentService.getallpes_request(this.perfil_id).subscribe((res: SeguimentGetResponse)=>{
+          for(var i=0; i<res.data.length; i++)
+          {
+            this.pess.push({
+              id: res.data[i]['Id'],
+              data: res.data[i]['Data'],
+              valor: res.data[i]['Pes']});
+          }
+        });
+        this.seguimentService.getallalcada_request(this.perfil_id).subscribe((res: SeguimentGetResponse)=>{
+          for(var i=0; i<res.data.length; i++)
+          {
+            this.alcadaa.push({
+              id: res.data[i]['Id'],
+              data: res.data[i]['Data'],
+              valor: res.data[i]['Alcada']});
+          }
+        });
+      }
+    });
   }
 
   pess = [];
@@ -132,27 +158,7 @@ export class SeguimentPage implements OnInit {
 
   ionViewWillEnter()
   {
-    this.seguimentService.getallpes_request(this.perfil_id).subscribe((res: SeguimentGetResponse)=>{
 
-      for(var i=0; i<res.data.length; i++)
-      {
-        this.pess.push({
-          id: res.data[i]['Id'],
-          data: res.data[i]['Data'],
-          valor: res.data[i]['Pes']});
-      }
-    });
-
-    this.seguimentService.getallalcada_request(this.perfil_id).subscribe((res: SeguimentGetResponse)=>{
-
-      for(var i=0; i<res.data.length; i++)
-      {
-        this.alcadaa.push({
-          id: res.data[i]['Id'],
-          data: res.data[i]['Data'],
-          valor: res.data[i]['Alcada']});
-      }
-    });
   }
 }
 

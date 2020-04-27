@@ -1,5 +1,4 @@
 var mailer = require('nodemailer');
-
 var configuration = require('../Configuration.js');
 
 
