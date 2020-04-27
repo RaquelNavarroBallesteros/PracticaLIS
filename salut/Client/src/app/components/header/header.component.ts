@@ -23,8 +23,10 @@ export class HeaderComponent implements OnInit {
     var namePage = (this.router.url).replace('/','');
     if (namePage != "login"){
       this.storage.get(STORAGE_KEY).then(information => {
-        if (!information.logged){
-          this.router.navigate['/login'];
+        if (information != null){
+          if (!information.logged){
+            this.router.navigate['/login'];
+          }
         }
       });
     }

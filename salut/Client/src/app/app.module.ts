@@ -29,7 +29,10 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
     AppRoutingModule,
     ComponentsModule,
     HttpClientModule,
-    IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot({      
+      name: '__mydb',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
   ],
   providers: [
     StatusBar,

@@ -2,7 +2,6 @@ var mysql = require('mysql');
 var configuration = require('../WebApiSalut/Configuration.js');
 
 class DBContext{
-
     constructor()
     {   
         if (!this.instance){

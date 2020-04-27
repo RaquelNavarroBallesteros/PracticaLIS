@@ -38,14 +38,14 @@ class SignUpService{
                             response = {
                                 serverStatus: 400,
                                 doSignUp: false,
-                                userId: -1,
+                                usuariId: -1,
                                 msg: 'error connection'
                             };    
                         }else{
                             response = {
                                 serverStatus: 200,
                                 doSignUp: true,
-                                userId: fields.insertId,
+                                usuariId: fields.insertId,
                                 msg: 'correct'
                             }; 
                         }
@@ -56,7 +56,7 @@ class SignUpService{
                     response = {
                         serverStatus: 200,
                         doSignUp: false,
-                        userId: -1,
+                        usuariId: -1,
                         msg: 'user exists'
                     };
                     callback(response);

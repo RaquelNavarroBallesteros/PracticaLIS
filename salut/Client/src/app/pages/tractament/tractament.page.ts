@@ -5,8 +5,7 @@ import { async } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {Storage} from '@ionic/storage';
 
-const STORAGE_KEY = 'login';
-
+const STORAGE_KEY_P = 'perfil';
 @Component({
   selector: 'app-tractament',
   templateUrl: './tractament.page.html',
@@ -16,25 +15,20 @@ export class TractamentPage implements OnInit {
 
   public tractament = {
     id: null,
-    perfil_id: 16,
+    perfil_id: 0,
     nom: '',
     data_i: '',
     data_f: '',
     medicaments: []
   }
 
-  constructor(private storage: Storage, private route: ActivatedRoute, public tractamentService: TractamentService, public alertCtrl: AlertController) 
+  constructor(private route: ActivatedRoute, public tractamentService: TractamentService, public alertCtrl: AlertController,
+              private storage: Storage) 
   {
     this.route.params.subscribe(params => {
       console.log(params);
       this.tractament.id = params['id']; 
     });
-
-    /*
-    this.storage.get(STORAGE_KEY).then(information => {
-      this.tractament.perfil_id = information.idPerfil;
-    });
-    */
   }
 
   public auxMedicament = {id: 0, idM: null, periode:null};
@@ -78,13 +72,18 @@ export class TractamentPage implements OnInit {
   }
 */
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.storage.get(STORAGE_KEY_P).then(information => {
+      if (information != null){
+        this.tractament.perfil_id = information.id;
+      }
+      console.log("ION WILL ENTER");
+      this.get();
+    });
+  }
 
   ionViewWillEnter()
   {
-    console.log("ION WILL ENTER");
-    this.get();
-    this.get_medicaments();
   }
 
   get()
@@ -95,6 +94,7 @@ export class TractamentPage implements OnInit {
       this.tractamentService.get_request(this.tractament.id).subscribe((res: TractamentGetResponse)=>{
         //console.log(res.data)
         this.tractament.id = res.data['Id'];
+
         this.tractament.nom = res.data['Nom'];
         this.tractament.perfil_id = res.data['PerfilId'];
         this.tractament.data_i = res.data['DataInici'].substring(0, 10);
@@ -107,7 +107,7 @@ export class TractamentPage implements OnInit {
             idM: res.data['Medicaments'][i].MedicamentId,
             periode: res.data['Medicaments'][i].Periode});
         }
-
+        this.get_medicaments();
         //console.log(this.tractament);
       });
     }

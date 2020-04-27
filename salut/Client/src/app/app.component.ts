@@ -48,15 +48,16 @@ export class AppComponent {
         };
         this.loginService.doLogin(usuari).subscribe((res: LoginResponse) => {
           if (res.doLogin){
+            let idUsuari = res.idUsuari;
             this.storage.remove(STORAGE_KEY).then(res => {
               let loginStorage = {
                 correu: usuari.correu,
                 contrassenya: usuari.contrassenya,
-                idUsuari: res.idUsuari,
+                idUsuari: idUsuari,
                 logged: true
               };
               this.storage.set(STORAGE_KEY, loginStorage);
-              this.updateStoredPerfil(res.idUsuari);
+              this.updateStoredPerfil(idUsuari);
             });
           }else{
             console.log("Navigate To login");
@@ -72,20 +73,17 @@ export class AppComponent {
   updateStoredPerfil(idUsuari: number){
     this.perfilService.getall(idUsuari).subscribe((res: PerfilGetAllResponse) => {
       if (res.correcte){
-        console.log(res.data[0]['Id']);
         var perfilId = 0;
-        if (res.data.length > 0)
+        if (res.data.length > 0){
           perfilId = res.data[0]['Id'];
-
-        this.storage.remove(STORAGE_KEY_P).then(res => {
-          let perfilStorage = {id: perfilId};
-          this.storage.set(STORAGE_KEY_P, perfilStorage);
-
-          if (perfilId == 0)
-            this.route.navigate(['/perfil']);
-          else
+          this.storage.remove(STORAGE_KEY_P).then(res => {
+            let perfilStorage = {id: perfilId};
+            this.storage.set(STORAGE_KEY_P, perfilStorage);  
             this.route.navigate(['/inici']);
-        });
+          });
+        }else{
+          this.route.navigate(['/perfil']);
+        }
       }
     });
   }

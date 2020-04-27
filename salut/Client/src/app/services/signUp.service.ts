@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { throwError } from "rxjs";
+import { throwError, of } from "rxjs";
 import { retry, catchError, timeout } from "rxjs/operators";
 import { APIUrl } from "../../environments/environment";
 import { ToastController } from "@ionic/angular";
@@ -16,16 +16,15 @@ export class SignUpService {
     private http: HttpClient,
     private toastController: ToastController
   ) {}
-
-  handleError(error: HttpErrorResponse) {
-    let msg = "Impossible connectar amb el servidor.";
-    self.presentToast(msg);
-    return throwError(msg);
-  }
+  
   addUser(req) {
     return this.http
       .post(this._aplicationURL + this._addUserURL, req)
-      .pipe(timeout(3000), catchError(this.handleError));
+      .pipe(timeout(3000), catchError(error => {
+        let msg = "Impossible connectar amb el servidor.";
+        this.presentToast(msg);
+        return throwError(msg);
+      }));
   }
   async presentToast(text: string) {
     const toast = await this.toastController.create({

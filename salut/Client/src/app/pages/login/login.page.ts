@@ -33,7 +33,6 @@ export class LoginPage implements OnInit {
       }else{
         this.showMsgInvalidLogin = false;
         this.updateStoredLogin(res.idUsuari);
-        this.updateStoredPerfil(res.idUsuari);
       }
     });
   }
@@ -55,26 +54,24 @@ export class LoginPage implements OnInit {
         logged: true
       };
       this.storage.set(STORAGE_KEY, loginStorage);
+      this.updateStoredPerfil(idUsuari);
     });
   }
 
   updateStoredPerfil(idUsuari: number){
     this.perfilService.getall(idUsuari).subscribe((res: PerfilGetAllResponse) => {
       if (res.correcte){
-        console.log(res.data[0]['Id']);
         var perfilId = 0;
-        if (res.data.length > 0)
+        if (res.data.length > 0){
           perfilId = res.data[0]['Id'];
-
-        this.storage.remove(STORAGE_KEY_P).then(res => {
-          let perfilStorage = {id: perfilId};
-          this.storage.set(STORAGE_KEY_P, perfilStorage);
-
-          if (perfilId == 0)
-            this.route.navigate(['/perfil']);
-          else
+          this.storage.remove(STORAGE_KEY_P).then(res => {
+            let perfilStorage = {id: perfilId};
+            this.storage.set(STORAGE_KEY_P, perfilStorage);  
             this.route.navigate(['/inici']);
-        });
+          });
+        }else{
+          this.route.navigate(['/perfil']);
+        }
       }
     });
   }

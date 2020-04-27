@@ -17,12 +17,14 @@ class PerfilService{
 
     get_all(u_id, callback)
     {
+        console.log(u_id);
         var self = this
         var query = 'SELECT * FROM Perfil WHERE UsuariId = \'' + u_id.id + '\';';
         this.connection.query(query, function(error, rows, fields){
             //self.connection.end()
             if (error)
             {
+                console.log("error");
                 callback(self.error("Query error."));
                 return;
             }
@@ -32,7 +34,7 @@ class PerfilService{
                 correcte: true,
                 data: rows,
             };    
-
+            console.log(rows);
             callback(response);
         });
     }
@@ -90,7 +92,7 @@ class PerfilService{
         }
             
         var i_query = `INSERT INTO Perfil `
-        i_query += `VALUES (0, ${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}", "${perfil.g_sanguini}", ${perfil.d_organs});`
+        i_query += `VALUES (0,${perfil.usuari_id}, "${perfil.nom}", "${perfil.cognoms}", "${perfil.data_n}", ${perfil.pes}, ${perfil.alcada}, "${perfil.genere}", "${perfil.g_sanguini}", ${perfil.d_organs});`
         console.log(i_query);
         this.connection.query(i_query, function(error, r)
         {
