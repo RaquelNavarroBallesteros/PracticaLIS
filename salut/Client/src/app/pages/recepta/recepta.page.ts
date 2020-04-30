@@ -39,7 +39,6 @@ export class ReceptaPage implements OnInit {
       }
     });
   }
-
   ferFoto() {
     this.fotoService.ferFoto("recepta").then(res =>{
       if (this.images.length !== 0){
