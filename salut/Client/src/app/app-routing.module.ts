@@ -50,7 +50,11 @@ const routes: Routes = [
   {
     path: 'seguiment',
     loadChildren: () => import('./pages/seguiment/seguiment.module').then( m => m.SeguimentPageModule)
+  },  {
+    path: 'mapa',
+    loadChildren: () => import('./pages/mapa/mapa.module').then( m => m.MapaPageModule)
   }
+
 
 ];
 
