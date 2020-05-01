@@ -25,7 +25,8 @@ export class IniciPage implements OnInit {
     });
   }
   crearNotificacio(){
-    var date = new Date('2020-05-02T13:00:00')
-    this.notificacionsService.crearPeriodic('Ibuprofeno', 'migranyes', 12, 25, date, "Guillem" );
+    var date = new Date('2020-05-02T13:00:00');
+    var currentDate = new Date(new Date().getTime());
+    this.notificacionsService.crearPeriodic('Ibuprofeno', 'migranyes', currentDate.getUTCHours(), currentDate.getUTCHours() + 2, date, "Guillem" );
   }
 }
