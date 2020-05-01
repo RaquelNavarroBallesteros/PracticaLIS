@@ -51,22 +51,69 @@ export class GrafiquesPage implements OnInit {
       });
     }else if(this.tipus == 'imc')
     {
-      this.seguimentService.getallpes_request(this.perfil_id).subscribe((resP: SeguimentGetResponse)=>{
-      this.seguimentService.getallalcada_request(this.perfil_id).subscribe((resA: SeguimentGetResponse)=>{
-        var datesOrdenades = [];
+      //this.seguimentService.getallpes_request(this.perfil_id).subscribe((resP: SeguimentGetResponse)=>{
+      //this.seguimentService.getallalcada_request(this.perfil_id).subscribe((resA: SeguimentGetResponse)=>{
+      var resA = {data: [{Data: '2018-11-10', Alcada: '140'}, {Data: '2018-12-10', Alcada: '150'}, {Data: '2019-10-10', Alcada: '160'}]};  
+      var resP = {data: [{Data: '2018-12-10', Pes: '60'}, {Data: '2020-1-1', Pes: '50'}]};
+
         for (var i=0; i < resA.data.length; i++)
         {
-          datesOrdenades.push(resA.data[i]['Data'].substring(0,10));
+          dates.push(resA.data[i]['Data']);//.substring(0,10));
         }
         for(var i=0; i < resP.data.length; i++)
         {
-            datesOrdenades.push(resP.data[i]['Data'].substring(0,10));
+          dates.push(resP.data[i]['Data']);//.substring(0,10));
         }
-          this.createBarChart(dades, dates, "Evolució de l'IMC");
-          datesOrdenades.sort();
-          console.log(datesOrdenades);
-        });
-      });
+
+        const distinct = (value, index, self) => {
+          return self.indexOf(value) === index;
+        }
+        dates.sort()
+        dates = dates.filter(distinct);
+
+        var indexP = 0;
+        var indexA = 0;
+        var actP = null;
+        var actA = null;
+
+        var toDeleteDates = []
+        for (var i=0; i < dates.length; i++)
+        {
+          var dataActual = new Date(dates[i]);
+          
+          if (indexP < resP.data.length)
+          {
+            if (new Date(resP.data[indexP].Data) <= dataActual)
+            {
+              actP = resP.data[indexP].Pes;
+              indexP += 1;
+            }
+          }
+          if (indexA < resA.data.length)
+          {
+            if (new Date(resA.data[indexA].Data) <= dataActual)
+            {
+              actA = resA.data[indexA].Alcada;
+              indexA += 1;
+            }
+          }
+          
+          if (actP != null && actA != null)
+            dades.push(actP/(actA/100));
+          else 
+            toDeleteDates.push(i);
+        }
+
+        for (var i=0; i<toDeleteDates.length; i++)
+        {
+          dates.splice(toDeleteDates[i], 1);
+        }
+
+        this.createBarChart(dades, dates, "Evolució de l'IMC");
+
+
+        //});
+      //});
     }
     
     
