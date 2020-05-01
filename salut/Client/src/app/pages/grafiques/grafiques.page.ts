@@ -38,7 +38,7 @@ export class GrafiquesPage implements OnInit {
         }
         this.createBarChart(dades, dates, "Evolució de l'alçada");
       });
-    }else if(this.tipus='p')
+    }else if(this.tipus == 'p')
     {
       this.seguimentService.getallpes_request(this.perfil_id).subscribe((res: SeguimentGetResponse)=>{
         console.log(res.data)
@@ -48,6 +48,24 @@ export class GrafiquesPage implements OnInit {
             dates.push(res.data[i]['Data'].substring(0,10));
         }
         this.createBarChart(dades, dates, "Evolució del pes");
+      });
+    }else if(this.tipus == 'imc')
+    {
+      this.seguimentService.getallpes_request(this.perfil_id).subscribe((resP: SeguimentGetResponse)=>{
+      this.seguimentService.getallalcada_request(this.perfil_id).subscribe((resA: SeguimentGetResponse)=>{
+        var datesOrdenades = [];
+        for (var i=0; i < resA.data.length; i++)
+        {
+          datesOrdenades.push(resA.data[i]['Data'].substring(0,10));
+        }
+        for(var i=0; i < resP.data.length; i++)
+        {
+            datesOrdenades.push(resP.data[i]['Data'].substring(0,10));
+        }
+          this.createBarChart(dades, dates, "Evolució de l'IMC");
+          datesOrdenades.sort();
+          console.log(datesOrdenades);
+        });
       });
     }
     
