@@ -50,6 +50,9 @@ export class LlistaTractamentsPage implements OnInit {
   deleteTractament(index)
   {
     //this.llistaTractaments.splice(index, 1);
+    //this.llistaTractaments.splice(index, 1);
+    //this.llistaTractaments.splice(index, 1);
+    //this.llistaTractaments.splice(index, 1);
   }
 
    updateTractament(index) 
