@@ -11,18 +11,17 @@ export class NotificacionsService {
 
   constructor(private platform : Platform, private localNotification: LocalNotifications) 
   { 
+
   }
 
-  crearPeriodic(medicament :string, hora: number, minut: number, fins: Date, perfil: string){
+  crearPeriodic(medicament :string, tractament:string, hora: number, minut: number, fins: Date, perfil: string){
     var d = new Date().getTime();
-    //var timeOut = fins.getTime() - d;
     this.localNotification.schedule({
       id: d,
-      title: 'Seguiment del tractament',
-      text: perfil + ', son les ' + hora.toString() + ':' + minut.toString() + 'recorda prendret el medicament: ' + medicament,
+      title: 'Seguiment del tractament: ' +tractament,
+      text: perfil + ', son les ' + hora.toString() + ':' + minut.toString() + ' recorda prendret el medicament: ' + medicament,
       silent: false,
       launch: false,
-      //timeoutAfter: timeOut,
       group: 'Medicament',
       autoClear: true,
       lockscreen: true,
