@@ -5,6 +5,10 @@ import { async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { SeguimentService } from 'src/app/services/seguiment.service';
 import { Chart } from 'chart.js';
+import { ModalController } from '@ionic/angular';
+import { GrafiquesPage } from '../grafiques/grafiques.page'
+//import { SeguimentPage } from '../seguiment/seguiment.page';
+
 
 @Component({
   selector: 'app-seguiment',
@@ -13,11 +17,7 @@ import { Chart } from 'chart.js';
 })
 export class SeguimentPage implements OnInit {
 
-  @ViewChild('barChart') barChart;
-
-  bars: any;
-  colorArray: any;
-
+  
   public nouPes = {
     id: 0,
     data: null,
@@ -31,51 +31,10 @@ export class SeguimentPage implements OnInit {
   }
   
   perfil_id = 16;
-  public mostrarGrafica = false;
+  //public mostrarGrafica = false;
   
-  constructor(public seguimentService: SeguimentService, public alertCtrl: AlertController) { }
+  constructor(public seguimentService: SeguimentService, public alertCtrl: AlertController, public seguimentController: ModalController) { }
 
-  ionViewDidEnter() {
-    this.seguimentService.getallalcada_request(this.perfil_id).subscribe((res: SeguimentGetResponse)=>{
-      console.log(res.data)
-      var dades = [];
-      var dates = [];
-      for(var i=0; i<res.data.length; i++)
-      {
-          dades.push(res.data[i]['Alcada']);
-          dates.push(res.data[i]['Data'].substring(0,10));
-      }
-      this.createBarChart(dades, dates, "Evolució de l'alçada");
-    });
-    
-  }
-
-  createBarChart(dades, dates, titol) {
-    this.bars = new Chart(this.barChart.nativeElement, {
-      type: 'bar',
-      data: {
-        labels: dates,
-        datasets: [{
-          label: titol,
-          data: dades,
-          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
-          borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
-    });
-  }
-  
-  
 
   ngOnInit() {
   }
@@ -179,6 +138,7 @@ export class SeguimentPage implements OnInit {
   await alert.present();
   }*/
 
+  
   ionViewWillEnter()
   {
     this.seguimentService.getallpes_request(this.perfil_id).subscribe((res: SeguimentGetResponse)=>{
@@ -202,8 +162,19 @@ export class SeguimentPage implements OnInit {
           valor: res.data[i]['Alcada']});
       }
     });
+
+    
+  }
+
+  async presentGraf(t) {
+    const graf = await this.seguimentController.create({
+      component: GrafiquesPage,
+      componentProps: {tipus: t}
+    });
+    return await graf.present();
   }
 }
+
 
 export class SeguimentGetResponse {
   constructor(

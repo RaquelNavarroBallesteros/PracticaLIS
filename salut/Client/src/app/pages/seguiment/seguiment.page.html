@@ -12,7 +12,7 @@
        <ion-input type="number" [(ngModel)]="nouPes.valor" [ngModelOptions]="{standalone: true}" placeholder="Pes"> </ion-input>
        <div class="item-note"  item-end>
          <ion-button ion-button (click) = "afegirPes()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
-         <ion-button ion-button><ion-icon name="bar-chart-outline"></ion-icon></ion-button> 
+         <ion-button ion-button (click) = "presentGraf('p')"><ion-icon name="bar-chart-outline"></ion-icon></ion-button> 
        </div> 
      </ion-item> 
     
@@ -33,7 +33,7 @@
       <ion-input type="number" [(ngModel)]="novaAlcada.valor" [ngModelOptions]="{standalone: true}" placeholder="Alçada"> </ion-input>  
       <div class="item-note"  item-end>
         <ion-button ion-button (click) = "afegirAlcada()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
-        <ion-button ion-button><ion-icon name="bar-chart-outline"></ion-icon></ion-button> 
+        <ion-button ion-button (click) = "presentGraf('a')"><ion-icon name="bar-chart-outline"></ion-icon></ion-button> 
       </div> 
     </ion-item> 
    
@@ -47,32 +47,7 @@
       </ion-item>
     </ion-list>
 
-   <ion-button ion-button expand="full" color="primary" type="submit" block>Seguiment<ion-icon name="search-outline"></ion-icon></ion-button> 
+   <ion-button ion-button (click) = "presentGraf('imc')" expand="full" color="primary" type="submit" block>IMC<ion-icon name="search-outline"></ion-icon></ion-button> 
 
-   <ion-list-header color="light">Gràfiques de Seguiment</ion-list-header>
-  <ion-card class="welcome-card">
-    <ion-card-header>
-      <ion-card-title>PES</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #barChart></canvas>
-    </ion-card-content>
-  </ion-card>
-  <ion-card class="welcome-card">
-    <ion-card-header>
-      <ion-card-title>ALÇADA</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #barChart></canvas>
-    </ion-card-content>
-  </ion-card>
-  <ion-card class="welcome-card">
-    <ion-card-header>
-      <ion-card-title>IMC</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #barChart></canvas>
-    </ion-card-content>
-  </ion-card>
 
 </ion-content>

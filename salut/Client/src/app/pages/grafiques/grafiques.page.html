@@ -6,4 +6,15 @@
 
 <ion-content>
 
+  <ion-list-header color="light">Gràfiques de Seguiment</ion-list-header>
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <ion-card-title>Seguiment</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChart></canvas>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-button ion-button (click)= "dismiss()" expand="full" color="primary" type="submit" block>Sortir<ion-icon></ion-icon></ion-button>
 </ion-content>
