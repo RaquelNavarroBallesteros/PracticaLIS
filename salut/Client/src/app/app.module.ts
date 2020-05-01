@@ -16,9 +16,9 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import {IonicStorageModule} from '@ionic/storage';
-//import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -43,7 +43,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
     File,
     WebView,
     CallNumber, 
-    //DocumentViewer,
+    LocalNotifications,
     FileOpener,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
    
