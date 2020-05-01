@@ -26,17 +26,48 @@ export class NotificacionsService {
       autoClear: true,
       lockscreen: true,
       foreground: true,
+      sound: 'assets/audio/solemn.mp3',
       trigger:{
         before: fins,
         every:{hour: hora, minute: minut}
       }
     });
   }
-  crearPuntualRecepta(){
-
+  crearPuntualRecepta(data: Date){
+    this.localNotification.schedule({
+      id: new Date().getTime(),
+      title: 'Actualització recepta',
+      text: 'Recorda actualitzar la recepta si és necessàri.',
+      silent: false,
+      launch: false,
+      group: 'Recepta',
+      autoClear: true,
+      lockscreen: true,
+      foreground: true,
+      sound: 'assets/audio/echoed-ding.mp3',
+      trigger:{
+        at:data
+      }
+    });
   }
-  crearPuntualVisita(){
-
+  crearPuntualVisita(dataNotificacio: Date, descripcio: string, dataVisita: Date){
+    var hora = dataVisita.getUTCHours(),
+        minut = dataVisita.getUTCMinutes();
+    this.localNotification.schedule({
+      id: new Date().getTime(),
+      title: 'Recordatori de la visita',
+      text: 'Tens una visita médica programada a les: ' + hora + ':' + minut + 'Descripció: ' + descripcio,
+      silent: false,
+      launch: false,
+      group: 'Visita',
+      autoClear: true,
+      lockscreen: true,
+      foreground: true,
+      sound: 'assets/audio/echoed-ding.mp3',
+      trigger:{
+        at:dataNotificacio
+      }
+    });
   }
 
 }
