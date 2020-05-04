@@ -36,6 +36,17 @@ function get (req, res)
     });
 }
 
+function del (req, res) 
+{
+    tractamentService = new service()
+    console.log("Tractament del call")
+    tractamentService.del(req.body, function(response){
+        console.log("Tractament del resp")
+        console.log(response);
+        res.status(response.serverStatus).send(response);
+    });
+}
+
 function getall (req, res) 
 {
     tractamentService = new service()
@@ -53,5 +64,6 @@ router.post('/add', add)
 router.post('/update', update)
 router.post('/get', get)
 router.post('/getall', getall)
+router.post('/del', del)
 
 module.exports = router

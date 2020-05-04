@@ -28,8 +28,8 @@
           <ion-select-option *ngFor="let id of medicaments_keys;" value={{id}}>{{medicaments_query[id]}}</ion-select-option>
         </ion-select>
         
-        <ion-label>Periodicitat</ion-label>
-        <ion-input type="number" name="periode" [(ngModel)]="auxMedicament.periode" [ngModelOptions]="{standalone: true}" required></ion-input> al dia.
+        <ion-label>Hora de la presa</ion-label>
+        <ion-datetime display-format="h:mm" name="periode" [(ngModel)]="auxMedicament.periode" picker-format="h:mm A" value="auxMedicament.periode"></ion-datetime>
         <div class="item-note"  item-end>
           <ion-button ion-button (click) = "afegirMedicament()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
         </div>
@@ -38,7 +38,7 @@
 
     <ion-list>
       <ion-item *ngFor="let m of tractament.medicaments; let i = index">
-        {{medicaments_query[m.idM]}} - {{m.periode}} al dia.
+        {{medicaments_query[m.idM]}} - {{m.periode}}
         <div class="item-note" slot="end">
           <ion-button ion-button clear (click)="deleteM(i)"> <ion-icon name="trash"></ion-icon> </ion-button>
         </div>

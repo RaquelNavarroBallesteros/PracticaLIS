@@ -6,7 +6,7 @@ import { TractamentService } from 'src/app/services/tractament.service';
 import {Router} from '@angular/router';
 import {Storage} from '@ionic/storage';
 
-const STORAGE_KEY = 'login';
+const STORAGE_KEY = 'perfil';
 
 @Component({
   selector: 'app-llista-tractaments',
@@ -49,10 +49,16 @@ export class LlistaTractamentsPage implements OnInit {
 
   deleteTractament(index)
   {
-    //this.llistaTractaments.splice(index, 1);
-    //this.llistaTractaments.splice(index, 1);
-    //this.llistaTractaments.splice(index, 1);
-    //this.llistaTractaments.splice(index, 1);
+    this.tractamentService.del_request(this.llistaTractaments[index].id)
+    .subscribe((res: TractamentGetAllResponse)=>{
+      if (res.correcte)
+      {
+        this.llistaTractaments[index].splice(index, 1);
+        alert("El tractament s'ha eliminat");
+      }
+      else
+        alert("Error: " + res.msg);
+    });
   }
 
    updateTractament(index) 
@@ -79,4 +85,11 @@ export class TractamentGetAllResponse {
       public msg: string,
       public data: Array<object>
   ) {}
+}
+
+export class TractamentDelResponse{
+  constructor(
+    public serverStatus: number,
+    public correcte: boolean
+  ){}
 }

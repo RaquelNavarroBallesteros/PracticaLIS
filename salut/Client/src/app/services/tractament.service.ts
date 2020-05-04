@@ -16,6 +16,7 @@ export class TractamentService {
   _getURL = '/get';
   _updateURL = '/update';
   _getallURL = '/getall';
+  _delURL = '/del';
 
   constructor(private http: HttpClient) { }
 
@@ -47,6 +48,11 @@ export class TractamentService {
   get_request(t_id) : Observable<object>
   {
     return this.http.post(this._aplicationURL + this._getURL, {id: t_id}).pipe(catchError(this.handleError));
+  }
+
+  del_request(t_id) : Observable<object>
+  {
+    return this.http.post(this._aplicationURL + this._delURL, {id: t_id}).pipe(catchError(this.handleError));
   }
 
   getall_request(p_id) : Observable<object>{
