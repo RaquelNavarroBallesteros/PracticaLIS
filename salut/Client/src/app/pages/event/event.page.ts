@@ -14,20 +14,33 @@ export class EventPage implements OnInit {
     tipus: '',
     tractament:''
   };
+
+  public arrayCalendar = [];
   
+  public algo = 
+  [
+    {//array mes
+      a: "MARZO",  
+      b: 
+        { // array dia 
+          c: "3", 
+          d:[ "MEDICO", "analisis"] //arra
+        }
+    },
+  ]
   public array = [];
 
+  public arrayMeses = [ "marzo", "abril", "mayo"]
+  public arrayDias = ["1","4","23","30",]
+  public  arrayEvent = ["Medico", "Pediatra"]
   constructor( public eventService: EventService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   listEvents(){
     this.eventService.listEvents(2).subscribe((res: ListEventResponse)=>{
       console.log("event.page.ts -- listEvents start")
-      console.log(res.data)
       console.log("show events", this.event);
-      console.log(res.data)
       this.array = new Array<EventItems>();
       
       for(var i in res.data){
@@ -40,9 +53,30 @@ export class EventPage implements OnInit {
         this.array[i] = eventItems;
       }
       console.log(this.array);
+      
+      this.arrayCalendar = new Array<Calendar>();
+      for(var i in this.array){
+        
+        var arrayAux = new Calendar();
+        var aux = this.array[i].data.split('-');
+        arrayAux.mes = aux[1];
+        var auxDia = new Dia();
+        var getDiaSplit = aux[2].split('T');
+        auxDia.dia = getDiaSplit[0];
+        auxDia.visita = this.array[i].descripcio;
+        arrayAux.dias = auxDia;
+        
+        console.log(arrayAux)
+        this.arrayCalendar[i] = arrayAux;
+      }
+      console.log(this.arrayCalendar)
+
+      //diccionari object-array
+      //ifs en html directos
+      //comprobar order by
+
     });
   }
-
 
   eliminarEvent(eventId){
     console.log("eliminar event -- event page ts");
@@ -52,7 +86,22 @@ export class EventPage implements OnInit {
       console.log(res);
     });
   }
+}
 
+
+
+export class Calendar{
+  mes: string;
+  dias: Dia;
+}
+
+export class Dia{
+  dia:string;
+  visita: string;
+}
+
+export class Visita{
+  nom: string;
 }
 
 export class EventItems {
@@ -70,4 +119,14 @@ export class ListEventResponse {
       public data: object,
       public msg: string,
   ) {}
+}
+
+export class Algo{
+  mes: string;
+  dias: {
+    dia: string;
+    consultas: {
+      nombre: string;
+    }  
+  }
 }

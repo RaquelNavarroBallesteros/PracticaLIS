@@ -1,7 +1,8 @@
 <app-header title="Mostrar events" backButton = "true"></app-header>
 <ion-content>
-  
-  <ion-card padding text-center color="primary" routerLink="/add-event">
+
+
+ <ion-card padding text-center color="primary" routerLink="/add-event">
     <ion-card-header>
       <ion-icon size="large" name="today-outline"></ion-icon>
     </ion-card-header>
@@ -16,6 +17,7 @@
     </ion-button>
   </form> 
 
+  
   <ion-list>
     <button ion-item *ngFor = "let event of array">
       <ion-item>
@@ -32,4 +34,40 @@
     </button>
   </ion-list>
 
+  <!--
+  <ion-list *ngFor = "let meses of arrayMeses">
+    <ion-card-header>
+      {{meses}}
+    </ion-card-header>
+      <ion-list *ngFor = "let dias of arrayDias">
+        <ion-card-header>
+          {{dias}} 
+        </ion-card-header>
+          <ion-list *ngFor = "let event of arrayEvent">
+            <ion-item>
+              {{event}} 
+              
+            </ion-item>
+          </ion-list>
+      </ion-list>
+    </ion-list>
+    -->
+
+  
+
+
+    <ion-list *ngFor = "let meses of arrayCalendar">
+      <ion-card-header>
+        Mes: {{meses.mes}}
+      </ion-card-header>
+        <ion-list *ngFor = "let dia of arrayCalendar">
+          <ion-card-header>
+            Día: {{dia.dia}}
+          </ion-card-header>
+            <ion-list>
+              <ion-item>
+              </ion-item>
+            </ion-list>
+        </ion-list>
+      </ion-list>
 </ion-content>
