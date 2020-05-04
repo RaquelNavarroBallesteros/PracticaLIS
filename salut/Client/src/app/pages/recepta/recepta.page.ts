@@ -3,6 +3,7 @@ import {Platform, ToastController} from '@ionic/angular';
 import {FotoService} from 'src/app/services/foto.service';
 import { File } from '@ionic-native/file/ngx';
 import {Storage} from '@ionic/storage';
+import { NotificacionsService } from 'src/app/services/notificacions.service';
 
 
 const STORAGE_KEY = 'receptes';
@@ -18,7 +19,7 @@ export class ReceptaPage implements OnInit {
   public fotoReceptaPath;
   public fotoRecepta: boolean
   constructor(private fotoService: FotoService, private ref: ChangeDetectorRef, private platform: Platform,
-              private toastController: ToastController, private storage: Storage, private file: File) {}
+              private toastController: ToastController, private storage: Storage, private file: File, private notificationService:NotificacionsService) {}
   
   ngOnInit() {
     this.platform.ready().then(()=>{
@@ -44,9 +45,11 @@ export class ReceptaPage implements OnInit {
       if (this.images.length !== 0){
         this.deleteImage(0).then(_=>{
           this.copyFileToLocalDir(res[1], res[0], this.createFileName());
+          this.notificationService.eliminarNotificacioRecepta();
         })
       }else{
         this.copyFileToLocalDir(res[1], res[0], this.createFileName());
+        this.notificationService.eliminarNotificacioRecepta();
       }
     });
   }
