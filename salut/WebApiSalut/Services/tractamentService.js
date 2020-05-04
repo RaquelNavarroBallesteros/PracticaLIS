@@ -45,6 +45,42 @@ class TractamentService
         });
     }
 
+    del(id, callback)
+    {
+        var self = this;
+        this.connection.connect(function(err){
+            if (err) 
+            {
+                callback(self.error("Connection error."));
+                return;
+            }
+            
+            var query = `DELETE FROM Periodicitat WHERE TractamentId = ${id.id};`;
+
+            self.connection.query(query, function(qerr, r, fields){
+                if (qerr) 
+                {
+                    callback(self.error("Query error."));
+                    return;
+                }
+
+                var query = `DELETE FROM Tractament WHERE Id=${id.id};`;
+                self.connection.query(query, function(qerr, r, fields){
+                    if (qerr) 
+                    {
+                        callback(self.error("Query error."));
+                        return;
+                    }
+                    var response =  {
+                        serverStatus: 200,
+                        correcte: true,
+                    };     
+                    callback(response);
+                });
+            });
+        });
+    }
+
     get_all(p_id, callback)
     {
         var self = this;
@@ -103,7 +139,7 @@ class TractamentService
                     for (i = 0; i < t.medicaments.length; i++) 
                     {
                         query += `(0, ${r.insertId}, ${t.medicaments[i].idM},
-                        ${t.medicaments[i].periode}),`;
+                        "${t.medicaments[i].periode}"),`;
                     }
                     query = query.substring(0, query.length-1) + ';'
 
@@ -113,7 +149,6 @@ class TractamentService
                             callback(self.error("Query error."));
                             return;
                         }
-                            
                         var response =  {
                             serverStatus: 200,
                             correcte: true,
@@ -179,7 +214,7 @@ class TractamentService
                     for (i = 0; i < t.medicaments.length; i++) 
                     {
                         query += `(0, ${t.id}, ${t.medicaments[i].idM},
-                        ${t.medicaments[i].periode}),`;
+                        "${t.medicaments[i].periode}"),`;
                     }
                     query = query.substring(0, query.length-1) + ';'
 

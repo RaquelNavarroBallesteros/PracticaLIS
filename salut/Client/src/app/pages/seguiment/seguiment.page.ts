@@ -1,10 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { SeguimentService } from 'src/app/services/seguiment.service';
 import {Storage} from '@ionic/storage';
+import { Chart } from 'chart.js';
+import { ModalController } from '@ionic/angular';
+import { GrafiquesPage } from '../grafiques/grafiques.page'
+//import { SeguimentPage } from '../seguiment/seguiment.page';
+
 
 const STORAGE_KEY_P = 'perfil';
 @Component({
@@ -14,6 +19,7 @@ const STORAGE_KEY_P = 'perfil';
 })
 export class SeguimentPage implements OnInit {
 
+  
   public nouPes = {
     id: 0,
     data: null,
@@ -27,9 +33,10 @@ export class SeguimentPage implements OnInit {
   }
   
   perfil_id = 0;
+  //public mostrarGrafica = false;
   
-  constructor(public seguimentService: SeguimentService, public alertCtrl: AlertController,
-              private storage: Storage) { }
+  constructor(public seguimentService: SeguimentService, public alertCtrl: AlertController, public seguimentController: ModalController, private storage: Storage) { }
+
 
   ngOnInit() {
     this.storage.get(STORAGE_KEY_P).then(information => {
@@ -156,11 +163,30 @@ export class SeguimentPage implements OnInit {
   await alert.present();
   }*/
 
+  
   ionViewWillEnter()
   {
+    this.seguimentService.getallalcada_request(this.perfil_id).subscribe((res: SeguimentGetResponse)=>{
 
+      for(var i=0; i<res.data.length; i++)
+      {
+        this.alcadaa.push({
+          id: res.data[i]['Id'],
+          data: res.data[i]['Data'],
+          valor: res.data[i]['Alcada']});
+      }
+    });    
+  }
+
+  async presentGraf(t) {
+    const graf = await this.seguimentController.create({
+      component: GrafiquesPage,
+      componentProps: {tipus: t}
+    });
+    return await graf.present();
   }
 }
+
 
 export class SeguimentGetResponse {
   constructor(
