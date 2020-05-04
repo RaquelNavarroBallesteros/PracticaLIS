@@ -48,35 +48,28 @@ class TractamentService
     del(id, callback)
     {
         var self = this;
-        this.connection.connect(function(err){
-            if (err) 
+
+        var query = `DELETE FROM Periodicitat WHERE TractamentId = ${id.id};`;
+
+        self.connection.query(query, function(qerr, r, fields){
+            if (qerr) 
             {
-                callback(self.error("Connection error."));
+                callback(self.error("Query error."));
                 return;
             }
-            
-            var query = `DELETE FROM Periodicitat WHERE TractamentId = ${id.id};`;
 
+            var query = `DELETE FROM Tractament WHERE Id=${id.id};`;
             self.connection.query(query, function(qerr, r, fields){
                 if (qerr) 
                 {
                     callback(self.error("Query error."));
                     return;
                 }
-
-                var query = `DELETE FROM Tractament WHERE Id=${id.id};`;
-                self.connection.query(query, function(qerr, r, fields){
-                    if (qerr) 
-                    {
-                        callback(self.error("Query error."));
-                        return;
-                    }
-                    var response =  {
-                        serverStatus: 200,
-                        correcte: true,
-                    };     
-                    callback(response);
-                });
+                var response =  {
+                    serverStatus: 200,
+                    correcte: true,
+                };     
+                callback(response);
             });
         });
     }
@@ -86,7 +79,7 @@ class TractamentService
         var self = this;
                 
         var query = `SELECT * FROM Tractament WHERE PerfilId = ${p_id.id};`;
-
+        console.log(query);
         this.connection.query(query, function(qerr, rows, fields){
             if (qerr) 
                 callback(self.error("Query error."));
@@ -209,29 +202,40 @@ class TractamentService
                         return;
                     }
                         
-                    query = `INSERT INTO Periodicitat VALUES`
-                    var i;
-                    for (i = 0; i < t.medicaments.length; i++) 
+                    if (t.medicaments.length > 0)
                     {
-                        query += `(0, ${t.id}, ${t.medicaments[i].idM},
-                        "${t.medicaments[i].periode}"),`;
-                    }
-                    query = query.substring(0, query.length-1) + ';'
-
-                    self.connection.query(query, function(qerr, r){
-                        if (qerr) 
+                        query = `INSERT INTO Periodicitat VALUES`
+                        var i;
+                        for (i = 0; i < t.medicaments.length; i++) 
                         {
-                            callback(self.error("Query error."));
-                            return;
+                            query += `(0, ${t.id}, ${t.medicaments[i].idM},
+                            "${t.medicaments[i].periode}"),`;
                         }
-                            
+                        query = query.substring(0, query.length-1) + ';'
+    
+                        self.connection.query(query, function(qerr, r){
+                            if (qerr) 
+                            {
+                                callback(self.error("Query error."));
+                                return;
+                            }
+                                
+                            var response =  {
+                                serverStatus: 200,
+                                correcte: true,
+                            };
+                            callback(response);
+                        });
+                    }
+                    else
+                    {
                         var response =  {
                             serverStatus: 200,
                             correcte: true,
                         };
-                        console.log(response);
                         callback(response);
-                    });
+                    }
+                    
                 });
             });
         });

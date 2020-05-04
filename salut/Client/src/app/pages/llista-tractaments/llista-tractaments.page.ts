@@ -52,7 +52,7 @@ export class LlistaTractamentsPage implements OnInit {
     .subscribe((res: TractamentGetAllResponse)=>{
       if (res.correcte)
       {
-        this.llistaTractaments[index].splice(index, 1);
+        this.llistaTractaments.splice(index, 1);
         alert("El tractament s'ha eliminat");
       }
       else

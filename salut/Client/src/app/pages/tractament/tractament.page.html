@@ -29,7 +29,7 @@
         </ion-select>
         
         <ion-label>Hora de la presa</ion-label>
-        <ion-datetime display-format="h:mm" name="periode" [(ngModel)]="auxMedicament.periode" picker-format="h:mm A" value="auxMedicament.periode"></ion-datetime>
+        <ion-datetime display-format="HH:mm" name="periode" [(ngModel)]="auxMedicament.periode" picker-format="h:mm A" value="auxMedicament.periode"></ion-datetime>
         <div class="item-note"  item-end>
           <ion-button ion-button (click) = "afegirMedicament()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
         </div>

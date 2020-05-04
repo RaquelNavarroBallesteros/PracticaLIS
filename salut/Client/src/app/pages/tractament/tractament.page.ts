@@ -46,6 +46,7 @@ export class TractamentPage implements OnInit {
     {
       medicament.periode = new Date(medicament.periode).toLocaleTimeString('es-ES');
       console.log(medicament);
+      medicament.periode = medicament.periode.substring(0,5);
       this.tractament.medicaments.push(medicament);
       this.auxMedicament = {id: 0, idM: null, periode:null};
     }
@@ -108,10 +109,11 @@ export class TractamentPage implements OnInit {
             idM: res.data['Medicaments'][i].MedicamentId,
             periode: res.data['Medicaments'][i].Periode.substring(0, 5)});
         }
-        this.get_medicaments();
         //console.log(this.tractament);
       });
+    
     }
+    this.get_medicaments();
   }
 
   get_medicaments()

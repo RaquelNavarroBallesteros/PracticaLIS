@@ -13,7 +13,8 @@ class DBContext{
                 database : configBD.database,
                 port     : configBD.port,
                 user     : configBD.user,
-                password : configBD.password
+                password : configBD.password,
+                multipleStatements: true
             });
             this.instance = this;
         }
