@@ -40,11 +40,13 @@ export class TractamentPage implements OnInit {
     let medicament = this.auxMedicament;
     if (medicament.idM == null || medicament.periode == null)
     {
-      alert("Indica el medicament i la periodicitat.");
+      alert("Indica el medicament i la hora de la presa.");
     }
     else
     {
+      medicament.periode = new Date(medicament.periode).toLocaleTimeString('es-ES');
       console.log(medicament);
+      medicament.periode = medicament.periode.substring(0,5);
       this.tractament.medicaments.push(medicament);
       this.auxMedicament = {id: 0, idM: null, periode:null};
     }
@@ -105,12 +107,13 @@ export class TractamentPage implements OnInit {
           this.tractament.medicaments.push({
             id: res.data['Medicaments'][i].Id,
             idM: res.data['Medicaments'][i].MedicamentId,
-            periode: res.data['Medicaments'][i].Periode});
+            periode: res.data['Medicaments'][i].Periode.substring(0, 5)});
         }
-        this.get_medicaments();
         //console.log(this.tractament);
       });
+    
     }
+    this.get_medicaments();
   }
 
   get_medicaments()

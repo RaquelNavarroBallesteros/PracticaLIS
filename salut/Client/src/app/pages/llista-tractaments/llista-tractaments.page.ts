@@ -48,7 +48,16 @@ export class LlistaTractamentsPage implements OnInit {
 
   deleteTractament(index)
   {
-    //this.llistaTractaments.splice(index, 1);
+    this.tractamentService.del_request(this.llistaTractaments[index].id)
+    .subscribe((res: TractamentGetAllResponse)=>{
+      if (res.correcte)
+      {
+        this.llistaTractaments.splice(index, 1);
+        alert("El tractament s'ha eliminat");
+      }
+      else
+        alert("Error: " + res.msg);
+    });
   }
 
    updateTractament(index) 
@@ -75,4 +84,11 @@ export class TractamentGetAllResponse {
       public msg: string,
       public data: Array<object>
   ) {}
+}
+
+export class TractamentDelResponse{
+  constructor(
+    public serverStatus: number,
+    public correcte: boolean
+  ){}
 }
