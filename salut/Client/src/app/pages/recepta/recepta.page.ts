@@ -53,7 +53,8 @@ export class ReceptaPage implements OnInit {
             this.copyFileToLocalDir(res[1], res[0], this.createFileName());
             this.notificationService.eliminarNotificacioRecepta();
           });
-          
+        }else{
+          this.copyFileToLocalDir(res[1], res[0], this.createFileName());
         }
       }else{
         this.copyFileToLocalDir(res[1], res[0], this.createFileName());
