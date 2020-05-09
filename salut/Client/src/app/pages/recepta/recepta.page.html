@@ -27,7 +27,8 @@
       <ion-icon name="scan-outline" color="primary"></ion-icon>
     </ion-fab-button>
   </ion-fab-list>
-  <ion-fab-list side="start">
+
+  <ion-fab-list *ngIf="images.length !== 0" side="start">
     <ion-fab-button (click)="ferFoto(false)">
       <ion-icon name="add-outline" color="primary"></ion-icon>
     </ion-fab-button>

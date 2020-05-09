@@ -27,6 +27,8 @@ export class ReceptaPage implements OnInit {
     });
   }
   
+  descarregarPDF(){}
+
   loadStoredImages(){
     this.storage.get(STORAGE_KEY).then(images => {
       if(images){
@@ -40,7 +42,9 @@ export class ReceptaPage implements OnInit {
       }
     });
   }
+
   ferFoto(novaRecepta) {
+
     this.fotoService.ferFoto("recepta").then(res =>{
       if(novaRecepta){
         console.log("Nova Recepta");
@@ -50,22 +54,9 @@ export class ReceptaPage implements OnInit {
         });
       }else{
         console.log("Ampliant Recepta");
-        if (this.images.length !== 0) {
-          this.deleteImage(0).then((_) => {
-            this.copyFileToLocalDir(res[1], res[0], this.createFileName());
-            this.notificationService.eliminarNotificacioRecepta();
-          });
-        } else {
-          this.copyFileToLocalDir(res[1], res[0], this.createFileName());
-          this.notificationService.eliminarNotificacioRecepta();
-        }
-
-      }
-      
+        this.copyFileToLocalDir(res[1], res[0], this.createFileName());
+      } 
     });
-  }
-  descarregarPDF(){
-
   }
   
   copyFileToLocalDir(namePath: string, currentName: string, newFileName: string){
@@ -107,21 +98,16 @@ export class ReceptaPage implements OnInit {
   }
 
   async deleteImage(){
-    
-    this.images.splice(position, 1);
-
     return new Promise((resolve, reject)=>{
       this.storage.get(STORAGE_KEY).then(images => {
-        
-        let arr = JSON.parse(images);
-        let filtred = arr.filter(name=> name != image.name);
-        this.storage.set(STORAGE_KEY, JSON.stringify(filtred));
-
-        var correctPath = image.filePath.substr(0, image.filePath.lastIndexOf('/') + 1);
-        this.file.removeFile(correctPath, image.name).then(res =>{
-          this.presentToast('Recepte modificada');
-          resolve(true);
-        })
+        this.storage.remove(STORAGE_KEY);
+        this.images.forEach((image) =>{
+          var correctPath = image.filePath.substr(0, image.filePath.lastIndexOf('/') + 1);
+          this.file.removeFile(correctPath, image.name).then(res =>{
+            this.presentToast('Recepte modificada');
+            resolve(true);
+          })
+        });
       })
     });
   }
