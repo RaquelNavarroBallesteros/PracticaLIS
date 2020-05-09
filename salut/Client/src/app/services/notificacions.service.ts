@@ -22,7 +22,6 @@ export class NotificacionsService {
         silent: false,
         //launch: false,
         group: 'Medicament',
-        autoClear: true,
         //lockscreen: true
         foreground: true,
         sound: 'file://assets/audio/solemn.mp3',
