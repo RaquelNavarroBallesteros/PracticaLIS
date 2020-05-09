@@ -5,6 +5,7 @@ import { async } from '@angular/core/testing';
 import { TractamentService } from 'src/app/services/tractament.service';
 import {Router} from '@angular/router';
 import {Storage} from '@ionic/storage';
+import { NotificacionsService } from 'src/app/services/notificacions.service';
 
 const STORAGE_KEY_P = 'perfil';
 @Component({
@@ -17,7 +18,8 @@ export class LlistaTractamentsPage implements OnInit {
   perfil_id = 0;
   llistaTractaments = [];
 
-  constructor(private storage: Storage, private router: Router, public tractamentService: TractamentService, public alertCtrl: AlertController) 
+  constructor(private storage: Storage, private router: Router, public tractamentService: TractamentService, public alertCtrl: AlertController,
+            private notificationService: NotificacionsService) 
   { 
   }
 
@@ -52,7 +54,9 @@ export class LlistaTractamentsPage implements OnInit {
     .subscribe((res: TractamentGetAllResponse)=>{
       if (res.correcte)
       {
+        var idTractament = this.llistaTractaments[index].id;
         this.llistaTractaments.splice(index, 1);
+        this.notificationService.eliminarNotificacioTractament(idTractament);
         alert("El tractament s'ha eliminat");
       }
       else
