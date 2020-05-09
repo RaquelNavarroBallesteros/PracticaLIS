@@ -12,7 +12,7 @@ export class NotificacionsService {
   { 
   }
 
-  crearPeriodic(medicament :string, tractament:string, hora: number, minut: number, fins: Date, perfil: string){
+  crearPeriodic(medicament :string, tractament:string, hora: number, minut: number, fins: Date, perfil: string, inici: Date, tractamentId: number){
     var d = new Date().getTime();
     this.platform.ready().then(()=>{
       this.localNotification.schedule({
@@ -28,7 +28,11 @@ export class NotificacionsService {
         sound: 'file://assets/audio/solemn.mp3',
         trigger:{
           before: fins,
+          firstAt: inici,
           every:{hour: hora, minute: minut}
+        },
+        data:{
+          idTractament: tractamentId
         }
       });
     })
@@ -75,6 +79,18 @@ export class NotificacionsService {
         if (item.group == 'Recepta')
         {
           this.localNotification.cancel(item.id);
+        }
+      })
+    });
+  }
+  eliminarNotificacioTractament(idTractament: number) {
+    this.localNotification.getAll().then(res =>{
+      res.forEach(item =>{
+        if (item.group == 'Medicament')
+        {
+          if(item.data.idTractament == idTractament){
+            this.localNotification.cancel(item.id);
+          }
         }
       })
     });
