@@ -40,18 +40,32 @@ export class ReceptaPage implements OnInit {
       }
     });
   }
-  ferFoto() {
+  ferFoto(novaRecepta) {
     this.fotoService.ferFoto("recepta").then(res =>{
-      if (this.images.length !== 0){
-        this.deleteImage(0).then(_=>{
+      if(novaRecepta){
+        console.log("Nova Recepta");
+        this.deleteImage().then((_) => {
           this.copyFileToLocalDir(res[1], res[0], this.createFileName());
           this.notificationService.eliminarNotificacioRecepta();
-        })
+        });
       }else{
-        this.copyFileToLocalDir(res[1], res[0], this.createFileName());
-        this.notificationService.eliminarNotificacioRecepta();
+        console.log("Ampliant Recepta");
+        if (this.images.length !== 0) {
+          this.deleteImage(0).then((_) => {
+            this.copyFileToLocalDir(res[1], res[0], this.createFileName());
+            this.notificationService.eliminarNotificacioRecepta();
+          });
+        } else {
+          this.copyFileToLocalDir(res[1], res[0], this.createFileName());
+          this.notificationService.eliminarNotificacioRecepta();
+        }
+
       }
+      
     });
+  }
+  descarregarPDF(){
+
   }
   
   copyFileToLocalDir(namePath: string, currentName: string, newFileName: string){
@@ -92,12 +106,13 @@ export class ReceptaPage implements OnInit {
     })
   }
 
-  async deleteImage(position: number){
-    var image = this.images[position]
+  async deleteImage(){
+    
     this.images.splice(position, 1);
 
     return new Promise((resolve, reject)=>{
       this.storage.get(STORAGE_KEY).then(images => {
+        
         let arr = JSON.parse(images);
         let filtred = arr.filter(name=> name != image.name);
         this.storage.set(STORAGE_KEY, JSON.stringify(filtred));
