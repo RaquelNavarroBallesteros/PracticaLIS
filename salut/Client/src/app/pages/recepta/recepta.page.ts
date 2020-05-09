@@ -47,13 +47,15 @@ export class ReceptaPage implements OnInit {
 
     this.fotoService.ferFoto("recepta").then(res =>{
       if(novaRecepta){
-        console.log("Nova Recepta");
-        this.deleteImage().then((_) => {
-          this.copyFileToLocalDir(res[1], res[0], this.createFileName());
-          this.notificationService.eliminarNotificacioRecepta();
-        });
+        if (this.images.length > 0){
+          this.deleteImage().then((_) => {
+            this.images = [];
+            this.copyFileToLocalDir(res[1], res[0], this.createFileName());
+            this.notificationService.eliminarNotificacioRecepta();
+          });
+          
+        }
       }else{
-        console.log("Ampliant Recepta");
         this.copyFileToLocalDir(res[1], res[0], this.createFileName());
       } 
     });
@@ -92,23 +94,22 @@ export class ReceptaPage implements OnInit {
         filePath: filePath
       };
 
-      this.images = [newEntry, ...this.images];
+      this.images = [...this.images, newEntry];
       this.ref.detectChanges();
     })
   }
 
   async deleteImage(){
     return new Promise((resolve, reject)=>{
-      this.storage.get(STORAGE_KEY).then(images => {
-        this.storage.remove(STORAGE_KEY);
-        this.images.forEach((image) =>{
-          var correctPath = image.filePath.substr(0, image.filePath.lastIndexOf('/') + 1);
-          this.file.removeFile(correctPath, image.name).then(res =>{
-            this.presentToast('Recepte modificada');
-            resolve(true);
-          })
-        });
-      })
+      this.storage.set(STORAGE_KEY, JSON.stringify([]));
+      this.images.forEach((image) =>{
+        var correctPath = image.filePath.substr(0, image.filePath.lastIndexOf('/') + 1);
+        this.file.removeFile(correctPath, image.name).then(res =>{
+          return true;
+        })
+      });
+      this.presentToast('Recepta actualitzada');
+      resolve(true);
     });
   }
 
