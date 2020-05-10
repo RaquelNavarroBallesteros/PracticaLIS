@@ -71,7 +71,7 @@
         {{todo.nom}} - {{todo.descripcio}}
         <div class="item-note" slot="end">
           <ion-button ion-button clear (click)="updateTask(i)"> <ion-icon name="pencil-outline"></ion-icon> </ion-button>
-          <ion-button ion-button clear (click)="deleteTask(i)"> <ion-icon name="trash"></ion-icon> </ion-button>
+          <ion-button ion-button clear (click)="deleteTask(i)" color="danger"> <ion-icon name="trash"></ion-icon> </ion-button>
         </div>
       </ion-item>
     </ion-list>
