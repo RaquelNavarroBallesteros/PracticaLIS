@@ -10,19 +10,22 @@
       <ion-card *ngFor = "let event of period">
         <ion-card-header>
           <ion-card-title>
-            <ion-label color="primary">{{event.DataVisita | date: 'dd EEEE'}}</ion-label>
+            <ion-label color="primary">{{event.DataVisita | date: 'dd EEEE, HH:mm'}}</ion-label>
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            <div>
               <ion-text color="black">Ubucació: {{event.Ubicacio}}</ion-text>
-            </div>
-            <div>
+              <br>
               <ion-text color="black">Descripció: {{event.Descripcio}}</ion-text>
-            </div>
-              <ion-button size="small" item-end (click)="eliminarEvent(event.Id)">
+            <!--
+            <ion-button size="small" color="danger" horizontal="end" (click)="eliminarEvent(event.Id)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>-->
+            <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+              <ion-fab-button size="small" color="danger" color="primary" (click)="eliminarEvent(event.Id)">
                 <ion-icon name="trash-outline"></ion-icon>
-              </ion-button>
+              </ion-fab-button>
+            </ion-fab>
         </ion-card-content>
       </ion-card>
     </ion-card-content>
