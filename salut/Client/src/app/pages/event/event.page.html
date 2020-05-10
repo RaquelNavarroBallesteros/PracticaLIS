@@ -14,21 +14,22 @@
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-              <ion-text color="black">Ubucació: {{event.Ubicacio}}</ion-text>
-              <br>
-              <ion-text color="black">Descripció: {{event.Descripcio}}</ion-text>
-            <!--
-            <ion-button size="small" color="danger" horizontal="end" (click)="eliminarEvent(event.Id)">
-              <ion-icon name="trash-outline"></ion-icon>
-            </ion-button>-->
-            <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-              <ion-fab-button size="small" color="danger" color="primary" (click)="eliminarEvent(event.Id)">
-                <ion-icon name="trash-outline"></ion-icon>
-              </ion-fab-button>
-            </ion-fab>
+        <ion-text color="black">Ubucació: {{event.Ubicacio}}</ion-text>
+        <br>
+        <ion-text color="black">Descripció: {{event.Descripcio}}</ion-text>
+        <div class="ion-text-end">
+          <ion-button size="small" color="background" (click)="eliminarEvent(event.Id)">
+            <ion-icon color="primary" name="pencil-outline"></ion-icon>
+          </ion-button>
+          <ion-button size="small" color="danger" (click)="eliminarEvent(event.Id)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </div>
         </ion-card-content>
+
       </ion-card>
     </ion-card-content>
+
   </ion-card>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button size="large" color="primary" routerLink="/add-event">
