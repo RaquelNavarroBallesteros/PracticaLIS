@@ -7,6 +7,7 @@ import { NotificacionsService } from 'src/app/services/notificacions.service';
 import { FileService } from '../../services/file.service'; 
 import pdfMake from 'pdfmake/build/pdfmake';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
+import
 
 
 const STORAGE_KEY = 'receptes';
@@ -47,18 +48,32 @@ export class ReceptaPage implements OnInit {
 
   crearPDF(){
     var docDefinition = {
-      content: [
-      ]
+      content: []
     }
-    this.images.forEach((img)=>{
+    this.images.forEach((img, index)=>{
+      var imgHtml = document.getElementById(index.toString());
       var newImg = {
-        image: img.path
+        //image: 'data:image/jpg;base64,' + this.getDataUrl(imgHtml)
+        image: 'assets/img/112.png',
+        
       }
       docDefinition.content.push(newImg);
     });
     this.pdfObject = pdfMake.createPdf(docDefinition);
   }
 
+  getDataUrl(img) {
+    // Create canvas
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    // Set width and height
+    canvas.width = img.width;
+    canvas.height = img.height;
+    // Draw the image
+    ctx.drawImage(img, 0, 0);
+    return canvas.toDataURL('image/jpg');
+  }
+  
   loadStoredImages(){
     this.storage.get(STORAGE_KEY).then(images => {
       if(images){

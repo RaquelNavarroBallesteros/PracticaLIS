@@ -2,10 +2,10 @@
 
 <ion-content>
   <h3 *ngIf="images.length === 0" text-center>Fes la primera foto a la teva recepta</h3>
-  <ion-grid *ngFor="let img of images; inedex as pos">
+  <ion-grid *ngFor="let img of images; let i = index">
     <ion-row>
       <ion-col>
-        <ion-img [src]="img.path"></ion-img>
+        <img id="{{i}}" [src]="img.path"/>
       </ion-col>
     </ion-row>
   </ion-grid>
