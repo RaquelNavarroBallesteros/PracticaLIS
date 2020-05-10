@@ -22,7 +22,10 @@
               <ion-icon name="trash-outline"></ion-icon>
             </ion-button>-->
             <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-              <ion-fab-button size="small" color="danger" color="primary" (click)="eliminarEvent(event.Id)">
+              <ion-fab-button size="small" color="white" (click)="eliminarEvent(event.Id)">
+                <ion-icon color= "primary" name="pencil-outline"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button size="small" color="danger" (click)="eliminarEvent(event.Id)">
                 <ion-icon name="trash-outline"></ion-icon>
               </ion-fab-button>
             </ion-fab>

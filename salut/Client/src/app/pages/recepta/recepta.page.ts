@@ -4,7 +4,7 @@ import {FotoService} from 'src/app/services/foto.service';
 import { File } from '@ionic-native/file/ngx';
 import {Storage} from '@ionic/storage';
 import { NotificacionsService } from 'src/app/services/notificacions.service';
-
+import pdfMake from 'pdfmake/build/pdfmake';
 
 const STORAGE_KEY = 'receptes';
 
@@ -27,7 +27,14 @@ export class ReceptaPage implements OnInit {
     });
   }
   
-  descarregarPDF(){}
+  descarregarPDF(){
+    
+    var docDefinition = {
+      content: [
+
+      ]
+    }
+  }
 
   loadStoredImages(){
     this.storage.get(STORAGE_KEY).then(images => {
