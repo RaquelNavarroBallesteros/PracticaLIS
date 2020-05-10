@@ -58,18 +58,11 @@ const routes: Routes = [
   {
     path: 'grafiques',
     loadChildren: () => import('./pages/grafiques/grafiques.module').then( m => m.GrafiquesPageModule)
-  }
-
-      
+  },  
   {
     path: 'add-event',
     loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
   }
-
-  
-  
-
-
 ];
 
 @NgModule({

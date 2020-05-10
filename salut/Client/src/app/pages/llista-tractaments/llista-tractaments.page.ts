@@ -43,11 +43,6 @@ export class LlistaTractamentsPage implements OnInit {
     });
   }
 
-  ionViewWillEnter()
-  {
-    
-  }
-
   deleteTractament(index)
   {
     this.tractamentService.del_request(this.llistaTractaments[index].id)
