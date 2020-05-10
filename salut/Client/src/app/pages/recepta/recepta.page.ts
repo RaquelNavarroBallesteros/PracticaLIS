@@ -4,7 +4,10 @@ import {FotoService} from 'src/app/services/foto.service';
 import { File } from '@ionic-native/file/ngx';
 import {Storage} from '@ionic/storage';
 import { NotificacionsService } from 'src/app/services/notificacions.service';
+import { FileService } from '../../services/file.service'; 
 import pdfMake from 'pdfmake/build/pdfmake';
+import {FileOpener} from '@ionic-native/file-opener/ngx';
+
 
 const STORAGE_KEY = 'receptes';
 
@@ -16,24 +19,44 @@ const STORAGE_KEY = 'receptes';
 export class ReceptaPage implements OnInit {
   public images = [];
 
+  pdfObject = null;
   public fotoReceptaPath;
   public fotoRecepta: boolean
   constructor(private fotoService: FotoService, private ref: ChangeDetectorRef, private platform: Platform,
-              private toastController: ToastController, private storage: Storage, private file: File, private notificationService:NotificacionsService) {}
+              private toastController: ToastController, private storage: Storage, private file: File, private notificationService:NotificacionsService,
+              private fileOpener: FileOpener, private fileService : FileService) {}
   
   ngOnInit() {
     this.platform.ready().then(()=>{
       this.loadStoredImages();
     });
   }
-  
-  descarregarPDF(){
-    
+  async descarregarPDF(){
+    this.crearPDF();
+    var fileName = 'recepta_' + this.images[0].name + '.pdf';
+    var pathFile = await this.fileService.getDownloadPath();
+    this.pdfObject.getBuffer((buffer) => {
+      var utf8 = new Uint8Array(buffer);
+      var binaryArray = utf8.buffer;
+      var blob = new Blob([binaryArray], {type: 'application/pdf'});
+      this.file.writeFile(pathFile, fileName, blob, {replace: true}).then(fileEntry => {
+        this.fileOpener.open(pathFile + fileName, 'application/pdf');
+      })
+    });
+  }
+
+  crearPDF(){
     var docDefinition = {
       content: [
-
       ]
     }
+    this.images.forEach((img)=>{
+      var newImg = {
+        image: img.path
+      }
+      docDefinition.content.push(newImg);
+    });
+    this.pdfObject = pdfMake.createPdf(docDefinition);
   }
 
   loadStoredImages(){
