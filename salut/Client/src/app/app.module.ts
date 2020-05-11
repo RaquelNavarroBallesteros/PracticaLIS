@@ -18,6 +18,7 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import {IonicStorageModule} from '@ionic/storage';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx'
 import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
 
 @NgModule({
@@ -45,6 +46,7 @@ import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
     CallNumber, 
     LocalNotifications,
     FileOpener,
+    LaunchNavigator,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
    
   ],
