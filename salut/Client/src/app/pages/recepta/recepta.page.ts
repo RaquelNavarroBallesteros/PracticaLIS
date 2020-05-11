@@ -5,7 +5,6 @@ import { File } from '@ionic-native/file/ngx';
 import {Storage} from '@ionic/storage';
 import { NotificacionsService } from 'src/app/services/notificacions.service';
 import { FileService } from '../../services/file.service'; 
-//import pdfMake from 'pdfmake/build/pdfmake';
 import * as jsPDF from 'jspdf';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
 
@@ -71,6 +70,7 @@ export class ReceptaPage implements OnInit {
     });
    })
   }
+  
   loadImgPdf(path){
     return new Promise((resolve) => {
       let img = new Image();
