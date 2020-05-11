@@ -33,7 +33,9 @@ export class ReceptaPage implements OnInit {
     });
   }
   async descarregarPDF(){
-    var fileName = 'recepta_' + this.images[0].name + '.pdf';
+    
+    this.presentToast("Creant PDF...");
+    var fileName = 'recepta_' + (this.images[0].name).replace("recepta.jpg", "") + '.pdf';
     var pathFile = await this.fileService.getDownloadPath();
     this.crearPDF().then((_) =>{
       var pdfOutput = this.pdfObject.output();
@@ -43,11 +45,11 @@ export class ReceptaPage implements OnInit {
       for (var i = 0; i < pdfOutput.length; i++) {
         array[i] = pdfOutput.charCodeAt(i);
       }
-      this.file.writeFile(pathFile, fileName, buffer, {replace: true}).then(fileEntry => {
-        this.fileOpener.open(pathFile + fileName, 'application/pdf');
+      
+      this.file.writeFile(pathFile, fileName, buffer, {replace: true}).then(fileEntry => {               
+      this.fileOpener.open(pathFile + fileName, "application/pdf");
       })
     });
-    this.presentToast("Creant PDF...");
   }
 
   crearPDF(){
