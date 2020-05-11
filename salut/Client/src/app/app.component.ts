@@ -76,8 +76,9 @@ export class AppComponent {
         var perfilId = 0;
         if (res.data.length > 0){
           perfilId = res.data[0]['Id'];
+          var nom = res.data[0]['Nom'];
           this.storage.remove(STORAGE_KEY_P).then(res => {
-            let perfilStorage = {id: perfilId};
+            let perfilStorage = {id: perfilId, nom: nom};
             this.storage.set(STORAGE_KEY_P, perfilStorage);  
             this.route.navigate(['/inici']);
           });

@@ -1,35 +1,34 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Tractament</ion-title>
-  </ion-toolbar>
-</ion-header>
-
+<app-header title="Nou tractament" backButton="true"></app-header>
 <ion-content>
 
   <form #formulariPerfil="ngForm" (ngSubmit)="enviar()" validate>
     <ion-item>
-      <ion-label>Nom</ion-label>
+      <ion-label position="floating">Nom</ion-label>
       <ion-input type="text" name="nom" [(ngModel)]="tractament.nom" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Data inici</ion-label>
+      <ion-label position="floating">Data inici</ion-label>
       <ion-input type="date" name="data_i" [(ngModel)]="tractament.data_i" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Data fi</ion-label>
+      <ion-label position="floating">Data fi</ion-label>
       <ion-input type="date" name="data_f" [(ngModel)]="tractament.data_f" required></ion-input>
     </ion-item>
 
     <ion-row align-items-center>
       <ion-item>
         
-        <ion-label>Medicament</ion-label>
+        <ion-label position="floating">Medicament</ion-label>
         <ion-select name="medicament" [(ngModel)]="auxMedicament.idM" [ngModelOptions]="{standalone: true}" interface="popover">
           <ion-select-option *ngFor="let id of medicaments_keys;" value={{id}}>{{medicaments_query[id]}}</ion-select-option>
         </ion-select>
+      </ion-item>
         
-        <ion-label>Hora de la presa</ion-label>
-        <ion-datetime display-format="HH:mm" name="periode" [(ngModel)]="auxMedicament.periode" picker-format="h:mm A" value="auxMedicament.periode"></ion-datetime>
+      <ion-item>
+        <ion-label position="floating">Hora de la presa</ion-label>
+        <ion-datetime display-format="HH:mm" name="periode" [(ngModel)]="auxMedicament.periode" picker-format="HH:mm" value="auxMedicament.periode"></ion-datetime>
+      </ion-item>
+      <ion-item>
         <div class="item-note"  item-end>
           <ion-button ion-button (click) = "afegirMedicament()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
         </div>

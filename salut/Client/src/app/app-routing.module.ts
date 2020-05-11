@@ -24,6 +24,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/inici/inici.module').then( m => m.IniciPageModule)
   },
   {
+    path: 'event',
+    loadChildren: () => import('./pages/event/event.module').then( m => m.EventPageModule)
+  },
+  {
     path: 'recepta',
     loadChildren: () => import('./pages/recepta/recepta.module').then( m => m.ReceptaPageModule)
   },
@@ -54,9 +58,11 @@ const routes: Routes = [
   {
     path: 'grafiques',
     loadChildren: () => import('./pages/grafiques/grafiques.module').then( m => m.GrafiquesPageModule)
+  },  
+  {
+    path: 'add-event',
+    loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
   }
-
-
 ];
 
 @NgModule({

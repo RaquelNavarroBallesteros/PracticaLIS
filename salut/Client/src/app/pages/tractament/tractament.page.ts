@@ -4,6 +4,8 @@ import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {Storage} from '@ionic/storage';
+import { NotificacionsService } from 'src/app/services/notificacions.service';
+import {Router} from '@angular/router';
 
 const STORAGE_KEY_P = 'perfil';
 @Component({
@@ -21,9 +23,10 @@ export class TractamentPage implements OnInit {
     data_f: '',
     medicaments: []
   }
+  private nomPerfil = null;  
 
   constructor(private route: ActivatedRoute, public tractamentService: TractamentService, public alertCtrl: AlertController,
-              private storage: Storage) 
+              private storage: Storage, private notificationService: NotificacionsService, private router:Router) 
   {
     this.route.params.subscribe(params => {
       console.log(params);
@@ -78,6 +81,7 @@ export class TractamentPage implements OnInit {
     this.storage.get(STORAGE_KEY_P).then(information => {
       if (information != null){
         this.tractament.perfil_id = information.id;
+        this.nomPerfil = information.nom;
       }
       console.log("ION WILL ENTER");
       this.get();
@@ -137,11 +141,18 @@ export class TractamentPage implements OnInit {
   add()
   {
     console.log("Tractament add");
+    var self = this;
     this.tractamentService.add_request(this.tractament).subscribe((res: TractamentSetResponse)=>{
       if (res.correcte)
       {
         alert("Les dades s'han guardar correctament.");
         this.tractament.id = res.id;
+        this.tractament.medicaments.forEach((medicament) =>{
+          var horesMin = medicament.periode.split(':');
+          this.notificationService.crearPeriodic(this.medicaments_query[medicament.idM],this.tractament.nom,parseInt(horesMin[0]),parseInt(horesMin[1]),
+          new Date(this.tractament.data_f), this.nomPerfil, new Date(this.tractament.data_i), this.tractament.id);
+        })
+        self.router.navigate(['/llista-tractaments']);
       }
       
     else
@@ -152,10 +163,18 @@ export class TractamentPage implements OnInit {
   update()
   {
     console.log("Tractament update");
+    var self = this;
     this.tractamentService.update_request(this.tractament).subscribe((res: TractamentSetResponse)=>{
-      if (res.correcte)
+      if (res.correcte){
         alert("Les dades s'han guardar correctament.");
-      else
+        this.notificationService.eliminarNotificacioTractament(this.tractament.id);
+        this.tractament.medicaments.forEach((medicament) =>{
+          var horesMin = medicament.periode.split(':');
+          this.notificationService.crearPeriodic(this.medicaments_query[medicament.idM],this.tractament.nom,parseInt(horesMin[0]),parseInt(horesMin[1]),
+          new Date(this.tractament.data_f), this.nomPerfil, new Date(this.tractament.data_i), this.tractament.id);
+        });
+        self.router.navigate(['/llista-tractaments']);
+      }else
         alert("Error: " + res.msg);
     });
   }
@@ -165,6 +184,7 @@ export class TractamentPage implements OnInit {
     if(this.tractament.id == 0)
     {
       this.add();
+
     }
     else
     {

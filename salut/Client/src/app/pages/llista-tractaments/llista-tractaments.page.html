@@ -1,9 +1,4 @@
-
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Llista de Tractaments</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Tractaments" backButton="true"></app-header>
 
 <ion-content>
 
@@ -21,7 +16,7 @@
         {{t.nom}} <!-- - {{t.data_i}} - {{t.data_f}} -->
         <div class="item-note" slot="end">
           <ion-button ion-button clear (click)="updateTractament(i)"> <ion-icon name="pencil-outline"></ion-icon> </ion-button>
-          <ion-button ion-button clear (click)="deleteTractament(i)"> <ion-icon name="trash-outline"></ion-icon> </ion-button>
+          <ion-button ion-button clear (click)="deleteTractament(i)" color="danger"> <ion-icon name="trash-outline"></ion-icon> </ion-button>
           <!--<ion-button ion-button clear (click)="deleteTractament(i)"> <ion-icon name="trash"></ion-icon> </ion-button>-->
         </div>
       </ion-item>

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { MapaPageRoutingModule } from './mapa-routing.module';
 
 import { MapaPage } from './mapa.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { MapaPage } from './mapa.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    MapaPageRoutingModule
+    MapaPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [MapaPage]
 })

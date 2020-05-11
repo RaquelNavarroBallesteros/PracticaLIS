@@ -4,20 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LlistaTractamentsPageRoutingModule } from './llista-tractaments-routing.module';
+import { AddEventPageRoutingModule } from './add-event-routing.module';
 
-import { LlistaTractamentsPage } from './llista-tractaments.page';
+import { AddEventPage } from './add-event.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    LlistaTractamentsPageRoutingModule,
+    AddEventPageRoutingModule,
     ComponentsModule
   ],
-  declarations: [LlistaTractamentsPage]
+  declarations: [AddEventPage]
 })
-export class LlistaTractamentsPageModule {}
+export class AddEventPageModule {}

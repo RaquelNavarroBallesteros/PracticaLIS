@@ -1,8 +1,4 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Contactes</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Contactes" backButton="true"></app-header>
 
 <ion-content>
   <ion-list>
@@ -10,7 +6,7 @@
       {{c.nom}} - {{c.numero}}
       <div class="item-note" slot="end">
         <ion-button ion-button clear (click)="trucada(i)"> <ion-icon name="call-outline"></ion-icon> </ion-button>
-        <ion-button ion-button clear (click)="deleteContacte(i)"> <ion-icon name="trash"></ion-icon> </ion-button>
+        <ion-button ion-button clear (click)="deleteContacte(i)" color="danger"> <ion-icon name="trash"></ion-icon> </ion-button>
       </div>
     </ion-item>
   </ion-list>

@@ -62,10 +62,12 @@ export class LoginPage implements OnInit {
     this.perfilService.getall(idUsuari).subscribe((res: PerfilGetAllResponse) => {
       if (res.correcte){
         var perfilId = 0;
+        var nom = '';
         if (res.data.length > 0){
           perfilId = res.data[0]['Id'];
+          nom = res.data[0]['Nom'];
           this.storage.remove(STORAGE_KEY_P).then(res => {
-            let perfilStorage = {id: perfilId};
+            let perfilStorage = {id: perfilId, nom: nom};
             this.storage.set(STORAGE_KEY_P, perfilStorage);  
             this.route.navigate(['/inici']);
           });

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ContactesPageRoutingModule } from './contactes-routing.module';
 
 import { ContactesPage } from './contactes.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { ContactesPage } from './contactes.page';
     //BrowserModule,
     FormsModule,
     //HttpModule,
+    ComponentsModule
   ],
   declarations: [ContactesPage]
 })

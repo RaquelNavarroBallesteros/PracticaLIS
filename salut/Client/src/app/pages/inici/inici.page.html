@@ -2,59 +2,42 @@
 
 <ion-content>
 <ion-grid id="gridMenu">
+
   <ion-row>
     <ion-col>
-      <ion-card padding text-center color="primary" routerLink="/emergencies"> 
-        <ion-card-header >
-          <ion-icon size="large" name="earth"></ion-icon>
+      <ion-card padding text-center color="primary" routerLink="/perfil">
+        <ion-card-header>
+          <ion-icon size="large" name="person-circle-outline"></ion-icon>
         </ion-card-header>
         <ion-card-content>
-          <ion-label>Geolocalització</ion-label>
+          <ion-label>Perfil</ion-label>
         </ion-card-content>
       </ion-card>
     </ion-col>
-    
     <ion-col>
-    <ion-card padding text-center color="primary" routerLink="/visites">
-      <ion-card-header>
-        <ion-icon size="large" name="today-outline"></ion-icon>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-label>Visites</ion-label>
-      </ion-card-content>
-    </ion-card>
-
-    </ion-col>
-
-  </ion-row>
-
-
-  <ion-row>
-    <ion-col>
-    <ion-card padding text-center color="primary" routerLink="/perfil">
-      <ion-card-header>
-        <ion-icon size="large" name="person-circle-outline"></ion-icon>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-label>Perfil</ion-label>
-      </ion-card-content>
-    </ion-card>
-    </ion-col>
-
-
-    <ion-col>
-    <ion-card padding text-center color="primary" routerLink="/emergencies">
-      <ion-card-header>
-        <ion-icon size="large" name="alert-circle-outline"></ion-icon>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-label>Emergències</ion-label>
-      </ion-card-content>
+      <ion-card padding text-center color="primary" routerLink="/contactes">
+        <ion-card-header>
+          <ion-icon size="large" name="people-outline"></ion-icon>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-label>Contactes</ion-label>
+        </ion-card-content>
       </ion-card>
-
     </ion-col>
   </ion-row>
+
+
   <ion-row>
+    <ion-col>
+      <ion-card padding text-center color="primary" routerLink="/event">
+        <ion-card-header>
+          <ion-icon size="large" name="today-outline"></ion-icon>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-label>Visites</ion-label>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
     <ion-col>
       <ion-card padding text-center color="primary" routerLink="/recepta">
         <ion-card-header>
@@ -65,62 +48,66 @@
         </ion-card-content>
       </ion-card>
     </ion-col>
+  </ion-row>
+
+
+  <ion-row>
     <ion-col>
-      <ion-card padding text-center color="primary" (click)="logOut()">
-      <ion-card-header>
-        <ion-icon size="large" name="exit-outline"></ion-icon>        
-      </ion-card-header>
-      <ion-card-content>
-        <ion-label>LogOut</ion-label>
-      </ion-card-content>
-    </ion-card>
+      <ion-card padding text-center color="primary" routerLink="/llista-tractaments">
+        <ion-card-header>
+          <ion-icon size="large" name="bandage-outline"></ion-icon>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-label>Tractaments</ion-label>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col>
+      <ion-card padding text-center color="primary" routerLink="/mapa">
+        <ion-card-header>
+          <ion-icon size="large" name="earth"></ion-icon>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-label>Geolocalització</ion-label>
+        </ion-card-content>
+      </ion-card>
     </ion-col>
   </ion-row>
+
+
   <ion-row>
+    <ion-col>
+      <ion-card padding text-center color="primary" routerLink="/emergencies">
+        <ion-card-header>
+          <ion-icon size="large" name="alert-circle-outline"></ion-icon>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-label>Emergències</ion-label>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
     <ion-col>
       <ion-card padding text-center color="primary" routerLink="/informacio">
         <ion-card-header>
-          <ion-icon size="large" name="information-circle-outline"></ion-icon>      
+          <ion-icon size="large" name="information-circle-outline"></ion-icon>
         </ion-card-header>
         <ion-card-content>
           <ion-label>Informació</ion-label>
         </ion-card-content>
       </ion-card>
     </ion-col>
+  </ion-row>
+  <ion-row>
     <ion-col>
-    <ion-card padding text-center color="primary" routerLink="/contactes">
-      <ion-card-header>
-        <ion-icon size="large" name="people-outline"></ion-icon>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-label>Contactes</ion-label>
-      </ion-card-content>
-    </ion-card>
+      <ion-card padding text-center color="primary" routerLink="/llista-tractaments">
+        <ion-card-header>
+          <ion-icon size="large" name="bandage-outline"></ion-icon>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-label>Tractaments</ion-label>
+        </ion-card-content>
+      </ion-card>
     </ion-col>
-  </ion-row>
-  <ion-row>
-        <ion-col>
-          <ion-card padding text-center color="primary" routerLink="/llista-tractaments">
-            <ion-card-header>
-              <ion-icon size="large" name="bandage-outline"></ion-icon>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-label>Tractaments</ion-label>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-        <ion-col>
-          <ion-card padding text-center color="primary" routerLink="/mapa">
-            <ion-card-header>
-              <ion-icon size="large" name="map-outline"></ion-icon>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-label>Mapa</ion-label>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-  </ion-row>
-  <ion-row>
     <ion-col>
       <ion-card padding text-center color="primary" routerLink="/seguiment">
         <ion-card-header>
@@ -132,6 +119,22 @@
       </ion-card>
     </ion-col>
     <ion-col> </ion-col>
-</ion-row>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-card padding text-center color="primary" (click)="logOut()">
+        <ion-card-header>
+          <ion-icon size="large" name="exit-outline"></ion-icon>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-label>LogOut</ion-label>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col>
+ 
+    </ion-col>
+  </ion-row>
+
 </ion-grid>
 </ion-content>

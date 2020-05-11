@@ -2,12 +2,37 @@
 
 <ion-content>
   <h3 *ngIf="images.length === 0" text-center>Fes la primera foto a la teva recepta</h3>
-  <div *ngFor="let img of images; inedex as pos">
-    <ion-img [src]="img.path"></ion-img>
-  </div>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button size="large" color="primary" (click)="ferFoto()">
-      <ion-icon name="camera-outline"></ion-icon>
+  <ion-grid *ngFor="let img of images; let i = index">
+    <ion-row>
+      <ion-col>
+        <img id="{{i}}" [src]="img.path"/>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button size="large" color="primary" (click)="descarregarPDF()">
+      <ion-icon name="document-attach-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button size="large" color="primary">
+    <ion-icon name="camera-outline"></ion-icon>
+  </ion-fab-button>
+
+  <ion-fab-list side="top">
+    <ion-fab-button (click)="ferFoto(true)">
+      <ion-icon name="scan-outline" color="primary"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+
+  <ion-fab-list *ngIf="images.length !== 0" side="start">
+    <ion-fab-button (click)="ferFoto(false)">
+      <ion-icon name="add-outline" color="primary"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+
+</ion-fab>
+
 </ion-content>

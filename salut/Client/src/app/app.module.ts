@@ -16,10 +16,10 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import {IonicStorageModule} from '@ionic/storage';
-//import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx'
+import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,7 +44,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx'
     File,
     WebView,
     CallNumber, 
-    //DocumentViewer,
+    LocalNotifications,
     FileOpener,
     LaunchNavigator,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

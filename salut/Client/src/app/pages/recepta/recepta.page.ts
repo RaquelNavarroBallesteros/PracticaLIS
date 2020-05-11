@@ -3,6 +3,10 @@ import {Platform, ToastController} from '@ionic/angular';
 import {FotoService} from 'src/app/services/foto.service';
 import { File } from '@ionic-native/file/ngx';
 import {Storage} from '@ionic/storage';
+import { NotificacionsService } from 'src/app/services/notificacions.service';
+import { FileService } from '../../services/file.service'; 
+import * as jsPDF from 'jspdf';
+import {FileOpener} from '@ionic-native/file-opener/ngx';
 
 
 const STORAGE_KEY = 'receptes';
@@ -15,17 +19,67 @@ const STORAGE_KEY = 'receptes';
 export class ReceptaPage implements OnInit {
   public images = [];
 
+  pdfObject = null;
   public fotoReceptaPath;
   public fotoRecepta: boolean
   constructor(private fotoService: FotoService, private ref: ChangeDetectorRef, private platform: Platform,
-              private toastController: ToastController, private storage: Storage, private file: File) {}
+              private toastController: ToastController, private storage: Storage, private file: File, private notificationService:NotificacionsService,
+              private fileOpener: FileOpener, private fileService : FileService) {}
   
   ngOnInit() {
     this.platform.ready().then(()=>{
       this.loadStoredImages();
     });
   }
+  async descarregarPDF(){
+    
+    this.presentToast("Creant PDF...");
+    var fileName = 'recepta_' + (this.images[0].name).replace("recepta.jpg", "") + '.pdf';
+    var pathFile = await this.fileService.getDownloadPath();
+    this.crearPDF().then((_) =>{
+      var pdfOutput = this.pdfObject.output();
+      var buffer = new ArrayBuffer(pdfOutput.length);
+      let array = new Uint8Array(buffer);
+
+      for (var i = 0; i < pdfOutput.length; i++) {
+        array[i] = pdfOutput.charCodeAt(i);
+      }
+      
+      this.file.writeFile(pathFile, fileName, buffer, {replace: true}).then(fileEntry => {               
+      this.fileOpener.open(pathFile + fileName, "application/pdf");
+      })
+    });
+  }
+
+  crearPDF(){
+   return new Promise((resolve) =>{
+    this.pdfObject = new jsPDF('p', 'pt', 'a4');
+    var width = this.pdfObject.internal.pageSize.getWidth();    
+    var height = this.pdfObject.internal.pageSize.getHeight();
+    var iteration = 0
+    this.images.forEach((img, index)=>{
+      this.loadImgPdf(img.path).then((img) =>{
+        if (iteration !== 0){
+          this.pdfObject.addPage();
+        }
+        iteration += 1;
+        this.pdfObject.addImage(img, 'JPEG', 0, 0, width, height);
+        if (iteration == this.images.length){
+          return resolve(true);
+        }
+      });
+    });
+   })
+   
+  }
   
+  loadImgPdf(path){
+    return new Promise((resolve) => {
+      let img = new Image();
+      img.onload = () => resolve(img);
+      img.src = path;
+    })
+  }
   loadStoredImages(){
     this.storage.get(STORAGE_KEY).then(images => {
       if(images){
@@ -40,15 +94,22 @@ export class ReceptaPage implements OnInit {
     });
   }
 
-  ferFoto() {
+  ferFoto(novaRecepta) {
+
     this.fotoService.ferFoto("recepta").then(res =>{
-      if (this.images.length !== 0){
-        this.deleteImage(0).then(_=>{
+      if(novaRecepta){
+        if (this.images.length > 0){
+          this.deleteImage().then((_) => {
+            this.images = [];
+            this.copyFileToLocalDir(res[1], res[0], this.createFileName());
+            this.notificationService.eliminarNotificacioRecepta();
+          });
+        }else{
           this.copyFileToLocalDir(res[1], res[0], this.createFileName());
-        })
+        }
       }else{
         this.copyFileToLocalDir(res[1], res[0], this.createFileName());
-      }
+      } 
     });
   }
   
@@ -85,27 +146,22 @@ export class ReceptaPage implements OnInit {
         filePath: filePath
       };
 
-      this.images = [newEntry, ...this.images];
+      this.images = [...this.images, newEntry];
       this.ref.detectChanges();
     })
   }
 
-  async deleteImage(position: number){
-    var image = this.images[position]
-    this.images.splice(position, 1);
-
+  async deleteImage(){
     return new Promise((resolve, reject)=>{
-      this.storage.get(STORAGE_KEY).then(images => {
-        let arr = JSON.parse(images);
-        let filtred = arr.filter(name=> name != image.name);
-        this.storage.set(STORAGE_KEY, JSON.stringify(filtred));
-
+      this.storage.set(STORAGE_KEY, JSON.stringify([]));
+      this.images.forEach((image) =>{
         var correctPath = image.filePath.substr(0, image.filePath.lastIndexOf('/') + 1);
         this.file.removeFile(correctPath, image.name).then(res =>{
-          this.presentToast('Recepte modificada');
-          resolve(true);
+          return true;
         })
-      })
+      });
+      this.presentToast('Recepta actualitzada');
+      resolve(true);
     });
   }
 
