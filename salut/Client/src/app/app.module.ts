@@ -19,6 +19,7 @@ import {IonicStorageModule} from '@ionic/storage';
 //import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx'
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,6 +46,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
     CallNumber, 
     //DocumentViewer,
     FileOpener,
+    LaunchNavigator,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
    
   ],
