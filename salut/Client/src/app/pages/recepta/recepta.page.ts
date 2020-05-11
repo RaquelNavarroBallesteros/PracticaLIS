@@ -47,15 +47,14 @@ export class ReceptaPage implements OnInit {
         this.fileOpener.open(pathFile + fileName, 'application/pdf');
       })
     });
+    this.presentToast("Creant PDF...");
   }
 
   crearPDF(){
    return new Promise((resolve) =>{
     this.pdfObject = new jsPDF('p', 'pt', 'a4');
-    var width = this.pdfObject.internal.pageSize.width;    
-    var height = this.pdfObject.internal.pageSize.height;
-    var h1=50;
-    var aspectwidth1= (height-h1)*(9/16);
+    var width = this.pdfObject.internal.pageSize.getWidth();    
+    var height = this.pdfObject.internal.pageSize.getHeight();
     var iteration = 0
     this.images.forEach((img, index)=>{
       this.loadImgPdf(img.path).then((img) =>{
@@ -63,13 +62,14 @@ export class ReceptaPage implements OnInit {
           this.pdfObject.addPage();
         }
         iteration += 1;
-        this.pdfObject.addImage(img, 'JPEG', 10, h1, aspectwidth1,(height - h1));
+        this.pdfObject.addImage(img, 'JPEG', 0, 0, width, height);
         if (iteration == this.images.length){
           return resolve(true);
         }
       });
     });
    })
+   
   }
   loadImgPdf(path){
     return new Promise((resolve) => {
