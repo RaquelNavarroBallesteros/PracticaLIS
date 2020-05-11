@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {  throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import {APIUrl} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
-  public _aplicationURL = 'http://localhost:3000/api/Event'
+  public _aplicationURL = APIUrl + '/Event'
         _deleteEventURL = '/deleteEvent';
         _listEventsURL = '/listEvents';
   constructor(private http: HttpClient) { }

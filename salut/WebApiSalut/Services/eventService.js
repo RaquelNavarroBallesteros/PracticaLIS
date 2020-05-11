@@ -22,7 +22,7 @@ class EventService{
         var self = this
 
         
-        var query = 'SELECT * FROM Visita WHERE PerfilId = \'' + 2 + '\';';
+        var query = 'SELECT * FROM Visita WHERE PerfilId = \'' + id + '\' ORDER BY DataVisita;';
         this.connection.connect(function(err){
             console.log("Get connected")
             var response;

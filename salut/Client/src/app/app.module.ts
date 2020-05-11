@@ -15,6 +15,11 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+import {IonicStorageModule} from '@ionic/storage';
+import {FileOpener} from '@ionic-native/file-opener/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx'
+import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +29,11 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
     IonicModule.forRoot(),
     AppRoutingModule,
     ComponentsModule,
-    HttpClientModule
+    HttpClientModule,
+    IonicStorageModule.forRoot({      
+      name: '__mydb',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
   ],
   providers: [
     StatusBar,
@@ -34,7 +43,12 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
     Camera,
     File,
     WebView,
+    CallNumber, 
+    LocalNotifications,
+    FileOpener,
+    LaunchNavigator,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+   
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,21 @@
+<app-header title="Contactes" backButton="true"></app-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let c of contactes; let i = index">
+      {{c.nom}} - {{c.numero}}
+      <div class="item-note" slot="end">
+        <ion-button ion-button clear (click)="trucada(i)"> <ion-icon name="call-outline"></ion-icon> </ion-button>
+        <ion-button ion-button clear (click)="deleteContacte(i)" color="danger"> <ion-icon name="trash"></ion-icon> </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="nouContacte.nom" [ngModelOptions]="{standalone: true}" placeholder="Nom..."> </ion-input>
+    <ion-input type="text" maxlength=9 minlength=9 [(ngModel)]="nouContacte.numero" [ngModelOptions]="{standalone: true}" placeholder="Número de Telèfon..."> </ion-input>   
+    <div class="item-note"  item-end>
+      <ion-button ion-button (click) = "afegirContacte()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
+    </div>
+  </ion-item>
+</ion-content>

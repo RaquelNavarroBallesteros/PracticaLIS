@@ -1,73 +1,39 @@
 <app-header title="Mostrar events" backButton = "true"></app-header>
 <ion-content>
-
-
- <ion-card padding text-center color="primary" routerLink="/add-event">
+  <ion-card *ngFor = "let period of eventsToShow">
     <ion-card-header>
-      <ion-icon size="large" name="today-outline"></ion-icon>
+      <ion-card-title>
+        <ion-label color="primary">{{period[0].DataVisita | date: 'MMM yyyy'}}</ion-label>
+      </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-label>Crear Event</ion-label>
-    </ion-card-content>
-  </ion-card>
-
-  <form #formulariShowEvent="ngForm" (ngSubmit)="listEvents()">
-    <ion-button expand="full" type="submit" [disabled]="formulariShowEvent.invalid">
-    Mostrar events    
-    </ion-button>
-  </form> 
-
-  
-  <ion-list>
-    <button ion-item *ngFor = "let event of array">
-      <ion-item>
-        <ion-label position="floating">Data: {{ event.data }}</ion-label>
-        
-        <ion-label position="floating">Ubicacio: {{ event.ubicacio }}</ion-label>
-        
-        <ion-label position="floating">Descripcio: {{ event.descripcio }}</ion-label>
-        <ion-label position="floating">Tractament: {{ event.tractament }}</ion-label>
-        
-        
-      </ion-item>
-      <ion-button expand="full" type="submit" (click)="eliminarEvent(event.eventId)"> Eliminar cita</ion-button>
-    </button>
-  </ion-list>
-
-  <!--
-  <ion-list *ngFor = "let meses of arrayMeses">
-    <ion-card-header>
-      {{meses}}
-    </ion-card-header>
-      <ion-list *ngFor = "let dias of arrayDias">
+      <ion-card *ngFor = "let event of period">
         <ion-card-header>
-          {{dias}} 
+          <ion-card-title>
+            <ion-label color="primary">{{event.DataVisita | date: 'dd EEEE, HH:mm'}}</ion-label>
+          </ion-card-title>
         </ion-card-header>
-          <ion-list *ngFor = "let event of arrayEvent">
-            <ion-item>
-              {{event}} 
-              
-            </ion-item>
-          </ion-list>
-      </ion-list>
-    </ion-list>
-    -->
+        <ion-card-content>
+        <ion-text color="black">Ubicació: {{event.Ubicacio}}</ion-text>
+        <br>
+        <ion-text color="black">Descripció: {{event.Descripcio}}</ion-text>
+        <div class="ion-text-end">
+          <ion-button size="small" color="background" (click)="eliminarEvent(event.Id)">
+            <ion-icon color="primary" name="pencil-outline"></ion-icon>
+          </ion-button>
+          <ion-button size="small" color="danger" (click)="eliminarEvent(event.Id)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </div>
+        </ion-card-content>
 
-  
+      </ion-card>
+    </ion-card-content>
 
-
-    <ion-list *ngFor = "let meses of arrayCalendar">
-      <ion-card-header>
-        Mes: {{meses.mes}}
-      </ion-card-header>
-        <ion-list *ngFor = "let dia of arrayCalendar">
-          <ion-card-header>
-            Día: {{dia.dia}}
-          </ion-card-header>
-            <ion-list>
-              <ion-item>
-              </ion-item>
-            </ion-list>
-        </ion-list>
-      </ion-list>
+  </ion-card>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button size="large" color="primary" routerLink="/add-event">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

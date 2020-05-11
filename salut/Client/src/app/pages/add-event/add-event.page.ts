@@ -16,7 +16,7 @@ export class AddEventPage implements OnInit {
     tipus: '',
     tractament:''
   };
-  constructor( public addEvent: AddEventService) {
+  constructor( public addEventService: AddEventService) {
   }
 
   ngOnInit() {
@@ -24,10 +24,17 @@ export class AddEventPage implements OnInit {
 
   createNewEvent(){
     console.log("doing nou event");
-    this.addEvent.addEvent(this.event).subscribe((res: HttpResponse<any>)=>{
+    console.log(this.event);
+    this.addEventService.addEvent(this.event).subscribe((res: ServerResponse)=>{
       console.log("Resp:");
       console.log(res);
     });
   }
-
+}
+export class ServerResponse{
+  constructor(
+    public serverStatus: number,
+    public doAddEvent: boolean,
+    public msg: string,
+  ) { }
 }

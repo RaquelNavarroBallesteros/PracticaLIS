@@ -1,4 +1,4 @@
-<app-header title="Dades mèdiques" backButton="true"></app-header>
+<app-header title="Dades mèdiques" backButton={{backButton}}></app-header>
 
 <ion-content>
   <form #formulariPerfil="ngForm" (ngSubmit)="enviar()" novalidate>
@@ -14,9 +14,7 @@
       <ion-label>Data neixement</ion-label>
       <ion-input type="date" name="data_n" [(ngModel)]="perfil.data_n" required></ion-input>
     </ion-item>
-    <ion-item>
 
-  <ion-list>
     <ion-item>
       <ion-label>Gènere</ion-label>
       <ion-select value="D" name="genere" [(ngModel)]="perfil.genere" required>
@@ -46,15 +44,11 @@
 
     <ion-item>
       <ion-label>Donant de òrgans</ion-label>
-      <ion-select value=0 name="d_organs" [(ngModel)]="perfil.d_organs" required>
-        <ion-select-option value=0>No</ion-select-option>
-        <ion-select-option value=1>Si</ion-select-option>
+      <ion-select value=null name="d_organs" [(ngModel)]="perfil.d_organs" required>
+        <ion-select-option value='0'>No</ion-select-option>
+        <ion-select-option value='1'>Si</ion-select-option>
       </ion-select>
     </ion-item>
-  </ion-list>
-  
-
-  </ion-item>
     <ion-item>
       <ion-label>Alçada (cms)</ion-label>
       <ion-input type="number" name="alcada" [(ngModel)]="perfil.alcada"></ion-input>
@@ -64,80 +58,26 @@
       <ion-input type="number" name="pes" [(ngModel)]="perfil.pes"></ion-input>
     </ion-item>
 
-    <!--  <button ion-button expand="full" type="submit" block>Guardar perfil</button> -->
+    <ion-item>
+      <ion-input type="text" [(ngModel)]="nomAllergia.nom" [ngModelOptions]="{standalone: true}" placeholder="Al·lèrgia..."> </ion-input>
+      <ion-input type="text" [(ngModel)]="nomAllergia.descripcio" [ngModelOptions]="{standalone: true}" placeholder="Descripció..."> </ion-input>   
+      <div class="item-note"  item-end>
+        <ion-button ion-button (click) = "afegirAllergia()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
+      </div>
+    </ion-item>
+   
+    <ion-list>
+      <ion-item *ngFor="let todo of allergies; let i = index">
+        {{todo.nom}} - {{todo.descripcio}}
+        <div class="item-note" slot="end">
+          <ion-button ion-button clear (click)="updateTask(i)"> <ion-icon name="pencil-outline"></ion-icon> </ion-button>
+          <ion-button ion-button clear (click)="deleteTask(i)" color="danger"> <ion-icon name="trash"></ion-icon> </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+ 
     <ion-button ion-button expand="full" color="primary" type="submit" block>Guardar perfil</ion-button>  
   </form>
 
-  
- <!-- <ion-item>
-    <ion-label>
-      Afegir Al·lèrgia
-    </ion-label>
-  </ion-item> -->
-  
-  <ion-content padding>
-  
-    <ion-list lines="none">
-      <form [formGroup]="allergies"> 
-        <ion-item *ngFor="let control of allergies.controls | keyvalue">
-          <ion-input required type="text" [formControlName]="control.key" placeHolder="Nom de l'al·lèrgia"></ion-input>
-          <!--<ion-input required type="text" [formControlName]="control.desc" placeHolder="Descripció"></ion-input>-->
-          <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
-        </ion-item>
-      </form> 
-    </ion-list>
-    <ion-button expand="full" color="light" (click)="addControl()">Afegir Al·lèrgia</ion-button>
-  </ion-content>
-
-<!--
- <ion-item>
-    <ion-label>
-        Afegir M
-    </ion-label>
-  </ion-item>
-  
-  <ion-content padding>
-  
-    <ion-list lines="none">
-      <form [formGroup]="allergies"> 
-        <ion-item *ngFor="let control of allergies.controls | keyvalue">
-          <ion-input required type="text" [formControlName]="control.key" placeHolder="M..."></ion-input>
-          <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
-        </ion-item>
-      </form> 
-    </ion-list>
-    <ion-button expand="full" color="light" (click)="addControl()">Afegir M</ion-button>
-  </ion-content>
--->
-
 </ion-content>
-
-
-
-<!--
-
-
-<ion-header>
-  <ion-toolbar color="danger">
-    <ion-title>
-      Afegir Al·lèrgia
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content padding>
-
-  <ion-list lines="none">
-    <form [formGroup]="allergies"> 
-      <ion-item *ngFor="let control of allergies.controls | keyvalue">
-        <ion-input required type="text" [formControlName]="control.key" placeHolder="Al·lèrgia..."></ion-input>
-        <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
-      </ion-item>
-    </form> 
-  </ion-list>
-  <ion-button expand="full" color="light" (click)="addControl()">Afegir Al·lèrgia</ion-button>
-</ion-content>
-
--->
-
-  
+ 
