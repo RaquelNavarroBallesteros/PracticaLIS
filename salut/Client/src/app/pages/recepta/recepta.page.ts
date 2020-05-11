@@ -5,7 +5,8 @@ import { File } from '@ionic-native/file/ngx';
 import {Storage} from '@ionic/storage';
 import { NotificacionsService } from 'src/app/services/notificacions.service';
 import { FileService } from '../../services/file.service'; 
-import pdfMake from 'pdfmake/build/pdfmake';
+//import pdfMake from 'pdfmake/build/pdfmake';
+import * as jsPDF from 'jspdf';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
 
 
@@ -32,33 +33,51 @@ export class ReceptaPage implements OnInit {
     });
   }
   async descarregarPDF(){
-    this.crearPDF();
     var fileName = 'recepta_' + this.images[0].name + '.pdf';
     var pathFile = await this.fileService.getDownloadPath();
-    this.pdfObject.getBuffer((buffer) => {
-      var utf8 = new Uint8Array(buffer);
-      var binaryArray = utf8.buffer;
-      var blob = new Blob([binaryArray], {type: 'application/pdf'});
-      this.file.writeFile(pathFile, fileName, blob, {replace: true}).then(fileEntry => {
+    this.crearPDF().then((_) =>{
+      var pdfOutput = this.pdfObject.output();
+      var buffer = new ArrayBuffer(pdfOutput.length);
+      let array = new Uint8Array(buffer);
+
+      for (var i = 0; i < pdfOutput.length; i++) {
+        array[i] = pdfOutput.charCodeAt(i);
+      }
+      this.file.writeFile(pathFile, fileName, buffer, {replace: true}).then(fileEntry => {
         this.fileOpener.open(pathFile + fileName, 'application/pdf');
       })
     });
   }
 
   crearPDF(){
-    var docDefinition = {
-      content: [
-      ]
-    }
-    this.images.forEach((img)=>{
-      var newImg = {
-        image: img.path
-      }
-      docDefinition.content.push(newImg);
+   return new Promise((resolve) =>{
+    this.pdfObject = new jsPDF('p', 'pt', 'a4');
+    var width = this.pdfObject.internal.pageSize.width;    
+    var height = this.pdfObject.internal.pageSize.height;
+    var h1=50;
+    var aspectwidth1= (height-h1)*(9/16);
+    var iteration = 0
+    this.images.forEach((img, index)=>{
+      this.loadImgPdf(img.path).then((img) =>{
+        if (iteration !== 0){
+          this.pdfObject.addPage();
+        }
+        iteration += 1;
+        this.pdfObject.addImage(img, 'JPEG', 10, h1, aspectwidth1,(height - h1));
+        if (iteration == this.images.length){
+          return resolve(true);
+        }
+      });
     });
-    this.pdfObject = pdfMake.createPdf(docDefinition);
+   })
   }
-
+  loadImgPdf(path){
+    return new Promise((resolve) => {
+      let img = new Image();
+      img.onload = () => resolve(img);
+      img.src = path;
+    })
+  }
   loadStoredImages(){
     this.storage.get(STORAGE_KEY).then(images => {
       if(images){
