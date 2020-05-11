@@ -37,3 +37,6 @@ salut/Client/package.json
 salut/Client/resources/android/xml/network_security_config.xml
 salut/Client/src/environments/environment.prod.ts
 salut/Client/src/environments/environment.ts
+salut/Client/src/environments/environment.prod.ts
+salut/Client/src/environments/environment.ts
+salut/Client/src/index.html

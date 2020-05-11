@@ -7,6 +7,8 @@ export const environment = {
 };
 export const APIUrl = 'http://localhost:3000/api'
 
+export const KEY_MAPS = ''
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
