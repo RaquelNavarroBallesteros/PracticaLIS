@@ -12,15 +12,17 @@ export class EventPage implements OnInit {
   public events = [];
   public eventsToShow = []
   constructor( public eventService: EventService) {}
+
   ngOnInit() {
-    this.listEvents();
+    this.listEvents(false);
   }
 
-  listEvents(){
+  listEvents(historic: boolean){
     this.eventService.listEvents(2).subscribe((res: ListEventResponse)=>{
       this.events = res.data;
       this.events.forEach((event, index) => {
         event.DataVisita = new Date(event.DataVisita)
+    
         if (index === 0){
           this.eventsToShow.push([event])
         }else{
@@ -36,7 +38,6 @@ export class EventPage implements OnInit {
       });
     });
   }
-
   eliminarEvent(eventId){
     console.log("eliminar event -- event page ts");
     console.log(eventId);
@@ -46,7 +47,6 @@ export class EventPage implements OnInit {
     });
   }
 }
-
 export class Event{
   constructor(
     public Id: number,
@@ -56,7 +56,6 @@ export class Event{
     public Descripcio: string
   ){}
 }
-
 export class ListEventResponse {
   constructor(
       public serverStatus: number,
