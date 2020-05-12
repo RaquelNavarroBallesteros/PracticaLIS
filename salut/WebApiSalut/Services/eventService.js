@@ -17,12 +17,12 @@ class EventService{
         });
     }
     
-    listEvent(id, callback)
+    listEvent(id, date, callback)
     {
         var self = this
 
         
-        var query = 'SELECT * FROM Visita WHERE PerfilId = \'' + id + '\' ORDER BY DataVisita;';
+        var query = 'SELECT * FROM Visita WHERE PerfilId = \'' + id + '\' AND DataVisita > \'' + date + '\' ORDER BY DataVisita;';
         this.connection.connect(function(err){
             console.log("Get connected")
             var response;

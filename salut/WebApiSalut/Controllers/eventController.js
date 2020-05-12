@@ -20,8 +20,9 @@ function deleteEvent(req, res){
 }
 
 function listEvents (req, res) {
+    console.log("esto es el req", req.body.id);
     eventService = new service();
-    eventService.listEvent(2, function (response){
+    eventService.listEvent(req.body.id, req.body.date, function (response){
         //req.body en vez de 2
         console.log(response)
         res.status(response.serverStatus).send(response)

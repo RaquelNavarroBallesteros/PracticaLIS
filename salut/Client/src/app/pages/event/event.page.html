@@ -18,7 +18,7 @@
         <br>
         <ion-text color="black">Descripció: {{event.Descripcio}}</ion-text>
         <div class="ion-text-end">
-          <ion-button size="small" color="background" (click)="eliminarEvent(event.Id)">
+          <ion-button size="small" color="background" (click)="updateEvent(event.Id)">
             <ion-icon color="primary" name="pencil-outline"></ion-icon>
           </ion-button>
           <ion-button size="small" color="danger" (click)="eliminarEvent(event.Id)">

@@ -26,12 +26,15 @@ export class EventService {
     return throwError(errorMessage);
   }
 
-  listEvents(perfilId): Observable<object>{
-    return this.http.post(this._aplicationURL + this._listEventsURL, {id: perfilId}).pipe(catchError(this.handleError));
+  listEvents(perfilId,date): Observable<object>{
+    return this.http.post(this._aplicationURL + this._listEventsURL, {id: perfilId,date:date}).pipe(catchError(this.handleError));
   }
 
   eliminarEvent(eventId){
     console.log("eliminar event --- event.service.ts");
     return this.http.post(this._aplicationURL + this._deleteEventURL, {id: eventId}).pipe(catchError(this.handleError));
   }
+
+
+  
 }

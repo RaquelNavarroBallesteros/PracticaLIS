@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { EventService } from 'src/app/services/event.service';
+import { RouterLink } from '@angular/router';
+import { NgZone } from '@angular/core';
+import {Router} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-event',
@@ -11,14 +15,17 @@ export class EventPage implements OnInit {
 
   public events = [];
   public eventsToShow = []
-  constructor( public eventService: EventService) {}
+  constructor(private route: ActivatedRoute, public eventService: EventService, private router:Router) {}
 
   ngOnInit() {
     this.listEvents(false);
   }
 
   listEvents(historic: boolean){
-    this.eventService.listEvents(2).subscribe((res: ListEventResponse)=>{
+    let date: Date = new Date();
+    console.log("esta es la fecha", date);
+    this.eventService.listEvents(2,date).subscribe((res: ListEventResponse)=>{
+      //recordar cambiar el 2
       this.events = res.data;
       this.events.forEach((event, index) => {
         event.DataVisita = new Date(event.DataVisita)
@@ -37,16 +44,35 @@ export class EventPage implements OnInit {
         }
       });
     });
+    console.log("output de", this.eventsToShow);
   }
   eliminarEvent(eventId){
     console.log("eliminar event -- event page ts");
+    var self = this;
     console.log(eventId);
     this.eventService.eliminarEvent(eventId).subscribe((res: HttpResponse<any>)=>{
       console.log("Response of elimiar event --- event page .ts:");
       console.log(res);
-    });
+      this.router.navigateByUrl('/event');
+      //this.refresh();
+   });
+    
   }
+
+  updateEvent(index) 
+   {
+     // TODO:  Nav to detail
+     console.log("Goto tractament update");
+      var id = this.events[index].id;
+      this.router.navigate(['/event', id]);
+   }
+ /*refresh() {
+    this.zone.run(() => {
+      this.listEvents(true);
+      console.log('force update the screen');
+    });*/
 }
+
 export class Event{
   constructor(
     public Id: number,
