@@ -99,7 +99,7 @@ export class MapaPage implements OnInit {
     {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < res.length; i++) {
-          self.createMarker(res[i], [lat_lang.lat, lat_lang.lng]);
+          self.createMarker(res[i]);
         }
       }
     });
@@ -129,7 +129,7 @@ export class MapaPage implements OnInit {
     });
   }
 
-  createMarker(place, pos) {
+  createMarker(place) {
     var self = this
     var marker = new google.maps.Marker({
       map: self.map,
@@ -137,10 +137,10 @@ export class MapaPage implements OnInit {
     });
 
     marker.addListener('click', function() {
-      //this.map.setZoom(20);
+      this.map.setZoom(14);
       self.map.setCenter(marker.getPosition());
       
-      self.launchNavigator.navigate(pos)
+      self.launchNavigator.navigate([place.geometry.location.lat(), place.geometry.location.lng()])
       .then(
         success => console.log('Launched navigator'),
         error => console.log('Error launching navigator', error)
