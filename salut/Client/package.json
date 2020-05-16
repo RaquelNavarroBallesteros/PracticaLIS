@@ -35,6 +35,7 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^5.0.0",
     "@ionic/storage": "^2.2.0",
+    "@types/jspdf": "^1.3.3",
     "call-number": "^1.0.1",
     "chart.js": "^2.9.3",
     "cordova-android": "8.1.0",

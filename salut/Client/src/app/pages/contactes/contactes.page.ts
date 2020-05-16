@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NavController, NumericValueAccessor } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
@@ -7,6 +7,8 @@ import { ContactesService } from 'src/app/services/contactes.service';
 import {Storage} from '@ionic/storage';
 import { FormsModule } from '@angular/forms';
 import { TractamentGetResponse } from '../tractament/tractament.page';
+import { ToastController } from "@ionic/angular";
+
 // import { HttpModule } from '@angular/http';
 
 
@@ -20,8 +22,8 @@ export class ContactesPage implements OnInit {
 
   public perfilId = 0;
 
-  constructor(public contactesService: ContactesService, public alertCtrl: AlertController, private callNumber: CallNumber,
-              private storage: Storage) { }
+  constructor(public contactesService: ContactesService, public alertCtrl: AlertController, private callNumber: CallNumber, cdRef: ChangeDetectorRef,
+              private storage: Storage,  private toastController: ToastController) { }
 
   public nouContacte = {id: 0, nom:'', numero:''};
   contactes = [];
@@ -45,12 +47,27 @@ export class ContactesPage implements OnInit {
       }
     });
   }
+
+  async presentToast(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "top",
+      duration: 3000,
+    });
+    toast.present();
+  }
+
+
   afegirContacte()
   {
     let contacte = this.nouContacte;
     if (contacte.nom == "" || contacte.numero == "")
     {
-      alert("Indica el nom i el número.");
+      this.presentToast("Indica el nom i el número.");
+    }
+    else if (contacte.numero.length < 9)
+    {
+      this.presentToast("Has d'introduir un número de telèfon vàlid.");
     }
     else
     {
@@ -66,10 +83,10 @@ export class ContactesPage implements OnInit {
           contacte.id = res.id;
           this.contactes.push(contacte);
           this.nouContacte = {id: 0, nom:'', numero:''};
-          alert("El nou contacte s'ha guardat correctament.");
+          this.presentToast("El nou contacte s'ha guardat correctament.");
         }
         else
-          alert("Error: " + res.msg);
+        this.presentToast("Error: " + res.msg);
       });  
     } 
   }
@@ -88,10 +105,10 @@ export class ContactesPage implements OnInit {
       if (res.correcte)
       {
         this.contactes.splice(index, 1);
-        alert("El contacte s'ha eliminat correctament.");
+        this.presentToast("El contacte s'ha eliminat correctament.");
       }
     else
-      alert("Error: " + res.msg);
+    this.presentToast("Error: " + res.msg);
     });   
   }
 

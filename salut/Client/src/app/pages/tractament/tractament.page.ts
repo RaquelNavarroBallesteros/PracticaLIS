@@ -54,7 +54,7 @@ export class TractamentPage implements OnInit {
     let medicament = this.auxMedicament;
     if (medicament.idM == null || medicament.periode == null)
     {
-      alert("Indica el medicament i la hora de la presa.");
+      this.presentToast("Indica el medicament i la hora de la presa.");
     }
     else
     {
@@ -156,7 +156,7 @@ export class TractamentPage implements OnInit {
     this.tractamentService.add_request(this.tractament).subscribe((res: TractamentSetResponse)=>{
       if (res.correcte)
       {
-        alert("Les dades s'han guardar correctament.");
+        this.presentToast("Les dades s'han guardar correctament.");
         this.tractament.id = res.id;
         this.tractament.medicaments.forEach((medicament) =>{
           var horesMin = medicament.periode.split(':');
@@ -167,7 +167,7 @@ export class TractamentPage implements OnInit {
       }
       
     else
-      alert("Error: " + res.msg);
+    this.presentToast("Error: " + res.msg);
     });
   }
 
@@ -177,7 +177,7 @@ export class TractamentPage implements OnInit {
     var self = this;
     this.tractamentService.update_request(this.tractament).subscribe((res: TractamentSetResponse)=>{
       if (res.correcte){
-        alert("Les dades s'han guardar correctament.");
+        this.presentToast("Les dades s'han guardar correctament.");
         this.notificationService.eliminarNotificacioTractament(this.tractament.id);
         this.tractament.medicaments.forEach((medicament) =>{
           var horesMin = medicament.periode.split(':');
@@ -186,7 +186,7 @@ export class TractamentPage implements OnInit {
         });
         self.router.navigate(['/llista-tractaments']);
       }else
-        alert("Error: " + res.msg);
+      this.presentToast("Error: " + res.msg);
     });
   }
 
@@ -200,7 +200,6 @@ export class TractamentPage implements OnInit {
       if(this.tractament.id == 0)
       {
         this.add();
-  
       }
       else
       {
