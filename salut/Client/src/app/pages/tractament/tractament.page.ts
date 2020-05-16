@@ -200,7 +200,6 @@ export class TractamentPage implements OnInit {
       if(this.tractament.id == 0)
       {
         this.add();
-  
       }
       else
       {
