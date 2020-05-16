@@ -83,10 +83,10 @@ export class ContactesPage implements OnInit {
           contacte.id = res.id;
           this.contactes.push(contacte);
           this.nouContacte = {id: 0, nom:'', numero:''};
-          alert("El nou contacte s'ha guardat correctament.");
+          this.presentToast("El nou contacte s'ha guardat correctament.");
         }
         else
-          alert("Error: " + res.msg);
+        this.presentToast("Error: " + res.msg);
       });  
     } 
   }
@@ -105,10 +105,10 @@ export class ContactesPage implements OnInit {
       if (res.correcte)
       {
         this.contactes.splice(index, 1);
-        alert("El contacte s'ha eliminat correctament.");
+        this.presentToast("El contacte s'ha eliminat correctament.");
       }
     else
-      alert("Error: " + res.msg);
+    this.presentToast("Error: " + res.msg);
     });   
   }
 
