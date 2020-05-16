@@ -13,7 +13,7 @@
 
   <ion-item>
     <ion-input type="text" [(ngModel)]="nouContacte.nom" [ngModelOptions]="{standalone: true}" placeholder="Nom..."> </ion-input>
-    <ion-input type="text" maxlength=9 minlength=9 [(ngModel)]="nouContacte.numero" [ngModelOptions]="{standalone: true}" placeholder="Número de Telèfon..."> </ion-input>   
+    <ion-input type="tel"  maxlength="9" [(ngModel)]="nouContacte.numero" [ngModelOptions]="{standalone: true}" placeholder="Número de Telèfon..."> </ion-input>   
     <div class="item-note"  item-end>
       <ion-button ion-button (click) = "afegirContacte()"> <ion-icon name="add-outline"></ion-icon> </ion-button> 
     </div>

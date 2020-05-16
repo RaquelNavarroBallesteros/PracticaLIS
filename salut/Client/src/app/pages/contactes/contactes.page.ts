@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NavController, NumericValueAccessor } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
@@ -7,6 +7,7 @@ import { ContactesService } from 'src/app/services/contactes.service';
 import {Storage} from '@ionic/storage';
 import { FormsModule } from '@angular/forms';
 import { TractamentGetResponse } from '../tractament/tractament.page';
+
 // import { HttpModule } from '@angular/http';
 
 
@@ -20,7 +21,7 @@ export class ContactesPage implements OnInit {
 
   public perfilId = 0;
 
-  constructor(public contactesService: ContactesService, public alertCtrl: AlertController, private callNumber: CallNumber,
+  constructor(public contactesService: ContactesService, public alertCtrl: AlertController, private callNumber: CallNumber, cdRef: ChangeDetectorRef,
               private storage: Storage) { }
 
   public nouContacte = {id: 0, nom:'', numero:''};
@@ -45,12 +46,18 @@ export class ContactesPage implements OnInit {
       }
     });
   }
+
+
   afegirContacte()
   {
     let contacte = this.nouContacte;
     if (contacte.nom == "" || contacte.numero == "")
     {
       alert("Indica el nom i el número.");
+    }
+    else if (contacte.numero.length < 9)
+    {
+      alert("Has d'introduir un número de telèfon vàlid.");
     }
     else
     {
