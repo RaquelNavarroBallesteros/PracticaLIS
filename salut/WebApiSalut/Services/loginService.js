@@ -27,6 +27,7 @@ class LoginService{
                         serverStatus: 200,
                         doLogin: true,
                         idUsuari: rows[0].Id,
+                        activat: rows[0].validacioCorreu == null ? false : true,
                         msg: ''
                     };
             }else{
@@ -35,6 +36,7 @@ class LoginService{
                         serverStatus: 200,   
                         doLogin: false,
                         idUsuari: -1,
+                        activat: false,
                         msg: 'Invalid user or password'
                     };
             }
