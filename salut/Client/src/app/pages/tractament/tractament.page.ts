@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import {Storage} from '@ionic/storage';
 import { NotificacionsService } from 'src/app/services/notificacions.service';
 import {Router} from '@angular/router';
+import { ToastController } from "@ionic/angular";
 
 const STORAGE_KEY_P = 'perfil';
 @Component({
@@ -26,12 +27,22 @@ export class TractamentPage implements OnInit {
   private nomPerfil = null;  
 
   constructor(private route: ActivatedRoute, public tractamentService: TractamentService, public alertCtrl: AlertController,
-              private storage: Storage, private notificationService: NotificacionsService, private router:Router) 
+              private storage: Storage, private notificationService: NotificacionsService, private router:Router,
+              private toastController: ToastController) 
   {
     this.route.params.subscribe(params => {
       console.log(params);
       this.tractament.id = params['id']; 
     });
+  }
+
+  async presentToast(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "top",
+      duration: 3000,
+    });
+    toast.present();
   }
 
   public auxMedicament = {id: 0, idM: null, periode:null};
@@ -181,15 +192,22 @@ export class TractamentPage implements OnInit {
 
   enviar()
   {
-    if(this.tractament.id == 0)
+    if(this.tractament.nom == "")
     {
-      this.add();
+      this.presentToast("Has d'indicar el nom del tractament.")
+    }
+    else{
+      if(this.tractament.id == 0)
+      {
+        this.add();
+  
+      }
+      else
+      {
+        this.update();
+      }
+    }
 
-    }
-    else
-    {
-      this.update();
-    }
   }
 }
 
