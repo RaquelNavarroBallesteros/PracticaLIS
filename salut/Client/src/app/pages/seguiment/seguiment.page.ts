@@ -87,9 +87,14 @@ export class SeguimentPage implements OnInit {
     perfil_id: this.perfil_id};
 
     let pes = this.nouPes;
+    console.log(pes.valor)
 
     if(pes.valor == null)
     this.presentToast("Introdueix el teu pes actual.")
+    else if (pes.valor > 300 || pes.valor < 0)
+    {
+      this.presentToast("Introdueix un pes vàlid.")
+    }
     else
     {
       console.log(pes_db.data);
@@ -119,6 +124,10 @@ export class SeguimentPage implements OnInit {
     
     if(alcada.valor == null)
     this.presentToast("Insereix la teva alçada actual.");
+    else if (alcada.valor > 300 || alcada.valor < 0)
+    {
+      this.presentToast("Introdueix una alçada vàlida.")
+    }
     else
     {
       this.seguimentService.addalcada_request(alcada_db).subscribe((res: SeguimentSetResponse)=>{
