@@ -1,0 +1,58 @@
+<app-header title="{{title}}" backButton="false"></app-header>
+
+<ion-content>
+<div *ngIf="pageType == 'mail' ">
+  Mail!
+<form #validarMailForm="ngForm" (ngSubmit)="vaildarMail()">
+  <ion-list>
+  <ion-item>
+    <ion-label>Escriu el codi de confirmació per validar el teu correu.</ion-label>
+    <ion-input type="number" maxlength="5" placeholder="Codi de confirmació" name="codiMail" [(ngModel)]="validacio.codi"></ion-input>
+  </ion-item>
+</ion-list>
+  <ion-button expand="block" type="submit" [disabled]="validarMailForm.invalid">
+    Validar Codi
+  </ion-button>
+</form>
+
+  <ion-text>
+    No has rebut el codi? 
+    <a (click)="reenviarCodiMail()">Reenviar codi</a>
+  </ion-text>
+</div>
+
+<div *ngIf="pageType == 'pass' ">
+  Password!
+  <form #validarPassForm="ngForm" (ngSubmit)="validarPass()">
+  <ion-list>    
+    
+    <ion-item>
+      <ion-label>Escriu el teu correu per rebre el codi de confirmació</ion-label>
+      </ion-item>
+      <ion-item>
+      <ion-input type="email" required name="email" [(ngModel)]="validacio.correu"
+        pattern="^([a-zA-Z0-9._%+-])+@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,5})$" (ionChange)="changeInputs()">
+      </ion-input>
+      </ion-item>
+  
+      <ion-item *ngIf="codiEnviat">
+      <ion-label>Escriu la nova contrasenya</ion-label>
+      </ion-item>
+      <ion-item *ngIf="codiEnviat">
+      <ion-input type="password" required name="password" placeholder ="Contrasenya" [(ngModel)]="validacio.pass"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="codiEnviat">
+      <ion-input type="password" required name="password" placeholder ="Repetir contrasenya" [(ngModel)]="validacio.repass"></ion-input>
+      </ion-item>
+    
+
+  </ion-list>
+  <ion-button expand="block" type="submit" [disabled]="validarPassForm.invalid">
+    {{textButton}}
+  </ion-button>
+  
+  </form>
+  
+</div>
+
+</ion-content>

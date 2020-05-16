@@ -58,7 +58,9 @@ export class SingUpPage implements OnInit {
       };
       this.storage.set(STORAGE_KEY, loginStorage);
       self.presentToast("Registrat correctament. Per començar crea un perfil");
-      this.route.navigate(["/perfil"]);
+      this.route.navigate(["/validacio", "mail"]);
+      //this.route.navigate(["/perfil"]);
+      
     });
   }
 

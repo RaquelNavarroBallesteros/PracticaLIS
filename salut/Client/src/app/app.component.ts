@@ -30,7 +30,7 @@ export class AppComponent {
     private perfilService: PerfilService
   ) {
     this.initializeApp();
-    this.doLogin();
+    //this.doLogin();
   }
 
   initializeApp() {

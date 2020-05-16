@@ -32,7 +32,6 @@ export class ReceptaPage implements OnInit {
     });
   }
   async descarregarPDF(){
-    
     this.presentToast("Creant PDF...");
     var fileName = 'recepta_' + (this.images[0].name).replace("recepta.jpg", "") + '.pdf';
     var pathFile = await this.fileService.getDownloadPath();
