@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {  throwError } from 'rxjs';
-import { retry, catchError, timeout } from 'rxjs/operators';
+import {catchError, timeout } from 'rxjs/operators';
 import {APIUrl} from '../../environments/environment';
 import { ToastController } from "@ionic/angular";
 
