@@ -7,6 +7,7 @@ import { ContactesService } from 'src/app/services/contactes.service';
 import {Storage} from '@ionic/storage';
 import { FormsModule } from '@angular/forms';
 import { TractamentGetResponse } from '../tractament/tractament.page';
+import { ToastController } from "@ionic/angular";
 
 // import { HttpModule } from '@angular/http';
 
@@ -22,7 +23,7 @@ export class ContactesPage implements OnInit {
   public perfilId = 0;
 
   constructor(public contactesService: ContactesService, public alertCtrl: AlertController, private callNumber: CallNumber, cdRef: ChangeDetectorRef,
-              private storage: Storage) { }
+              private storage: Storage,  private toastController: ToastController) { }
 
   public nouContacte = {id: 0, nom:'', numero:''};
   contactes = [];
@@ -47,17 +48,26 @@ export class ContactesPage implements OnInit {
     });
   }
 
+  async presentToast(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "top",
+      duration: 3000,
+    });
+    toast.present();
+  }
+
 
   afegirContacte()
   {
     let contacte = this.nouContacte;
     if (contacte.nom == "" || contacte.numero == "")
     {
-      alert("Indica el nom i el número.");
+      this.presentToast("Indica el nom i el número.");
     }
     else if (contacte.numero.length < 9)
     {
-      alert("Has d'introduir un número de telèfon vàlid.");
+      this.presentToast("Has d'introduir un número de telèfon vàlid.");
     }
     else
     {
