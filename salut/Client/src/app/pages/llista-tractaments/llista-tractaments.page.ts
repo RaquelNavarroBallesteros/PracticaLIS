@@ -6,6 +6,7 @@ import { TractamentService } from 'src/app/services/tractament.service';
 import {Router} from '@angular/router';
 import {Storage} from '@ionic/storage';
 import { NotificacionsService } from 'src/app/services/notificacions.service';
+import { ToastController } from "@ionic/angular";
 
 const STORAGE_KEY_P = 'perfil';
 @Component({
@@ -19,7 +20,7 @@ export class LlistaTractamentsPage implements OnInit {
   llistaTractaments = [];
 
   constructor(private storage: Storage, private router: Router, public tractamentService: TractamentService, public alertCtrl: AlertController,
-            private notificationService: NotificacionsService) 
+            private notificationService: NotificacionsService, private toastController: ToastController) 
   { 
   }
 
@@ -43,6 +44,15 @@ export class LlistaTractamentsPage implements OnInit {
     });
   }
 
+  async presentToast(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "top",
+      duration: 3000,
+    });
+    toast.present();
+  }
+
   deleteTractament(index)
   {
     this.tractamentService.del_request(this.llistaTractaments[index].id)
@@ -52,10 +62,10 @@ export class LlistaTractamentsPage implements OnInit {
         var idTractament = this.llistaTractaments[index].id;
         this.llistaTractaments.splice(index, 1);
         this.notificationService.eliminarNotificacioTractament(idTractament);
-        alert("El tractament s'ha eliminat");
+        this.presentToast("El tractament s'ha eliminat");
       }
       else
-        alert("Error: " + res.msg);
+      this.presentToast("Error: " + res.msg);
     });
   }
 

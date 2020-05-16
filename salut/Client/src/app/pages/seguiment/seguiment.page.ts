@@ -9,6 +9,7 @@ import { Chart } from 'chart.js';
 import { ModalController } from '@ionic/angular';
 import { GrafiquesPage } from '../grafiques/grafiques.page'
 //import { SeguimentPage } from '../seguiment/seguiment.page';
+import { ToastController } from "@ionic/angular";
 
 
 const STORAGE_KEY_P = 'perfil';
@@ -35,7 +36,8 @@ export class SeguimentPage implements OnInit {
   perfil_id = 0;
   //public mostrarGrafica = false;
   
-  constructor(public seguimentService: SeguimentService, public alertCtrl: AlertController, public seguimentController: ModalController, private storage: Storage) { }
+  constructor(public seguimentService: SeguimentService, public alertCtrl: AlertController, public seguimentController: ModalController, private storage: Storage, 
+    private toastController: ToastController) { }
 
 
   ngOnInit() {
@@ -67,6 +69,15 @@ export class SeguimentPage implements OnInit {
   pess = [];
   alcadaa = [];
 
+  async presentToast(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "top",
+      duration: 3000,
+    });
+    toast.present();
+  }
+
   afegirPes()
   {
     var d = new Date(Date.now());
@@ -78,7 +89,7 @@ export class SeguimentPage implements OnInit {
     let pes = this.nouPes;
 
     if(pes.valor == null)
-      alert("Introdueix el teu pes actual.")
+    this.presentToast("Introdueix el teu pes actual.")
     else
     {
       console.log(pes_db.data);
@@ -88,10 +99,10 @@ export class SeguimentPage implements OnInit {
           pes.id = res.id;
           this.pess.push(pes);
           this.nouPes = {id: 0, data: null, valor: null};
-          alert("El nou pes s'ha guardat correctament.");
+          this.presentToast("El nou pes s'ha guardat correctament.");
         }
         else
-          alert("Error: " + res.msg);
+        this.presentToast("Error: " + res.msg);
       });
     }
   }
@@ -107,7 +118,7 @@ export class SeguimentPage implements OnInit {
     let alcada = this.novaAlcada;
     
     if(alcada.valor == null)
-      alert("Insereix la teva alçada actual.");
+    this.presentToast("Insereix la teva alçada actual.");
     else
     {
       this.seguimentService.addalcada_request(alcada_db).subscribe((res: SeguimentSetResponse)=>{
@@ -116,10 +127,10 @@ export class SeguimentPage implements OnInit {
           alcada.id = res.id;
           this.alcadaa.push(alcada);
           this.novaAlcada = {id: 0, data: null, valor: null};
-          alert("La nova alçada s'ha guardat correctament.");
+          this.presentToast("La nova alçada s'ha guardat correctament.");
         }
         else
-          alert("Error: " + res.msg);
+        this.presentToast("Error: " + res.msg);
       });
     }
   }
