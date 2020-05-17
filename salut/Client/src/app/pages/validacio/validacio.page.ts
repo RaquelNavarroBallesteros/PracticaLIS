@@ -22,7 +22,8 @@ export class ValidacioPage implements OnInit {
   };
   public textButton = "Enviar";
   public codiEnviat = false;
-  public title=""
+  public title="";
+  public correuToSend = "";
   constructor(private route: ActivatedRoute, private router: Router, private validationService : ValidationService, private storage: Storage,
               private toastController: ToastController) {
     this.route.params.subscribe((params) => {
@@ -39,10 +40,15 @@ export class ValidacioPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.storage.get(STORAGE_KEY).then((information)=>{
+        this.correuToSend = information.correu;
+    });
+  }
+
   vaildarMail() {
     var validationInfo = {
-      correu: this.validacio.correu,
+      correu: this.correuToSend,
       codi: this.validacio.codi
     };
     this.validationService.validateEmail(validationInfo).subscribe((res: PerfilGetAllResponse) =>{
@@ -63,7 +69,12 @@ export class ValidacioPage implements OnInit {
   }
 
   reenviarCodiMail() {
-    console.log("show me the code");
+    let request = {
+      correu: this.correuToSend
+    };
+    this.validationService.sendValidationEmail(request).subscribe((res: EmailValidationResponse)=>{
+      this.presentToast("S'ha tornat a enviar el correu de validació");
+    });
   }
   
   validarPass() {
@@ -96,5 +107,12 @@ export class PerfilGetAllResponse {
     public serverStatus: number,
     public doValidation: boolean,
     public msg: string,
+  ) {}
+}
+export class EmailValidationResponse {
+  constructor(
+      public serverStatus: number,
+      public validacioCorreu: boolean,
+      public msg: string,
   ) {}
 }

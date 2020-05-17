@@ -17,6 +17,7 @@ class EmergenciesService{
 
         var query = 'SELECT Correu FROM Usuari WHERE Id =' + req.UsuariId;
         var response;
+        console.log(query);
         self.connection.query(query, function(error, rows, fields){
             if (error){
                 response = {
@@ -27,6 +28,7 @@ class EmergenciesService{
                 callback(response);
                 return; 
             }
+            console.log(rows);
             if (rows.length === 1){
                 self.emailService.sendEmail(rows[0].Correu,"Avis rebut", Text,callback)
             }else{
@@ -50,6 +52,7 @@ class EmergenciesService{
         Text = Text + "Junatment amb les següents dades: " + perfilInformation
 
         var query = 'SELECT Correu FROM Usuari WHERE Id =' + req.perfil.UsuariId;
+        
         var response;
         this.connection.query(query, function(error, rows, fields){
             if (error){
@@ -61,6 +64,7 @@ class EmergenciesService{
                 callback(response);
                 return; 
             }
+            
             if (rows.length === 1){
                 self.emailService.sendEmail(rows[0].Correu,"Emergencia rebuda", Text,callback)
             }else{

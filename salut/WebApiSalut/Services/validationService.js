@@ -8,6 +8,7 @@ class ValidationService{
     }
     validateResetPasword(validation, callback)
     {
+        var self = this;
         var query = 'SELECT * FROM Usuari WHERE correu = \'' + validation.correu + '\' and validacioContrassenya = MD5(\''+validation.codi+'\') ';
         this.connection.query(query, function(error, rows, fields){
             var response = null;
@@ -23,8 +24,8 @@ class ValidationService{
                     doValidation: true,
                     msg: ''
                 };
-                var secondQuery = 'INSERT INTO Usuari (contrassenya, validacioContrassenya) VALUES (null) WHERE id = \'' + rows[0].id + '\';';
-                this.connection.query(secondQuery, function(error, rows, fields){});
+                var secondQuery = 'UPDATE Usuari set contrassenya = MD5(\'' + validation.psw + '\'), set validacioContrassenya = null WHERE id = \'' + rows[0].id + '\';';
+                self.connection.query(secondQuery, function(error, rows, fields){});
             }else{
                 response = { 
                     serverStatus: 200,
@@ -38,8 +39,11 @@ class ValidationService{
     validateEmail(validation, callback)
     {
         var query = 'SELECT * FROM Usuari WHERE correu = \'' + validation.correu + '\' and validacioCorreu = MD5(\''+validation.codi+'\') ';
+        var self = this;
+        console.log(query);
         this.connection.query(query, function(error, rows, fields){
             var response = null;
+            console.log(rows);
             if (error){
                 response = {
                     serverStatus: 400,
@@ -52,8 +56,8 @@ class ValidationService{
                     doValidation: true,
                     msg: ''
                 };
-                var secondQuery = 'INSERT INTO Usuari (validacioCorreu) VALUES (null) WHERE id = \'' + rows[0].id + '\';';
-                this.connection.query(secondQuery, function(error, rows, fields){});
+                var secondQuery = 'UPDATE Usuari set validacioCorreu = null WHERE id = \'' + rows[0].Id + '\';';
+                self.connection.query(secondQuery, function(error, rows, fields){});
             }else{
                 response = { 
                     serverStatus: 200,
@@ -67,9 +71,11 @@ class ValidationService{
     sendEmailResetPassword(email, callback)
     {
         var number = Math.floor(10000 + Math.random() * 50000);
+        var response = null;
+        var self = this;
         var Text = "Hem rebut una sol·licitud per restaurar la contrassenya a l'aplicació SeguiSalut, la clau reuqrida és: " + number;
-        var query = 'INSERT INTO Usuari (validacioContrassenya) VALUES (MD5(\'' + number + '\') ) WHERE correu = \'' + email.correu + '\';';
-        self.connection.query(query, function(error, rows, fields){
+        var query = 'UPDATE Usuari set validacioContrassenya = MD5(\'' + number + '\') WHERE correu = \'' + email.correu + '\';';
+        this.connection.query(query, function(error, rows, fields){
             if (error){
                 response = {
                     serverStatus: 400,
@@ -79,7 +85,8 @@ class ValidationService{
                 callback(response);
                 return; 
             }
-            if (fields.insertId){
+
+            if (rows.affectedRows > 0){
                 response = {
                     serverStatus: 200,   
                     resetContrassenya: true,
@@ -98,10 +105,14 @@ class ValidationService{
     }
     sendValidationEmail(email, callback)
     {
+        console.log("sendValidationEmail");
+        var self = this;
+        var response = null;
         var number = Math.floor(10000 + Math.random() * 50000);
         var Text = "El codi per a l'activació del correu és el següent: " + number;
-        var query = 'INSERT INTO Usuari (validacioCorreu) VALUES (MD5(\'' + number + '\') ) WHERE correu = \'' + email.correu + '\';';
-        self.connection.query(query, function(error, rows, fields){
+        var query = 'UPDATE Usuari set validacioCorreu =  MD5(\'' + number + '\') WHERE correu = \'' + email.correu + '\';';
+        console.log(query);
+        this.connection.query(query, function(error, rows, fields){
             if (error){
                 response = {
                     serverStatus: 400,
@@ -111,7 +122,7 @@ class ValidationService{
                 callback(response);
                 return; 
             }
-            if (fields.insertId){
+            if (rows.affectedRows > 0){
                 response = {
                     serverStatus: 200,   
                     validacioCorreu: true,

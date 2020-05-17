@@ -73,6 +73,9 @@ export class PerfilPage implements OnInit {
 
   ngOnInit() {
     //console.log("Enviar formulari dades mèdiques.")
+    if (this.backButton !== "true"){
+      this.presentToast("Per començar crea un perfil");
+    }
     this.platform.ready().then(() =>{
       this.storage.get(STORAGE_KEY_P).then(information => {
         if (information != null){

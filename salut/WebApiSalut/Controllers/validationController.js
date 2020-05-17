@@ -26,6 +26,7 @@ function sendEmailResetPassword(req, res)
 }
 function sendValidationEmail(req, res)
 {
+    console.log("controoler send validation")
     var validationService = new service();
     validationService.sendValidationEmail(req.body, function(response){
         res.status(response.serverStatus).send(response)

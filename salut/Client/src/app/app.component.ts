@@ -34,7 +34,7 @@ export class AppComponent {
     private validateService: ValidationService
   ) {
     this.initializeApp();
-    //this.doLogin();
+    this.doLogin();
   }
 
   initializeApp() {
@@ -51,6 +51,7 @@ export class AppComponent {
           contrassenya: information.contrassenya
         };
         this.loginService.doLogin(usuari).subscribe((res: LoginResponse) => {
+          var activat = res.activat;
           if (res.doLogin){
             let idUsuari = res.idUsuari;
             this.storage.remove(STORAGE_KEY).then(res => {
@@ -61,7 +62,7 @@ export class AppComponent {
                 logged: true
               };
               this.storage.set(STORAGE_KEY, loginStorage);
-              this.updateStoredPerfil(idUsuari, res.activat, usuari.correu);
+              this.updateStoredPerfil(idUsuari, activat, usuari.correu);
             });
           }else{
             console.log("Navigate To login");

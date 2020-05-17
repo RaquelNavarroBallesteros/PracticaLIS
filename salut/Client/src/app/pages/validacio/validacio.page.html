@@ -7,7 +7,9 @@
   <ion-list>
   <ion-item>
     <ion-label>Escriu el codi de confirmació per validar el teu correu.</ion-label>
-    <ion-input type="number" maxlength="5" placeholder="Codi de confirmació" name="codiMail" [(ngModel)]="validacio.codi"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input type="number" maxlength="5" patter="[0-9]{5}" placeholder="Codi de confirmació" name="codiMail" [(ngModel)]="validacio.codi"></ion-input>
   </ion-item>
 </ion-list>
   <ion-button expand="block" type="submit" [disabled]="validarMailForm.invalid">
@@ -43,6 +45,9 @@
       </ion-item>
       <ion-item *ngIf="codiEnviat">
       <ion-input type="password" required name="password" placeholder ="Repetir contrasenya" [(ngModel)]="validacio.repass"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="codiEnviat">
+        <ion-input type="number" maxlength="5" patter="[0-9]{5}" placeholder="Codi de confirmació" name="codiMail" [(ngModel)]="validacio.codi"></ion-input>
       </ion-item>
     
 
