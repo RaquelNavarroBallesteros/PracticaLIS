@@ -23,7 +23,7 @@ class ValidationService{
                     doValidation: true,
                     msg: ''
                 };
-                var secondQuery = 'INSERT INTO Usuari (validacioContrassenya) VALUES (null) WHERE id = \'' + rows[0].id + '\';';
+                var secondQuery = 'INSERT INTO Usuari (contrassenya, validacioContrassenya) VALUES (null) WHERE id = \'' + rows[0].id + '\';';
                 this.connection.query(secondQuery, function(error, rows, fields){});
             }else{
                 response = { 

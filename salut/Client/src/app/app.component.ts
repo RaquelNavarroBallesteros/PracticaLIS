@@ -8,6 +8,8 @@ import { CompileShallowModuleMetadata } from '@angular/compiler';
 import {Storage} from '@ionic/storage';
 import { LoginService } from 'src/app/services/login.service';
 import { PerfilService } from 'src/app/services/perfil.service';
+import { ToastController } from "@ionic/angular";
+import {ValidationService} from "src/app/services/validation.service.js"
 
 
 
@@ -27,7 +29,9 @@ export class AppComponent {
     private route: Router,
     private storage: Storage,
     private loginService: LoginService,
-    private perfilService: PerfilService
+    private perfilService: PerfilService,
+    private toastController: ToastController,
+    private validateService: ValidationService
   ) {
     this.initializeApp();
     //this.doLogin();
@@ -57,7 +61,7 @@ export class AppComponent {
                 logged: true
               };
               this.storage.set(STORAGE_KEY, loginStorage);
-              this.updateStoredPerfil(idUsuari);
+              this.updateStoredPerfil(idUsuari, res.activat, usuari.correu);
             });
           }else{
             console.log("Navigate To login");
@@ -70,7 +74,7 @@ export class AppComponent {
       }
     });
   }
-  updateStoredPerfil(idUsuari: number){
+  updateStoredPerfil(idUsuari: number, activat: boolean, correu: string){
     this.perfilService.getall(idUsuari).subscribe((res: PerfilGetAllResponse) => {
       if (res.correcte){
         var perfilId = 0;
@@ -79,14 +83,42 @@ export class AppComponent {
           var nom = res.data[0]['Nom'];
           this.storage.remove(STORAGE_KEY_P).then(res => {
             let perfilStorage = {id: perfilId, nom: nom};
-            this.storage.set(STORAGE_KEY_P, perfilStorage);  
-            this.route.navigate(['/inici']);
+            this.storage.set(STORAGE_KEY_P, perfilStorage);
+            if (activat){  
+              this.route.navigate(['/inici']);
+            }else{
+              let request = {
+                correu: correu
+              };
+              this.validateService.sendValidationEmail(request).subscribe((res: EmailValidationResponse)=>{
+                this.presentToast("Correu no validat, verifica-ho");
+                this.route.navigate(['/validacio/mail']);
+              });
+            }
           });
         }else{
-          this.route.navigate(['/perfil']);
+          if (activat){
+            this.route.navigate(['/perfil']);
+          }else{
+            let request = {
+              correu: correu
+            };
+            this.validateService.sendValidationEmail(request).subscribe((res: EmailValidationResponse)=>{
+              this.presentToast("Correu no validat, verifica-ho");
+              this.route.navigate(['/validacio/mail']);
+            });
+          }
         }
       }
     });
+  }
+  async presentToast(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "bottom",
+      duration: 3000,
+    });
+    toast.present();
   }
 }
 
@@ -95,6 +127,7 @@ export class LoginResponse {
       public serverStatus: number,
       public doLogin: boolean,
       public idUsuari: number,
+      public activat: boolean,
       public msg: string,
   ) {}
 }
@@ -103,6 +136,13 @@ export class PerfilGetAllResponse {
       public serverStatus: number,
       public correcte: boolean,
       public data: Array<object>,
+      public msg: string,
+  ) {}
+}
+export class EmailValidationResponse {
+  constructor(
+      public serverStatus: number,
+      public validacioCorreu: boolean,
       public msg: string,
   ) {}
 }
