@@ -6,11 +6,14 @@ class ValidationService{
         this.connection = contextDB.getConnection();
         this.emailService = new emailService();
     }
-    validateResetPasword(validation, callback)
+    validateResetPassword(validation, callback)
     {
         var self = this;
         var query = 'SELECT * FROM Usuari WHERE correu = \'' + validation.correu + '\' and validacioContrassenya = MD5(\''+validation.codi+'\') ';
+        console.log(query);
+        var validationInfo = validation;
         this.connection.query(query, function(error, rows, fields){
+            console.log(rows);
             var response = null;
             if (error){
                 response = {
@@ -24,7 +27,8 @@ class ValidationService{
                     doValidation: true,
                     msg: ''
                 };
-                var secondQuery = 'UPDATE Usuari set contrassenya = MD5(\'' + validation.psw + '\'), set validacioContrassenya = null WHERE id = \'' + rows[0].id + '\';';
+                var secondQuery = 'UPDATE Usuari set Contrasenya = MD5(\'' + validationInfo.psw + '\'), validacioContrassenya = null WHERE id =' + rows[0].Id + ';';
+                console.log(secondQuery);
                 self.connection.query(secondQuery, function(error, rows, fields){});
             }else{
                 response = { 

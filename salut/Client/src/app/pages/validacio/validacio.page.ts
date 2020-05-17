@@ -42,7 +42,9 @@ export class ValidacioPage implements OnInit {
 
   ngOnInit() {
     this.storage.get(STORAGE_KEY).then((information)=>{
-        this.correuToSend = information.correu;
+        if (information != null){
+          this.correuToSend = information.correu;
+        }
     });
   }
 
@@ -80,10 +82,34 @@ export class ValidacioPage implements OnInit {
   validarPass() {
     if (!this.codiEnviat) {
       console.log("Enviar correu i rebre codi");
-      this.textButton = "Confirmar";
-      this.codiEnviat =true;
-      
+      let request = {
+        correu: this.validacio.correu
+      };
+      this.validationService.sendEmailResetPassword(request).subscribe((res: SendResetPasswordResponse)=>{
+        if (res.correuEnviat){
+          this.presentToast("S'ha enviat un correu amb el codi per restaurar la contrassenya");
+        }
+        this.textButton = "Confirmar";
+        this.codiEnviat =true;
+      });
     } else {
+      if (this.validacio.pass == this.validacio.repass){
+        let request = {
+          correu: this.validacio.correu,
+          psw: this.validacio.pass,
+          codi: this.validacio.codi
+        }
+        this.validationService.validateResetPassword(request).subscribe((res: ResetPasswordResponse) =>{
+          if(res.doValidation){
+            this.presentToast("La contrassenya s'ha restaurat correctament");
+            this.router.navigate(['/login']);
+          }else{
+            this.presentToast("Codi de confirmació incorrecte");
+          }
+        });
+      }else{
+        this.presentToast("Les contrassenyes no coincideixen");
+      }
       console.log("Enviar Nova contrasenya");
     }
   }
@@ -113,6 +139,20 @@ export class EmailValidationResponse {
   constructor(
       public serverStatus: number,
       public validacioCorreu: boolean,
+      public msg: string,
+  ) {}
+}
+export class SendResetPasswordResponse {
+  constructor(
+      public serverStatus: number,
+      public correuEnviat: boolean,
+      public msg: string,
+  ) {}
+}
+export class ResetPasswordResponse {
+  constructor(
+      public serverStatus: number,
+      public doValidation: boolean,
       public msg: string,
   ) {}
 }
