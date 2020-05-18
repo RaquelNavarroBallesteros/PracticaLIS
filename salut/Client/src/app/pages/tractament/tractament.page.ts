@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import {Storage} from '@ionic/storage';
 import { NotificacionsService } from 'src/app/services/notificacions.service';
 import {Router} from '@angular/router';
+import { ToastController } from "@ionic/angular";
 
 const STORAGE_KEY_P = 'perfil';
 @Component({
@@ -26,12 +27,22 @@ export class TractamentPage implements OnInit {
   private nomPerfil = null;  
 
   constructor(private route: ActivatedRoute, public tractamentService: TractamentService, public alertCtrl: AlertController,
-              private storage: Storage, private notificationService: NotificacionsService, private router:Router) 
+              private storage: Storage, private notificationService: NotificacionsService, private router:Router,
+              private toastController: ToastController) 
   {
     this.route.params.subscribe(params => {
       console.log(params);
       this.tractament.id = params['id']; 
     });
+  }
+
+  async presentToast(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "top",
+      duration: 3000,
+    });
+    toast.present();
   }
 
   public auxMedicament = {id: 0, idM: null, periode:null};
@@ -43,7 +54,7 @@ export class TractamentPage implements OnInit {
     let medicament = this.auxMedicament;
     if (medicament.idM == null || medicament.periode == null)
     {
-      alert("Indica el medicament i la hora de la presa.");
+      this.presentToast("Indica el medicament i la hora de la presa.");
     }
     else
     {
@@ -145,7 +156,7 @@ export class TractamentPage implements OnInit {
     this.tractamentService.add_request(this.tractament).subscribe((res: TractamentSetResponse)=>{
       if (res.correcte)
       {
-        alert("Les dades s'han guardar correctament.");
+        this.presentToast("Les dades s'han guardar correctament.");
         this.tractament.id = res.id;
         this.tractament.medicaments.forEach((medicament) =>{
           var horesMin = medicament.periode.split(':');
@@ -156,7 +167,7 @@ export class TractamentPage implements OnInit {
       }
       
     else
-      alert("Error: " + res.msg);
+    this.presentToast("Error: " + res.msg);
     });
   }
 
@@ -166,7 +177,7 @@ export class TractamentPage implements OnInit {
     var self = this;
     this.tractamentService.update_request(this.tractament).subscribe((res: TractamentSetResponse)=>{
       if (res.correcte){
-        alert("Les dades s'han guardar correctament.");
+        this.presentToast("Les dades s'han guardar correctament.");
         this.notificationService.eliminarNotificacioTractament(this.tractament.id);
         this.tractament.medicaments.forEach((medicament) =>{
           var horesMin = medicament.periode.split(':');
@@ -175,21 +186,27 @@ export class TractamentPage implements OnInit {
         });
         self.router.navigate(['/llista-tractaments']);
       }else
-        alert("Error: " + res.msg);
+      this.presentToast("Error: " + res.msg);
     });
   }
 
   enviar()
   {
-    if(this.tractament.id == 0)
+    if(this.tractament.nom == "")
     {
-      this.add();
+      this.presentToast("Has d'indicar el nom del tractament.")
+    }
+    else{
+      if(this.tractament.id == 0)
+      {
+        this.add();
+      }
+      else
+      {
+        this.update();
+      }
+    }
 
-    }
-    else
-    {
-      this.update();
-    }
   }
 }
 
