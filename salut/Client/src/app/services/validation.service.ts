@@ -17,7 +17,7 @@ export class ValidationService {
 
   constructor(private http: HttpClient, private toastController: ToastController) { }
   validateEmail(req){
-    return this.http.post(this._aplicationURL + this._validateEmailUrl, req).pipe(timeout(3000),catchError(error => {
+    return this.http.post(this._aplicationURL + this._validateEmailUrl, req).pipe(timeout(5000),catchError(error => {
       let msg = "Impossible connectar amb el servidor.";
       this.presentToast(msg);
       return throwError(msg);
@@ -25,7 +25,7 @@ export class ValidationService {
   }
   validateResetPassword(req)
   {
-    return this.http.post(this._aplicationURL + this._validateResetPasswordUrl, req).pipe(timeout(3000),catchError(error => {
+    return this.http.post(this._aplicationURL + this._validateResetPasswordUrl, req).pipe(timeout(5000),catchError(error => {
       let msg = "Impossible connectar amb el servidor.";
       this.presentToast(msg);
       return throwError(msg);
@@ -33,7 +33,7 @@ export class ValidationService {
   }
   sendEmailResetPassword(req)
   {
-    return this.http.post(this._aplicationURL + this._sendEmailResetPasswordUrl, req).pipe(timeout(3000),catchError(error => {
+    return this.http.post(this._aplicationURL + this._sendEmailResetPasswordUrl, req).pipe(timeout(5000),catchError(error => {
       let msg = "Impossible connectar amb el servidor.";
       this.presentToast(msg);
       return throwError(msg);
@@ -41,7 +41,7 @@ export class ValidationService {
   }
   sendValidationEmail(req)
   {
-    return this.http.post(this._aplicationURL + this._sendValidationEmailUrl, req).pipe(timeout(3000),catchError(error => {
+    return this.http.post(this._aplicationURL + this._sendValidationEmailUrl, req).pipe(timeout(5000),catchError(error => {
       let msg = "Impossible connectar amb el servidor.";
       this.presentToast(msg);
       return throwError(msg);

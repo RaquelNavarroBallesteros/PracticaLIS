@@ -23,6 +23,7 @@ export class ValidacioPage implements OnInit {
   public textButton = "Enviar";
   public codiEnviat = false;
   public title="";
+  public backButton = "true";
   public correuToSend = "";
   constructor(private route: ActivatedRoute, private router: Router, private validationService : ValidationService, private storage: Storage,
               private toastController: ToastController) {
@@ -35,6 +36,7 @@ export class ValidacioPage implements OnInit {
           break;
         case 'mail':
           this.title = 'Confirmar correu';
+          this.backButton = 'false';
           break;
       }
     });
@@ -76,6 +78,16 @@ export class ValidacioPage implements OnInit {
     };
     this.validationService.sendValidationEmail(request).subscribe((res: EmailValidationResponse)=>{
       this.presentToast("S'ha tornat a enviar el correu de validació");
+    });
+  }
+  reenviarCodiPassword(){
+    let request = {
+      correu: this.validacio.correu
+    };
+    this.validationService.sendEmailResetPassword(request).subscribe((res: SendResetPasswordResponse)=>{
+      if (res.correuEnviat){
+        this.presentToast("S'ha reenviat el correu amb el codi per restaurar la contrassenya");
+      }
     });
   }
   

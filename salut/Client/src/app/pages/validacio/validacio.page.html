@@ -1,8 +1,7 @@
-<app-header title="{{title}}" backButton="false"></app-header>
+<app-header title="{{title}}" backButton="{{backButton}}"></app-header>
 
 <ion-content>
 <div *ngIf="pageType == 'mail' ">
-  Mail!
 <form #validarMailForm="ngForm" (ngSubmit)="vaildarMail()">
   <ion-list>
   <ion-item>
@@ -24,12 +23,11 @@
 </div>
 
 <div *ngIf="pageType == 'pass' ">
-  Password!
   <form #validarPassForm="ngForm" (ngSubmit)="validarPass()">
   <ion-list>    
     
-    <ion-item>
-      <ion-label>Escriu el teu correu per rebre el codi de confirmació</ion-label>
+    <ion-item lines="none">
+      <ion-label>Escriu el teu correu</ion-label>
       </ion-item>
       <ion-item>
       <ion-input type="email" required name="email" [(ngModel)]="validacio.correu"
@@ -37,7 +35,7 @@
       </ion-input>
       </ion-item>
   
-      <ion-item *ngIf="codiEnviat">
+      <ion-item *ngIf="codiEnviat" lines="none">
       <ion-label>Escriu la nova contrasenya</ion-label>
       </ion-item>
       <ion-item *ngIf="codiEnviat">
@@ -57,7 +55,10 @@
   </ion-button>
   
   </form>
-  
+  <ion-text *ngIf="codiEnviat">
+    No has rebut el codi? 
+    <a (click)="reenviarCodiPassword()">Reenviar codi</a>
+  </ion-text>
 </div>
 
 </ion-content>
