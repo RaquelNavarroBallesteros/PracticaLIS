@@ -103,24 +103,12 @@ export class MapaPage implements OnInit {
         }
       }
     });
-    
-    /*
-    service.findPlaceFromQuery(request, function(results, status) {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        //console.log(results)
-        for (var i = 0; i < results.length; i++) {
-          self.createMarker(results[i]);
-        }
-
-         //self.map.setCenter(results[0].geometry.location);
-      }
-    });
-    */
   }
 
   createMarkerCurr(pos)
   {
-    var icon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/library_maps.png"
+    //var icon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/library_maps.png"
+    var icon = "assets/img/person_icon.png"
     var marker = new google.maps.Marker({
       map: this.map,
       position: pos,
