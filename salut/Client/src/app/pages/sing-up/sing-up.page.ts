@@ -4,6 +4,7 @@ import { SignUpService } from 'src/app/services/signUp.service';
 import { Router } from "@angular/router";
 import { Storage } from "@ionic/storage";
 import { ToastController } from "@ionic/angular";
+import {ValidationService} from "src/app/services/validation.service.js"
 
 
 const STORAGE_KEY = "login";
@@ -25,7 +26,8 @@ export class SingUpPage implements OnInit {
     public signUpService: SignUpService,
     private route: Router,
     private storage: Storage,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private validateService: ValidationService
   ) {}
 
   ngOnInit() {}
@@ -36,9 +38,7 @@ export class SingUpPage implements OnInit {
     if (this.registre.psw != this.registre.confirmPsw) {
       self.presentToast("Les contrasenyes no coincideixen.");
     }
-    this.signUpService
-      .addUser(this.registre)
-      .subscribe((res: SignUpResponse) => {
+    this.signUpService.addUser(this.registre).subscribe((res: SignUpResponse) => {
         if (res.doSignUp) {
           self.updateStoredLogin(res.usuariId);
         }else if(res.serverStatus == 200){
@@ -57,8 +57,13 @@ export class SingUpPage implements OnInit {
         logged: true,
       };
       this.storage.set(STORAGE_KEY, loginStorage);
-      self.presentToast("Registrat correctament. Per començar crea un perfil");
-      this.route.navigate(["/perfil"]);
+      let request = {
+        correu: this.registre.correu
+      };
+      this.validateService.sendValidationEmail(request).subscribe((res: EmailValidationResponse)=>{
+        self.presentToast("Registrat correctament. Verifica el correu");
+        this.route.navigate(["/validacio", "mail"]);
+      });
     });
   }
 
@@ -71,12 +76,18 @@ export class SingUpPage implements OnInit {
     toast.present();
   }
 }
-
 export class SignUpResponse {
   constructor(
       public serverStatus: number,
       public doSignUp: boolean,
       public usuariId:number,
+      public msg: string,
+  ) {}
+}
+export class EmailValidationResponse {
+  constructor(
+      public serverStatus: number,
+      public validacioCorreu: boolean,
       public msg: string,
   ) {}
 }

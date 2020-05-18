@@ -5,19 +5,22 @@ var configuration = require('../Configuration.js');
 class EmailService{
     constructor(){
         this.config = new configuration();
-        var configMail =this.config.getGmail(); 
-        this.transporter = mailer.createTransport({
+        this.configMail =this.config.getGmail();
+        console.log(this.configMail);
+        var informatio = {
             service: 'gmail',
             auth: {
-                user: configMail.user,
-                pass: configMail.user.pass
+                user: this.configMail.user,
+                pass: this.configMail.pass
             }
-        });
+        }
+        this.transporter = mailer.createTransport(informatio);
     }
     sendEmail(To, Subject,Text,callback)
     {
+        console.log(To)
         var mailOptions={
-            from: configMail.user,
+            from: this.configMail.user,
             to: To,
             subject: Subject,
             text: Text

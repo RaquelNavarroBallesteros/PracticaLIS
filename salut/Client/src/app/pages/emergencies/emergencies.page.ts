@@ -28,34 +28,36 @@ export class EmergenciesPage implements OnInit {
     var coordenades = null;
     var idUsuari = null;
     var self = this;
-    idUsuari = 1;
 
-    this.geolocation.getCurrentPosition({
-        enableHighAccuracy: true
-      }).then(location => {
+    this.storage.get(STORAGE_KEY).then(information => {
+      idUsuari = information.idUsuari;
+      this.geolocation.getCurrentPosition({
+          enableHighAccuracy: true
+        }).then(location => {
 
-        coordenades = {
-          "latitud": location.coords.latitude,
-          "longitut": location.coords.longitude
-        }
-        request = {
-          "UsuariId": idUsuari,
-          "coordenades": coordenades
-        }
-        console.log("send Avis");
-        console.log(request);
-        self.emergenciesService.sendAvis(request).subscribe((res: EmergencieResponse) => {
-          console.log('respuesta')
-          console.log(res);
-          if (!res.correuEnviat){
-            //TODO: Define toster
-            console.log("EROOR ENVIAMNET CORREU")
-          }else{
-            //TODO: Define toster
-            console.log("CORREU ENVIAT")
+          coordenades = {
+            "latitud": location.coords.latitude,
+            "longitut": location.coords.longitude
           }
-        });
+          request = {
+            "UsuariId": idUsuari,
+            "coordenades": coordenades
+          }
+          console.log("send Avis");
+          console.log(request);
+          self.emergenciesService.sendAvis(request).subscribe((res: EmergencieResponse) => {
+            console.log('respuesta')
+            console.log(res);
+            if (!res.correuEnviat){
+              //TODO: Define toster
+              console.log("EROOR ENVIAMNET CORREU")
+            }else{
+              //TODO: Define toster
+              console.log("CORREU ENVIAT")
+            }
+          });
 
+      });
     });
   }
   sendEmergencia(){
