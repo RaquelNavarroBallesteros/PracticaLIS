@@ -60,23 +60,6 @@ export class TractamentPage implements OnInit {
     this.tractament.medicaments.splice(index, 1);
   }
 
-  /*
-  async updateTask(index) {
-    const alert = await this.alertCtrl.create({
-        message: 'Editar Medicament',
-        inputs: [{ name: 'editNom', value: this.medicaments[index]["nom"], placeholder: 'Medicament' }, { name: 'editDescripcio', value: this.medicaments[index]["descripcio"], placeholder: 'Descripció' }],
-        buttons: [{ text: 'Cancel', role: 'cancel' },
-                  { text: 'Update', handler: data => {
-                      this.medicaments[index]["nom"] = data.editNom; 
-                      this.medicaments[index]["descripcio"] = data.editDescripcio; }
-                  }
-                 ]
-    });
-  await alert.present();
-  
-  }
-*/
-
   ngOnInit() {
     this.storage.get(STORAGE_KEY_P).then(information => {
       if (information != null){

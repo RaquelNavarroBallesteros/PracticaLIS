@@ -16,10 +16,15 @@ export class AddEventPage implements OnInit {
     tipus: '',
     tractament:''
   };
+  public tractamentId;
   constructor( public addEventService: AddEventService) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      console.log(params);
+      this.tractamentId = params['id'];
+    });
   }
 
   createNewEvent(){

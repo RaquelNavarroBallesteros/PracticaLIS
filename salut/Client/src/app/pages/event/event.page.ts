@@ -5,7 +5,9 @@ import { RouterLink } from '@angular/router';
 import { NgZone } from '@angular/core';
 import {Router} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import {Storage} from '@ionic/storage';
 
+const STORAGE_KEY_P = 'perfil';
 @Component({
   selector: 'app-event',
   templateUrl: './event.page.html',
@@ -14,8 +16,10 @@ import { ActivatedRoute } from '@angular/router';
 export class EventPage implements OnInit {
 
   public events = [];
-  public eventsToShow = []
-  constructor(private route: ActivatedRoute, public eventService: EventService, private router:Router) {}
+  public eventsToShow = [];
+  public idPerfil = -1;
+  constructor(private route: ActivatedRoute, public eventService: EventService, private router:Router,
+              private storage: Storage) {}
 
   ngOnInit() {
     this.listEvents(false);
@@ -24,24 +28,30 @@ export class EventPage implements OnInit {
   listEvents(historic: boolean){
     let date: Date = new Date();
     console.log("esta es la fecha", date);
-    this.eventService.listEvents(2,date).subscribe((res: ListEventResponse)=>{
-      //recordar cambiar el 2
-      this.events = res.data;
-      this.events.forEach((event, index) => {
-        event.DataVisita = new Date(event.DataVisita)
-    
-        if (index === 0){
-          this.eventsToShow.push([event])
-        }else{
-          var position = this.eventsToShow.length -1
-          var period = this.eventsToShow[position]
-          if (event.DataVisita.getMonth() === period[period.length -1].DataVisita.getMonth() && 
-              event.DataVisita.getYear() == period[period.length -1].DataVisita.getYear()){
-            this.eventsToShow[position].push(event);
+    this.storage.get(STORAGE_KEY_P).then(information => {
+      if (information != null){
+        this.idPerfil = information.id;
+      }
+      this.eventService.listEvents(this.idPerfil, date).subscribe((res: ListEventResponse)=>{
+        //recordar cambiar el 2
+
+        this.events = res.data;
+        this.events.forEach((event, index) => {
+          event.DataVisita = new Date(event.DataVisita)
+      
+          if (index === 0){
+            this.eventsToShow.push([event])
           }else{
-            this.eventsToShow.push([event]);
+            var position = this.eventsToShow.length -1
+            var period = this.eventsToShow[position]
+            if (event.DataVisita.getMonth() === period[period.length -1].DataVisita.getMonth() && 
+                event.DataVisita.getYear() == period[period.length -1].DataVisita.getYear()){
+              this.eventsToShow[position].push(event);
+            }else{
+              this.eventsToShow.push([event]);
+            }
           }
-        }
+        });
       });
     });
     console.log("output de", this.eventsToShow);
@@ -53,18 +63,24 @@ export class EventPage implements OnInit {
     this.eventService.eliminarEvent(eventId).subscribe((res: HttpResponse<any>)=>{
       console.log("Response of elimiar event --- event page .ts:");
       console.log(res);
-      this.router.navigateByUrl('/event');
-      //this.refresh();
+      this.eventsToShow.forEach((element, indexArray)=>{
+        element.forEach((event, index) =>{
+          if (event.Id == eventId ){
+            element.splice(index, 1);
+            if(this.eventsToShow[indexArray].length == 0){
+              this.eventsToShow.splice(indexArray, 1);
+            }
+          }
+        })
+      });
    });
     
   }
 
-  updateEvent(index) 
+  updateEvent(idTractament) 
    {
      // TODO:  Nav to detail
-     console.log("Goto tractament update");
-      var id = this.events[index].id;
-      this.router.navigate(['/event', id]);
+      this.router.navigate(['/add-event', idTractament]);
    }
  /*refresh() {
     this.zone.run(() => {
