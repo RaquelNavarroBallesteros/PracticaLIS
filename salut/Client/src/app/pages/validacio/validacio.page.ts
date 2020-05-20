@@ -60,7 +60,7 @@ export class ValidacioPage implements OnInit {
         this.storage.get(STORAGE_KEY_P).then((information) => {
           this.presentToast("Correu validat corectament.");
           if (information){
-            this.storage.set
+            //this.storage.set
             this.router.navigate(['/inici']);
           }else{
             this.router.navigate(['/perfil']);
