@@ -55,12 +55,12 @@ export class ValidacioPage implements OnInit {
       correu: this.correuToSend,
       codi: this.validacio.codi
     };
+    console.log("validar");
     this.validationService.validateEmail(validationInfo).subscribe((res: PerfilGetAllResponse) =>{
       if (res.doValidation){
         this.storage.get(STORAGE_KEY_P).then((information) => {
           this.presentToast("Correu validat corectament.");
           if (information){
-            //this.storage.set
             this.router.navigate(['/inici']);
           }else{
             this.router.navigate(['/perfil']);
