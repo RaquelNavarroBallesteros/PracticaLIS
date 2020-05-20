@@ -9,6 +9,7 @@ import { retry, catchError } from 'rxjs/operators';
 export class AddEventService {
   public _aplicationURL = 'http://localhost:3000/api/Event'
         _addEventURL = '/addNewEvent';
+        _updateEventURL = '/updateEvent';
   constructor(private http: HttpClient) { }
 
   handleError(error: HttpErrorResponse){
@@ -30,6 +31,14 @@ export class AddEventService {
     console.log(this._aplicationURL + this._addEventURL);
     return this.http.post(this._aplicationURL + this._addEventURL, req).pipe(catchError(this.handleError));
   }
+  
+  updateEvent(req, id){
+    console.log(req)
+    console.log("nou event")
+    console.log(this._aplicationURL + this._updateEventURL);
+    return this.http.post(this._aplicationURL + this._updateEventURL, {id: id, infoEvent: req}).pipe(catchError(this.handleError));
+  }
+
   
   
 }
