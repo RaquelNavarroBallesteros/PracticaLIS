@@ -28,7 +28,7 @@ export class EmergenciesPage implements OnInit {
     var coordenades = null;
     var idUsuari = null;
     var self = this;
-
+    console.log('console log prova IP');
     this.storage.get(STORAGE_KEY).then(information => {
       idUsuari = information.idUsuari;
       this.geolocation.getCurrentPosition({
