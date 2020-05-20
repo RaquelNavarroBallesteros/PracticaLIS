@@ -25,11 +25,11 @@ export class AddEventService {
     return throwError(errorMessage);
   }
 
-  addEvent(req){
+  addEvent(req, id){
     console.log(req)
     console.log("nou event")
     console.log(this._aplicationURL + this._addEventURL);
-    return this.http.post(this._aplicationURL + this._addEventURL, req).pipe(catchError(this.handleError));
+    return this.http.post(this._aplicationURL + this._addEventURL, {id: id, infoEvent: req}).pipe(catchError(this.handleError));
   }
   
   updateEvent(req, id){

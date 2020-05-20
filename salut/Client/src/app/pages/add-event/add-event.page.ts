@@ -3,7 +3,9 @@ import { HttpResponse } from '@angular/common/http';
 import { AddEventService } from 'src/app/services/add-event.service';
 import { ActivatedRoute } from '@angular/router';
 import {Router} from '@angular/router';
+import {Storage} from '@ionic/storage';
 
+const STORAGE_KEY_P = 'perfil';
 @Component({
   selector: 'app-add-event',
   templateUrl: './add-event.page.html',
@@ -19,7 +21,10 @@ export class AddEventPage implements OnInit {
     tractament:''
   };
   public eventId;
-  constructor( private route: ActivatedRoute, public addEventService: AddEventService, private router: Router) {
+  public perfilId;
+
+  constructor( private route: ActivatedRoute, public addEventService: AddEventService, private router: Router, 
+    private storage: Storage) {
   }
 
   ngOnInit() {
@@ -41,11 +46,16 @@ export class AddEventPage implements OnInit {
   }
 
   createNewEvent(){
-    console.log("doing nou event");
-    console.log(this.event);
-    this.addEventService.addEvent(this.event).subscribe((res: ServerResponse)=>{
-      console.log("Resp:");
-      console.log(res);
+    this.storage.get(STORAGE_KEY_P).then(information => {
+      if (information != null){
+        this.perfilId = information.id;
+      }
+      console.log("doing nou event");
+      console.log(this.event);
+      this.addEventService.addEvent(this.event, this.perfilId).subscribe((res: ServerResponse)=>{
+        console.log("Resp:");
+        console.log(res);
+      });
     });
   }
 

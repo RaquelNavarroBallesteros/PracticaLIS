@@ -16,11 +16,11 @@ class AddEventService{
             password : password
         });
     }
-    addEvent(event, callback){
+    addEvent(event, id, callback){
         var self = this
         console.log('add Event-Service')
         console.log(event)
-        var query = 'INSERT INTO Visita (PerfilId, DataVisita,Ubicacio,Descripcio, TractamentId) VALUES (\'' + 23 + '\', \'' + event.data + '\' , \'' + event.ubicacio + '\' , \'' + event.tipus + '\' , \'' + event.tractament + '\');';
+        var query = 'INSERT INTO Visita (PerfilId, DataVisita,Ubicacio,Descripcio, TractamentId) VALUES (\'' + id + '\', \'' + event.data + '\' , \'' + event.ubicacio + '\' , \'' + event.tipus + '\' , \'' + event.tractament + '\');';
         
         //afegir Nom
         //\'' + event.nom + '\' , 

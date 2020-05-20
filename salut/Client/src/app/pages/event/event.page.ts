@@ -27,14 +27,11 @@ export class EventPage implements OnInit {
 
   listEvents(historic: boolean){
     let date: Date = new Date();
-    console.log("esta es la fecha", date);
     this.storage.get(STORAGE_KEY_P).then(information => {
       if (information != null){
         this.idPerfil = information.id;
       }
       this.eventService.listEvents(this.idPerfil, date).subscribe((res: ListEventResponse)=>{
-        //recordar cambiar el 2
-
         this.events = res.data;
         this.events.forEach((event, index) => {
           event.DataVisita = new Date(event.DataVisita)
@@ -56,6 +53,7 @@ export class EventPage implements OnInit {
     });
     console.log("output de", this.eventsToShow);
   }
+
   eliminarEvent(eventId){
     console.log("eliminar event -- event page ts");
     var self = this;
@@ -80,7 +78,13 @@ export class EventPage implements OnInit {
   updateEvent(idTractament) 
    {
      // TODO:  Nav to detail
-      this.router.navigate(['/add-event', idTractament]);
+      this.router.navigate(['/add-event', idTractament])
+      .then(function(){
+        this.listEvents(true); 
+      });
+      console.log("events1", this.eventsToShow)
+
+      //console.log("events2", this.eventsToShow)
    }
  /*refresh() {
     this.zone.run(() => {

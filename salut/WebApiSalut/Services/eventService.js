@@ -21,7 +21,6 @@ class EventService{
     {
         var self = this
 
-        
         var query = 'SELECT * FROM Visita WHERE PerfilId = \'' + id + '\' AND DataVisita > \'' + date + '\' ORDER BY DataVisita;';
         this.connection.connect(function(err){
             console.log("Get connected")
@@ -75,7 +74,6 @@ class EventService{
             }
         })
     }
-
     
     deleteEvent(id, callback)
     {
@@ -126,9 +124,6 @@ class EventService{
         })
     }
 }
-
-
-
 module.exports = EventService
 
 

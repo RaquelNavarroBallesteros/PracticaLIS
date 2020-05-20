@@ -4,7 +4,7 @@ var service = require('../Services/addEventService.js');
 function addNewEvent (req, res) {
     console.log("addEvent");
     eventService = new service();
-    eventService.addEvent(req.body, function (response){
+    eventService.addEvent(req.body.infoEvent, req.body.id, function (response){
         console.log(response)
         res.status(response.serverStatus).send(response)
     });
