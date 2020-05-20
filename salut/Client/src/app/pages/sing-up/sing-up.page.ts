@@ -4,6 +4,8 @@ import { SignUpService } from 'src/app/services/signUp.service';
 import { Router } from "@angular/router";
 import { Storage } from "@ionic/storage";
 import { ToastController } from "@ionic/angular";
+import { ModalController } from '@ionic/angular';
+import { TerminosPage } from '../terminos/terminos.page'
 
 
 const STORAGE_KEY = "login";
@@ -25,7 +27,8 @@ export class SingUpPage implements OnInit {
     public signUpService: SignUpService,
     private route: Router,
     private storage: Storage,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {}
@@ -60,6 +63,13 @@ export class SingUpPage implements OnInit {
       self.presentToast("Registrat correctament. Per començar crea un perfil");
       this.route.navigate(["/perfil"]);
     });
+  }
+
+  async presentTerminos() {
+    const modal = await this.modalController.create({
+      component: TerminosPage
+    });
+    return await modal.present();
   }
 
   async presentToast(text: string) {
