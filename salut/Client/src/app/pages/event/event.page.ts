@@ -22,10 +22,12 @@ export class EventPage implements OnInit {
               private storage: Storage) {}
 
   ngOnInit() {
-    this.listEvents(false);
   }
-
-  listEvents(historic: boolean){
+  ionViewWillEnter(){
+    this.listEvents();
+  }
+  listEvents(){
+    this.eventsToShow = [];
     let date: Date = new Date();
     this.storage.get(STORAGE_KEY_P).then(information => {
       if (information != null){
@@ -77,20 +79,8 @@ export class EventPage implements OnInit {
 
   updateEvent(idTractament) 
    {
-     // TODO:  Nav to detail
       this.router.navigate(['/add-event', idTractament])
-      .then(function(){
-        this.listEvents(true); 
-      });
-      console.log("events1", this.eventsToShow)
-
-      //console.log("events2", this.eventsToShow)
    }
- /*refresh() {
-    this.zone.run(() => {
-      this.listEvents(true);
-      console.log('force update the screen');
-    });*/
 }
 
 export class Event{

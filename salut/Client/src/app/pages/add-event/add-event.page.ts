@@ -4,6 +4,7 @@ import { AddEventService } from 'src/app/services/add-event.service';
 import { ActivatedRoute } from '@angular/router';
 import {Router} from '@angular/router';
 import {Storage} from '@ionic/storage';
+import {ToastController} from '@ionic/angular';
 
 const STORAGE_KEY_P = 'perfil';
 @Component({
@@ -14,60 +15,73 @@ const STORAGE_KEY_P = 'perfil';
 export class AddEventPage implements OnInit {
 
   public event = {
+    id: -1,
     nom: '',
     data: '',
     ubicacio: '',
     tipus: '',
-    tractament:''
   };
   public eventId;
   public perfilId;
 
   constructor( private route: ActivatedRoute, public addEventService: AddEventService, private router: Router, 
-    private storage: Storage) {
+    private storage: Storage, private toastController: ToastController) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       console.log(params);
-      this.eventId = params['id'];
-     
+      this.eventId = parseInt(params['id']);
+      this.storage.get(STORAGE_KEY_P).then(information => {
+        if (information != null){
+          this.perfilId = information.id;
+        }
+        
+      });
     });
   }
 
   select(){
 
-    if(this.eventId>=0){
-      this.updateEvent();
+    if(this.eventId === -1){
+      this.createNewEvent();
     }else
     {
-      this.createNewEvent();
-    }this.router.navigate(['/event']);
+      this.updateEvent();
+    }
   }
 
   createNewEvent(){
-    this.storage.get(STORAGE_KEY_P).then(information => {
-      if (information != null){
-        this.perfilId = information.id;
+    console.log("doing nou event");
+    console.log(this.event);
+    this.addEventService.addEvent(this.event, this.perfilId).subscribe((res: ServerResponse)=>{
+      if (res.doAddEvent) {
+        this.presentToast('Event guardat correctament');
+        this.router.navigate(['/event']);
+      }else{
+        this.presentToast("No s'ha pogut guardar l'event");
       }
-      console.log("doing nou event");
-      console.log(this.event);
-      this.addEventService.addEvent(this.event, this.perfilId).subscribe((res: ServerResponse)=>{
-        console.log("Resp:");
-        console.log(res);
-      });
     });
   }
 
   updateEvent(){
-    console.log("updating event");
-    console.log("este es el id" + this.eventId);
+    this.event.id = this.eventId;
     this.addEventService.updateEvent(this.event,this.eventId).subscribe((res: ServerResponse)=>{
-      console.log("Resp:");
-      console.log(res);
+      if (res.doAddEvent) {
+        this.presentToast('Event actualitzat correctament');
+        this.router.navigate(['/event']);
+      }else{
+        this.presentToast("No s'ha pogut actualitzar l'event");
+      }
     });
-
-
+  }
+  async presentToast(text: string){
+    const toast = await this.toastController.create({
+      message: text,
+      position: 'bottom',
+      duration: 3000
+    });
+    toast.present();
   }
 }
 export class ServerResponse{

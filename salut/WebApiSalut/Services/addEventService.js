@@ -20,7 +20,7 @@ class AddEventService{
         var self = this
         console.log('add Event-Service')
         console.log(event)
-        var query = 'INSERT INTO Visita (PerfilId, DataVisita,Ubicacio,Descripcio, TractamentId) VALUES (\'' + id + '\', \'' + event.data + '\' , \'' + event.ubicacio + '\' , \'' + event.tipus + '\' , \'' + event.tractament + '\');';
+        var query = 'INSERT INTO Visita (PerfilId, DataVisita,Ubicacio,Descripcio) VALUES (\'' + id + '\', \'' + event.data + '\' , \'' + event.ubicacio + '\' , \'' + event.tipus + '\'' + ');';
         
         //afegir Nom
         //\'' + event.nom + '\' , 
@@ -30,8 +30,6 @@ class AddEventService{
             if (!err){
                 console.log("eventService_addEvent -- connected no error")
                 self.connection.query(query, function(error, fields){
-                    
-                    
                     if (error){
                         console.log("eventService_addEvent -- error1")
                         response = {
@@ -65,11 +63,9 @@ class AddEventService{
         var self = this
         console.log('add Event-Service')
         console.log(event)
-        var query = `UPDATE Visita SET DataVisita="${event.data}", Ubicacio="${event.ubicacio}", Descripcio="${event.tipus}", TractamentId="${event.tractament}" WHERE Id =${id};`
+        var query = `UPDATE Visita SET DataVisita="${event.data}", Ubicacio="${event.ubicacio}", Descripcio="${event.tipus}" WHERE Id =${id};`
         //afegir Nom
         //\'' + event.nom + '\' , 
-
-        
         console.log(query);
         this.connection.connect(function(err){
             var response;
