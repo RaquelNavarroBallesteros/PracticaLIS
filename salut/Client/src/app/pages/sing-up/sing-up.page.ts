@@ -21,6 +21,7 @@ export class SingUpPage implements OnInit {
     correu: "",
     psw: "",
     confirmPsw: "",
+    terminos: false
   };
 
   constructor(
@@ -35,11 +36,22 @@ export class SingUpPage implements OnInit {
 
   doSingUp() {
     let self = this;
+    var err = false
     console.log("donig singUp");
     if (this.registre.psw != this.registre.confirmPsw) {
       self.presentToast("Les contrasenyes no coincideixen.");
+      err = true
     }
-    this.signUpService
+
+    if (!this.registre.terminos)
+    {
+      self.presentToast("Has d'acceptar els termes d'ús.")
+      err = true
+    }
+
+    if (!err)
+    {
+      this.signUpService
       .addUser(this.registre)
       .subscribe((res: SignUpResponse) => {
         if (res.doSignUp) {
@@ -49,6 +61,8 @@ export class SingUpPage implements OnInit {
         }
         console.log("Resp: ",res);
       });
+    }
+    
   }
   updateStoredLogin(idUsuari: number) {
     let self = this;
@@ -66,6 +80,7 @@ export class SingUpPage implements OnInit {
   }
 
   async presentTerminos() {
+    console.log("Terminos!")
     const modal = await this.modalController.create({
       component: TerminosPage
     });
