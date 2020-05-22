@@ -66,8 +66,11 @@ const routes: Routes = [
   {
     path: 'validacio/:pageType',
     loadChildren: () => import('./pages/validacio/validacio.module').then( m => m.ValidacioPageModule)
+  },
+  {
+    path: 'terminos',
+    loadChildren: () => import('./pages/terminos/terminos.module').then( m => m.TerminosPageModule)
   }
-
 ];
 
 @NgModule({
