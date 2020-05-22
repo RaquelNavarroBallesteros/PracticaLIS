@@ -1,14 +1,6 @@
 var router = require('express').Router()
 var service = require('../Services/eventService.js');
 
-/*function addEvent (req, res) {
-    console.log("addEvent");
-    eventService = new service();
-    eventService.addEvent(req.body, function (response){
-        console.log(response)
-        res.status(response.serverStatus).send(response)
-    });
-}*/
 function deleteEvent(req, res){
     console.log("deleteEVENT EN CONTROLLER");
     console.log(req.body);
@@ -28,6 +20,15 @@ function listEvents (req, res) {
         res.status(response.serverStatus).send(response)
     });
 }
+function getOneEvent (req, res) {
+    var id = req.query.id
+    eventService = new service();
+    eventService.getOne(id, function (response){
+        //req.body en vez de 2
+        console.log(response)
+        res.status(response.serverStatus).send(response)
+    });
+}
 
 function warmUp(req,res){
     res.send("event api works")
@@ -36,6 +37,7 @@ function warmUp(req,res){
 //router.post('/addEvent', addEvent)
 router.post('/listEvents', listEvents)
 router.post('/deleteEvent', deleteEvent)
+router.get('/getOne', getOneEvent)
 router.get('/',warmUp)
 
 module.exports = router

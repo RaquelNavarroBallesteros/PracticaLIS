@@ -1,15 +1,7 @@
-<app-header title="Crear un nou event" backButton = "true"></app-header>
+<app-header title="{{title}}" backButton = "true"></app-header>
 <ion-content>
     <form #formulariEvent="ngForm" (ngSubmit)="select()">
         <ion-list>
-            <ion-item>
-                <ion-label position="floating">Nom</ion-label>
-                <ion-input type="text" required
-                            name="nom"
-                            [(ngModel)]="event.nom">
-                </ion-input>
-              </ion-item>
-
             <ion-item>
                 <ion-label position="floating">Data</ion-label>
                 <ion-datetime display-format="DD/MM/YYYY HH:mm" name="data" [(ngModel)]="event.data" picker-format="DD MM YYYY HH:mm" value="event.data" required></ion-datetime>
@@ -31,7 +23,7 @@
               </ion-item>
         </ion-list>
         <ion-button expand="full" type="submit" [disabled]="formulariEvent.invalid">
-            Crear nou event    
+            Guardar  
         </ion-button>
     </form>
 </ion-content>
