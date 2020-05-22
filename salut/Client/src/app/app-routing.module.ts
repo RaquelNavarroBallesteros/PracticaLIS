@@ -60,7 +60,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/grafiques/grafiques.module').then( m => m.GrafiquesPageModule)
   },  
   {
-    path: 'add-event',
+    path: 'add-event/:id',
     loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
   },
   {

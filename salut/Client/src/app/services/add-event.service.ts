@@ -1,35 +1,52 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {  throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { catchError, timeout } from 'rxjs/operators';
+import { ToastController } from "@ionic/angular";
+import {APIUrl} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddEventService {
-  public _aplicationURL = 'http://localhost:3000/api/Event'
+  public _aplicationURL = APIUrl + '/AddEvent'
         _addEventURL = '/addNewEvent';
-  constructor(private http: HttpClient) { }
+        _updateEventURL = '/updateEvent';
+        
+        
+  constructor(private http: HttpClient, private toastController: ToastController) { }
 
-  handleError(error: HttpErrorResponse){
-    let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side errors
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Server-side errors
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    window.alert(errorMessage);
-    return throwError(errorMessage);
-  }
-
-  addEvent(req){
+  addEvent(req, id){
     console.log(req)
     console.log("nou event")
     console.log(this._aplicationURL + this._addEventURL);
-    return this.http.post(this._aplicationURL + this._addEventURL, req).pipe(catchError(this.handleError));
+    return this.http.post(this._aplicationURL + this._addEventURL, {id: id, infoEvent: req}).pipe(timeout(3000),catchError(error =>{
+      let msg = "Impossible connectar amb el servidor.";
+      this.presentToast(msg);
+      return throwError(msg);
+    }));
   }
+  
+  updateEvent(req, id){
+    console.log(req)
+    console.log("nou event")
+    console.log(this._aplicationURL + this._updateEventURL);
+    return this.http.post(this._aplicationURL + this._updateEventURL, {id: id, infoEvent: req}).pipe(timeout(3000),catchError(error =>{
+      let msg = "Impossible connectar amb el servidor.";
+      this.presentToast(msg);
+      return throwError(msg);
+    }));
+  }
+
+  async presentToast(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "bottom",
+      duration: 3000,
+    });
+    toast.present();
+  }
+
   
   
 }
