@@ -19,14 +19,18 @@ class LoginService{
                     response = {
                         serverStatus: 400,
                         doLogin: false,
+                        idUsuari: -1,
+                        activat: false,
                         msg: 'error connection'
                     };                        
             }else if(rows.length > 0){
+                console.log(rows[0].validacioCorreu);
                 console.log("correcte")
                     response = { 
                         serverStatus: 200,
                         doLogin: true,
                         idUsuari: rows[0].Id,
+                        activat: rows[0].validacioCorreu == null ? true : false,
                         msg: ''
                     };
             }else{
@@ -35,6 +39,7 @@ class LoginService{
                         serverStatus: 200,   
                         doLogin: false,
                         idUsuari: -1,
+                        activat: false,
                         msg: 'Invalid user or password'
                     };
             }

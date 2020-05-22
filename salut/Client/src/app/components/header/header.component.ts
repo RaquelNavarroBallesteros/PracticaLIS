@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
       this.storage.get(STORAGE_KEY).then(information => {
         if (information != null){
           if (!information.logged){
-            this.router.navigate['/login'];
+            //this.router.navigate['/login'];
           }
         }
       });

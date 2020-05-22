@@ -63,6 +63,11 @@ const routes: Routes = [
     path: 'add-event/:id',
     loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
   },
+  {
+    path: 'validacio/:pageType',
+    loadChildren: () => import('./pages/validacio/validacio.module').then( m => m.ValidacioPageModule)
+  }
+
 ];
 
 @NgModule({

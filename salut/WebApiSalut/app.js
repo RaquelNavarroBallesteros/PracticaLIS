@@ -18,6 +18,7 @@ var contacteController = require("./Controllers/contacteController")
 var seguimentController = require("./Controllers/seguimentController")
 var addEventController = require("./Controllers/addEventController")
 var eventController = require("./Controllers/eventController")
+var validationController = require("./Controllers/validationController")
 
 app.use("/api/Login",loginController)
 app.use("/api/Perfil",perfilController)
@@ -30,6 +31,7 @@ app.use("/api/Contacte", contacteController)
 app.use("/api/Seguiment", seguimentController)
 app.use("/api/AddEvent", addEventController)
 app.use("/api/Event", eventController)
+app.use("/api/Validation", validationController)
 
 const port = 3000
 

@@ -17,7 +17,8 @@ export class MapaPage implements OnInit {
   infoWindow = null
 
   constructor(private geolocation: Geolocation,
-    private loadCtrl: LoadingController) 
+    private loadCtrl: LoadingController,
+    private launchNavigator: LaunchNavigator) 
   {
 
   }
@@ -48,19 +49,19 @@ export class MapaPage implements OnInit {
       lng: rta.coords.longitude
     };
 
-    console.log(lat_lang)
-
     //console.log(lat_lang)
     const mapEle: HTMLElement = document.getElementById("map");
     this.map = new google.maps.Map(mapEle, {
-      center: {lat: -34.397, lng: 150.644},
+      center: lat_lang,
       zoom: 14
     });
-
+    this.createMarkerCurr(new google.maps.LatLng(lat_lang.lat,lat_lang.lng))
+    /*
     this.infoWindow.setPosition(lat_lang);
     this.infoWindow.setContent('Ets aqui.');
     this.infoWindow.open(this.map);
-    this.map.setCenter(lat_lang);
+    */
+    //this.map.setCenter(lat_lang);
     //this.createMarkerCurr(lat_lang)
 
     /*
@@ -82,38 +83,63 @@ export class MapaPage implements OnInit {
 
     var service = new google.maps.places.PlacesService(this.map);
 
-    var self = this
-    service.findPlaceFromQuery(request, function(results, status) {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        console.log(results)
-        for (var i = 0; i < results.length; i++) {
-          self.createMarker(results[i]);
-        }
+    var lat_lang_gm = new google.maps.LatLng(lat_lang.lat,lat_lang.lng);
 
-         self.map.setCenter(results[0].geometry.location);
+    var req = {
+      location: lat_lang_gm,
+      radius: 15000,
+      type: ['hospital'],
+      keyword: ['hospital'],
+      name: ['hospital'],
+      openNow: true
+    }
+    var self = this
+
+    service.nearbySearch(req, function(res, status)
+    {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < res.length; i++) {
+          self.createMarker(res[i]);
+        }
       }
     });
-    
   }
 
   createMarkerCurr(pos)
   {
+    //var icon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/library_maps.png"
+    var icon = "assets/img/person_icon.png"
     var marker = new google.maps.Marker({
       map: this.map,
       position: pos,
-      title: "Ets aqui."
+      title: "Ets aqui.",
+      icon: icon
     });
   }
 
   createMarker(place) {
+    var self = this
     var marker = new google.maps.Marker({
-      map: this.map,
+      map: self.map,
       position: place.geometry.location
     });
 
+    marker.addListener('click', function() {
+      this.map.setZoom(14);
+      self.map.setCenter(marker.getPosition());
+      
+      self.launchNavigator.navigate([place.geometry.location.lat(), place.geometry.location.lng()])
+      .then(
+        success => console.log('Launched navigator'),
+        error => console.log('Error launching navigator', error)
+        );
+    });
+
+    /*
     google.maps.event.addListener(marker, 'click', function() {
       this.infoWindow.setContent(place.name);
       this.infoWindow.open(this.map, this);
     });
+    */
   }
 }

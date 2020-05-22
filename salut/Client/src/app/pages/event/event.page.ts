@@ -94,9 +94,9 @@ export class Event{
 }
 export class ListEventResponse {
   constructor(
-      public serverStatus: number,
-      public correct: boolean,
-      public data: Array<Event>,
-      public msg: string,
+    public serverStatus: number,
+    public correct: boolean,
+    public data: Array<Event>,
+    public msg: string,
   ) {}
 }
