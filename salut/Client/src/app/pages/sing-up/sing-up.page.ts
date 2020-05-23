@@ -5,6 +5,8 @@ import { Router } from "@angular/router";
 import { Storage } from "@ionic/storage";
 import { ToastController } from "@ionic/angular";
 import {ValidationService} from "src/app/services/validation.service.js"
+import { ModalController } from '@ionic/angular';
+import { TerminosPage } from '../terminos/terminos.page'
 
 
 const STORAGE_KEY = "login";
@@ -20,6 +22,7 @@ export class SingUpPage implements OnInit {
     correu: "",
     psw: "",
     confirmPsw: "",
+    terminos: false
   };
 
   constructor(
@@ -27,18 +30,32 @@ export class SingUpPage implements OnInit {
     private route: Router,
     private storage: Storage,
     private toastController: ToastController,
-    private validateService: ValidationService
+    private validateService: ValidationService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {}
 
   doSingUp() {
     let self = this;
+    var err = false
     console.log("donig singUp");
     if (this.registre.psw != this.registre.confirmPsw) {
       self.presentToast("Les contrasenyes no coincideixen.");
+      err = true
     }
-    this.signUpService.addUser(this.registre).subscribe((res: SignUpResponse) => {
+
+    if (!this.registre.terminos)
+    {
+      self.presentToast("Has d'acceptar els termes d'ús.")
+      err = true
+    }
+
+    if (!err)
+    {
+      this.signUpService
+      .addUser(this.registre)
+      .subscribe((res: SignUpResponse) => {
         if (res.doSignUp) {
           self.updateStoredLogin(res.usuariId);
         }else if(res.serverStatus == 200){
@@ -46,6 +63,8 @@ export class SingUpPage implements OnInit {
         }
         console.log("Resp: ",res);
       });
+    }
+    
   }
   updateStoredLogin(idUsuari: number) {
     let self = this;
@@ -65,6 +84,14 @@ export class SingUpPage implements OnInit {
         this.route.navigate(["/validacio", "mail"]);
       });
     });
+  }
+
+  async presentTerminos() {
+    console.log("Terminos!")
+    const modal = await this.modalController.create({
+      component: TerminosPage
+    });
+    return await modal.present();
   }
 
   async presentToast(text: string) {

@@ -17,12 +17,10 @@ class EventService{
         });
     }
     
-    listEvent(id, callback)
+    listEvent(id, date, callback)
     {
         var self = this
-
-        
-        var query = 'SELECT * FROM Visita WHERE PerfilId = \'' + id + '\' ORDER BY DataVisita;';
+        var query = 'SELECT * FROM Visita WHERE PerfilId = \'' + id + '\' AND DataVisita > \'' + date + '\' ORDER BY DataVisita;';
         this.connection.connect(function(err){
             console.log("Get connected")
             var response;
@@ -44,7 +42,7 @@ class EventService{
                     else if (rows == 0)
                     {
                         response = {
-                            serverStatus: 400,
+                            serverStatus: 200,
                             correcte: false,
                             data: null,
                             msg: 'There is no event with id associated = ' + String(id)
@@ -75,7 +73,6 @@ class EventService{
             }
         })
     }
-
     
     deleteEvent(id, callback)
     {
@@ -125,10 +122,63 @@ class EventService{
             }
         })
     }
+    getOne(id, callback)
+    {
+        var self = this
+        var query = 'SELECT * FROM Visita WHERE Id = \'' + id + '\' ;';
+        this.connection.connect(function(err){
+            console.log("Get connected")
+            var response;
+            if (!err)
+            {
+                self.connection.query(query, function(error, rows, fields){
+                    //self.connection.end()
+                    if (error)
+                    {
+                        response = {
+                            serverStatus: 400,
+                            correcte: false,
+                            data: null,
+                            msg: 'error query'
+                        };     
+                        connection.end()
+                        callback(response);                   
+                    }
+                    else if (rows == 0)
+                    {
+                        response = {
+                            serverStatus: 200,
+                            correcte: false,
+                            data: null,
+                            msg: 'There is no event with id associated = ' + String(id)
+                        };     
+                        callback(response);  
+                    }
+                    else
+                    {
+                        response = {
+                            serverStatus: 200,
+                            correcte: true,
+                            data: rows[0],
+                            msg: ''
+                        };     
+                        callback(response);  
+                    }
+                })
+            }
+            else
+            {
+                response = {
+                    serverStatus: 400,
+                    correcte: false,
+                    data: null,
+                    msg: 'error connection'
+                };     
+                callback(response);         
+            }
+        })
+    }
 }
-
-
-
 module.exports = EventService
 
 

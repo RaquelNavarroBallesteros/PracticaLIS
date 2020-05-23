@@ -60,14 +60,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/grafiques/grafiques.module').then( m => m.GrafiquesPageModule)
   },  
   {
-    path: 'add-event',
+    path: 'add-event/:id',
     loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
   },
   {
     path: 'validacio/:pageType',
     loadChildren: () => import('./pages/validacio/validacio.module').then( m => m.ValidacioPageModule)
+  },
+  {
+    path: 'terminos',
+    loadChildren: () => import('./pages/terminos/terminos.module').then( m => m.TerminosPageModule)
   }
-
 ];
 
 @NgModule({
