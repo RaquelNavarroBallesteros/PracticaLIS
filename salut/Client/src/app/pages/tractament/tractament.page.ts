@@ -39,7 +39,7 @@ export class TractamentPage implements OnInit {
   async presentToast(text: string) {
     const toast = await this.toastController.create({
       message: text,
-      position: "top",
+      position: "bottom",
       duration: 3000,
     });
     toast.present();
@@ -82,9 +82,7 @@ export class TractamentPage implements OnInit {
     });
   }
 
-  ionViewWillEnter()
-  {
-  }
+
 
   get()
   {

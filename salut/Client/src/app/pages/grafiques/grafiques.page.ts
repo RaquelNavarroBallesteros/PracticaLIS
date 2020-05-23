@@ -3,7 +3,10 @@ import { NavParams } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { Chart } from 'chart.js';
 import { SeguimentService } from 'src/app/services/seguiment.service';
+import {Storage} from '@ionic/storage';
+import {Router} from '@angular/router';
 
+const STORAGE_KEY_P = 'perfil';
 @Component({
   selector: 'app-grafiques',
   templateUrl: './grafiques.page.html',
@@ -22,11 +25,14 @@ export class GrafiquesPage implements OnInit {
   perfil_id = 16;
   public mostrarGrafica = false;
 
-  constructor(public modalController: ModalController, public seguimentService: SeguimentService) { }
+  constructor(public modalController: ModalController, public seguimentService: SeguimentService, private storage: Storage, private router:Router) { }
   
   ionViewDidEnter() {
     var dades = [];
     var dates = [];
+    this.storage.get(STORAGE_KEY_P).then(information => {
+      if (information != null){
+        this.perfil_id = information.id;
     if (this.tipus == 'a')
     {
       this.seguimentService.getallalcada_request(this.perfil_id).subscribe((res: SeguimentGetResponse)=>{
@@ -51,18 +57,18 @@ export class GrafiquesPage implements OnInit {
       });
     }else if(this.tipus == 'imc')
     {
-      //this.seguimentService.getallpes_request(this.perfil_id).subscribe((resP: SeguimentGetResponse)=>{
-      //this.seguimentService.getallalcada_request(this.perfil_id).subscribe((resA: SeguimentGetResponse)=>{
-      var resA = {data: [{Data: '2018-11-10', Alcada: '140'}, {Data: '2018-12-10', Alcada: '150'}, {Data: '2019-10-10', Alcada: '160'}]};  
-      var resP = {data: [{Data: '2018-12-10', Pes: '60'}, {Data: '2020-1-1', Pes: '50'}]};
+      this.seguimentService.getallpes_request(this.perfil_id).subscribe((resP: SeguimentGetResponse)=>{
+      this.seguimentService.getallalcada_request(this.perfil_id).subscribe((resA: SeguimentGetResponse)=>{
+      //var resA = {data: [{Data: '2018-11-10', Alcada: '140'}, {Data: '2018-12-10', Alcada: '150'}, {Data: '2019-10-10', Alcada: '160'}]};  
+      //var resP = {data: [{Data: '2018-12-10', Pes: '60'}, {Data: '2020-1-1', Pes: '50'}]};
 
         for (var i=0; i < resA.data.length; i++)
         {
-          dates.push(resA.data[i]['Data']);//.substring(0,10));
+          dates.push(resA.data[i]['Data'].substring(0,10));//
         }
         for(var i=0; i < resP.data.length; i++)
         {
-          dates.push(resP.data[i]['Data']);//.substring(0,10));
+          dates.push(resP.data[i]['Data'].substring(0,10));//.substring(0,10));
         }
 
         const distinct = (value, index, self) => {
@@ -85,7 +91,7 @@ export class GrafiquesPage implements OnInit {
           {
             if (new Date(resP.data[indexP].Data) <= dataActual)
             {
-              actP = resP.data[indexP].Pes;
+              actP = resP.data[indexP].Dada;
               indexP += 1;
             }
           }
@@ -93,7 +99,7 @@ export class GrafiquesPage implements OnInit {
           {
             if (new Date(resA.data[indexA].Data) <= dataActual)
             {
-              actA = resA.data[indexA].Alcada;
+              actA = resA.data[indexA].Dada;
               indexA += 1;
             }
           }
@@ -112,11 +118,11 @@ export class GrafiquesPage implements OnInit {
         this.createBarChart(dades, dates, "Evolució de l'IMC");
 
 
-        //});
-      //});
+        });
+      });
     }
-    
-    
+  }
+  });
   }
 
   createBarChart(dades, dates, titol) {
@@ -147,6 +153,7 @@ export class GrafiquesPage implements OnInit {
   dismiss()
   {
     this.modalController.dismiss({"dismissed":true})
+    this.router.navigate(['/seguiment']);
   }
   ngOnInit() {
   }
@@ -157,7 +164,14 @@ export class SeguimentGetResponse {
   constructor(
       public serverStatus: number,
       public correcte: boolean,
-      public data: Array<object>,
+      public data: Array<informacio>,
       public msg: string,
   ) {}
+}
+
+export class informacio {
+  constructor(
+    public Data,
+    public Dada
+  ){}
 }

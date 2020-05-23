@@ -28,26 +28,32 @@ export class LlistaTractamentsPage implements OnInit {
     this.storage.get(STORAGE_KEY_P).then(information => {
       if (information != null){
         this.perfil_id = information.id;
-        this.tractamentService.getall_request(this.perfil_id).subscribe((res: TractamentGetAllResponse)=>{
-          for(var i=0; i<res.data.length; i++)
-          {
-            this.llistaTractaments.push({
-              id: res.data[i]["Id"],
-              nom: res.data[i]["Nom"],
-              data_i: res.data[i]["DataInici"],
-              data_f: res.data[i]["DataFinal"]
-            });
-          }
-          console.log(this.llistaTractaments);
+      }
+
+    });
+  }
+
+  ionViewWillEnter()
+  {
+    this.llistaTractaments = [];
+    this.tractamentService.getall_request(this.perfil_id).subscribe((res: TractamentGetAllResponse)=>{
+      for(var i=0; i<res.data.length; i++)
+      {
+        this.llistaTractaments.push({
+          id: res.data[i]["Id"],
+          nom: res.data[i]["Nom"],
+          data_i: res.data[i]["DataInici"],
+          data_f: res.data[i]["DataFinal"]
         });
       }
+      console.log(this.llistaTractaments);
     });
   }
 
   async presentToast(text: string) {
     const toast = await this.toastController.create({
       message: text,
-      position: "top",
+      position: "bottom",
       duration: 3000,
     });
     toast.present();

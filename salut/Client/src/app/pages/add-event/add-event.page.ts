@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import {Router} from '@angular/router';
 import {Storage} from '@ionic/storage';
 import {ToastController} from '@ionic/angular';
+import { NotificacionsService } from 'src/app/services/notificacions.service';
 
 const STORAGE_KEY_P = 'perfil';
 @Component({
@@ -26,7 +27,8 @@ export class AddEventPage implements OnInit {
   public title;
 
   constructor( private route: ActivatedRoute, public addEventService: AddEventService, private router: Router, 
-    private storage: Storage, private toastController: ToastController, private eventService: EventService) {
+    private storage: Storage, private toastController: ToastController, private eventService: EventService,
+    private notificationService: NotificacionsService) {
   }
 
   ngOnInit() {
@@ -71,6 +73,11 @@ export class AddEventPage implements OnInit {
     console.log(this.event);
     this.addEventService.addEvent(this.event, this.perfilId).subscribe((res: ServerResponse)=>{
       if (res.doAddEvent) {
+        var dataNotificacio = new Date(this.event.data);
+        dataNotificacio.setHours(dataNotificacio.getHours() -1);
+        this.notificationService.crearPuntualVisita(dataNotificacio, this.event.tipus, new Date(this.event.data));
+        dataNotificacio.setHours(dataNotificacio.getHours() + 2);
+        this.notificationService.crearPuntualRecepta(dataNotificacio);
         this.presentToast('Event guardat correctament');
         this.router.navigate(['/event']);
       }else{
