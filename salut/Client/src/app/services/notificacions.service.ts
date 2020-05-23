@@ -58,7 +58,7 @@ export class NotificacionsService {
     this.localNotification.schedule({
       id: new Date().getTime(),
       title: 'Recordatori de la visita',
-      text: 'Tens una visita médica programada a les: ' + hora + ':' + minut + 'Descripció: ' + descripcio,
+      text: 'Tens una visita médica programada a les: ' + hora + ':' + minut + ' Descripció: ' + descripcio,
       //silent: false,
       launch: false,
       group: 'Visita',

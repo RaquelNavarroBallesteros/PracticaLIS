@@ -3,7 +3,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { EmergenciesService } from 'src/app/services/emergencies.service';
 import {PerfilService} from 'src/app/services/perfil.service';
 import {Storage} from '@ionic/storage';
-
+import { ToastController } from "@ionic/angular";
 
 const STORAGE_KEY = 'login';
 const STORAGE_KEY_P = 'perfil';
@@ -18,7 +18,8 @@ export class EmergenciesPage implements OnInit {
   constructor(private geolocation: Geolocation,
               private emergenciesService: EmergenciesService,
               private perfilService: PerfilService,
-              private storage: Storage) {}
+              private storage: Storage,
+              private toastController: ToastController) {}
 
   ngOnInit() {}
 
@@ -28,7 +29,7 @@ export class EmergenciesPage implements OnInit {
     var coordenades = null;
     var idUsuari = null;
     var self = this;
-
+    console.log('console log prova IP');
     this.storage.get(STORAGE_KEY).then(information => {
       idUsuari = information.idUsuari;
       this.geolocation.getCurrentPosition({
@@ -49,9 +50,10 @@ export class EmergenciesPage implements OnInit {
             console.log('respuesta')
             console.log(res);
             if (!res.correuEnviat){
-              //TODO: Define toster
+              this.presentToast("No s'ha pogut notificar al servei d'emergencies")
               console.log("EROOR ENVIAMNET CORREU")
             }else{
+              this.presentToast("S'ha efectuat la notificació al servei d'emergéncies")
               //TODO: Define toster
               console.log("CORREU ENVIAT")
             }
@@ -89,11 +91,11 @@ export class EmergenciesPage implements OnInit {
               console.log('respuesta')
               console.log(res);
               if (res.serverStatus === 200 && res.correuEnviat){
-                //TODO: Define toster
+                this.presentToast("S'ha efectuat la notificació al servei d'emergéncies")
                 console.log("CORREU ENVIAT")
                 
               }else{
-                //TODO: Define toster
+                this.presentToast("No s'ha pogut notificar al servei d'emergencies")
                 console.log("EROOR ENVIAMNET CORREU")
               }
             });
@@ -103,6 +105,14 @@ export class EmergenciesPage implements OnInit {
         });
       });
     });
+  }
+  async presentToast(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "bottom",
+      duration: 3000,
+    });
+    toast.present();
   }
 }
 

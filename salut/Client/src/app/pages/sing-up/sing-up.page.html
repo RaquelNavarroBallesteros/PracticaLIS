@@ -42,7 +42,7 @@
               </ion-item>
         </ion-list>
           He llegit i accepto els <a (click)="presentTerminos()"> termes d'ús</a>.
-          <ion-checkbox slot="end" name="terminos" [(ngModel)]="registre.terminos"></ion-checkbox>
+        <ion-checkbox slot="end" name="terminos" [(ngModel)]="registre.terminos" required></ion-checkbox>
         <ion-button expand="full" type="submit" [disabled]="formulariRegistre.invalid">
             Registrar-se    
         </ion-button>
